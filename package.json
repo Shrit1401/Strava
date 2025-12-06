@@ -9,6 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@types/luxon": "^3.7.1",
+    "astronomy-engine": "^2.1.19",
+    "luxon": "^3.7.2",
     "next": "16.0.6",
     "react": "19.2.0",
     "react-dom": "19.2.0"

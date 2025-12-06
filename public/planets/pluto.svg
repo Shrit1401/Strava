@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="17px" height="21px" viewBox="0 0 17 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 45.1 (43504) - http://www.bohemiancoding.com/sketch -->
+    <title>Page 1 Copy 6</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <polygon id="path-1" points="1.375 9 0.375 9 0.375 0.0544 1.375 0.0544 1.375 9"></polygon>
+    </defs>
+    <g id="chart" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Page-1-Copy-6">
+            <path d="M11.035,3.42 C11.035,4.889 9.844,6.08 8.375,6.08 C6.906,6.08 5.715,4.889 5.715,3.42 C5.715,1.951 6.906,0.76 8.375,0.76 C9.844,0.76 11.035,1.951 11.035,3.42 Z" id="Stroke-1" stroke="#020303" stroke-width="1.52"></path>
+            <path d="M15.9899,3.4125 C15.9899,7.6185 12.5809,11.0275 8.3749,11.0275 C4.1689,11.0275 0.7599,7.6185 0.7599,3.4125" id="Stroke-3" stroke="#020303" stroke-width="1.52"></path>
+            <g id="Group-7" transform="translate(8.000000, 11.067300)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Clip-6"></g>
+                <path d="M0.375,0.0544 L0.375,9.0004" id="Stroke-5" stroke="#020303" stroke-width="1.52" mask="url(#mask-2)"></path>
+            </g>
+            <path d="M4.711,16.4033 L12.039,16.4033" id="Stroke-8" stroke="#020303" stroke-width="1.52"></path>
+            <path d="M4.6696,16.4033 L11.9976,16.4033 M8.3336,12.6413 L8.3336,20.0673" id="Stroke-10" stroke="#020303" stroke-width="1.52"></path>
+        </g>
+    </g>
+</svg>

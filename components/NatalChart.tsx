@@ -35,38 +35,73 @@ export type ChartData = {
   }[];
 };
 
+type TooltipState = {
+  name: string;
+  sign: string;
+  degree: number;
+  x: number;
+  y: number;
+} | null;
+
+type PlanetPosition = {
+  longitude: number;
+  sign: string;
+  signIndex: number;
+  degreeInsideSign: number;
+};
+
+const ZODIAC_SIGNS = [
+  "Aries",
+  "Taurus",
+  "Gemini",
+  "Cancer",
+  "Leo",
+  "Virgo",
+  "Libra",
+  "Scorpio",
+  "Sagittarius",
+  "Capricorn",
+  "Aquarius",
+  "Pisces",
+] as const;
+
+const CHART_CONSTANTS = {
+  SIZE: 560,
+  OUTER_RADIUS: 240,
+  INNER_RADIUS: 210,
+  PLANET_RADIUS: 175,
+  SIGN_TEXT_RADIUS_OFFSET: 20,
+  ICON_SIZE_PX: 18,
+  MIN_ANGULAR_SEPARATION: 8,
+  DEGREES_PER_SIGN: 30,
+  PLANET_POSITIONING_PASSES: 3,
+} as const;
+
+const PLANET_ICONS: Record<string, string> = {
+  sun: "/planets/sun.svg",
+  moon: "/planets/moon.svg",
+  mercury: "/planets/mercury.svg",
+  venus: "/planets/venus.svg",
+  mars: "/planets/mars.svg",
+  jupiter: "/planets/jupiter.svg",
+  saturn: "/planets/saturn.svg",
+  uranus: "/planets/uranus.svg",
+  neptune: "/planets/neptune.svg",
+  pluto: "/planets/pluto.svg",
+  ascendant: "/planets/ascendant.svg",
+};
+
 const NatalChart = ({ chart }: { chart: ChartData }) => {
-  const [tooltip, setTooltip] = useState<{
-    name: string;
-    sign: string;
-    degree: number;
-    x: number;
-    y: number;
-  } | null>(null);
+  const [tooltip, setTooltip] = useState<TooltipState>(null);
 
-  const size = 560;
+  const size = CHART_CONSTANTS.SIZE;
   const center = size / 2;
-  const outerRadius = 240;
-  const innerRadius = 210;
-  const planetRadius = 175;
-  const signTextRadius = outerRadius - 20;
+  const outerRadius = CHART_CONSTANTS.OUTER_RADIUS;
+  const innerRadius = CHART_CONSTANTS.INNER_RADIUS;
+  const planetRadius = CHART_CONSTANTS.PLANET_RADIUS;
+  const signTextRadius = outerRadius - CHART_CONSTANTS.SIGN_TEXT_RADIUS_OFFSET;
 
-  const signs = [
-    "Aries",
-    "Taurus",
-    "Gemini",
-    "Cancer",
-    "Leo",
-    "Virgo",
-    "Libra",
-    "Scorpio",
-    "Sagittarius",
-    "Capricorn",
-    "Aquarius",
-    "Pisces",
-  ];
-
-  const angleForLongitude = (lon: number) => {
+  const angleForLongitude = (lon: number): number => {
     const deg = lon - 90;
     return (deg * Math.PI) / 180;
   };
@@ -79,9 +114,9 @@ const NatalChart = ({ chart }: { chart: ChartData }) => {
     };
   };
 
-  const arcPathForSign = (index: number) => {
-    const startLon = index * 30;
-    const endLon = startLon + 30;
+  const arcPathForSign = (index: number): string => {
+    const startLon = index * CHART_CONSTANTS.DEGREES_PER_SIGN;
+    const endLon = startLon + CHART_CONSTANTS.DEGREES_PER_SIGN;
     const a1 = angleForLongitude(startLon);
     const a2 = angleForLongitude(endLon);
     const x1 = center + signTextRadius * Math.cos(a1);
@@ -91,95 +126,104 @@ const NatalChart = ({ chart }: { chart: ChartData }) => {
     return `M ${x1} ${y1} A ${signTextRadius} ${signTextRadius} 0 0 1 ${x2} ${y2}`;
   };
 
-  const angularDistance = (lon1: number, lon2: number) => {
+  const angularDistance = (lon1: number, lon2: number): number => {
     const diff = Math.abs(lon1 - lon2);
     return Math.min(diff, 360 - diff);
   };
 
-  const iconSizePx = 18;
-  const minAngularSeparation = 8;
-
-  const planetAngles: Record<string, number> = {};
-  const planetEntries = Object.entries(chart.planets);
-
-  planetEntries.forEach(([name, pos]) => {
-    planetAngles[name] = pos.longitude;
-  });
-
-  if (chart.ascendant) {
-    planetAngles["ascendant"] = chart.ascendant.longitude;
-  }
-
-  const allEntries = [
-    ...planetEntries.map(([name, pos]) => ({ name, longitude: pos.longitude })),
-    ...(chart.ascendant
-      ? [{ name: "ascendant", longitude: chart.ascendant.longitude }]
-      : []),
-  ];
-
-  const sortedEntries = allEntries.sort((a, b) => a.longitude - b.longitude);
-
-  for (let pass = 0; pass < 3; pass++) {
-    for (let i = 0; i < sortedEntries.length; i++) {
-      const current = sortedEntries[i];
-      const next = sortedEntries[(i + 1) % sortedEntries.length];
-      const currentAngle = planetAngles[current.name];
-      const nextAngle = planetAngles[next.name];
-      const dist = angularDistance(currentAngle, nextAngle);
-
-      if (dist < minAngularSeparation) {
-        const diff = nextAngle - currentAngle;
-        let normalizedDiff = diff;
-        if (diff > 180) normalizedDiff = diff - 360;
-        else if (diff < -180) normalizedDiff = diff + 360;
-
-        const adjustment =
-          (minAngularSeparation - Math.abs(normalizedDiff)) / 2 + 0.5;
-
-        let newCurrentAngle = currentAngle - adjustment;
-        let newNextAngle = nextAngle + adjustment;
-
-        if (newCurrentAngle < 0) newCurrentAngle += 360;
-        if (newCurrentAngle >= 360) newCurrentAngle -= 360;
-        if (newNextAngle < 0) newNextAngle += 360;
-        if (newNextAngle >= 360) newNextAngle -= 360;
-
-        planetAngles[current.name] = newCurrentAngle;
-        planetAngles[next.name] = newNextAngle;
-      }
-    }
-  }
-
-  const planetPoints: Record<string, { x: number; y: number }> = {};
-  Object.entries(chart.planets).forEach(([name]) => {
-    const angle = planetAngles[name] || chart.planets[name].longitude;
-    planetPoints[name] = pointOnCircle(planetRadius, angle);
-  });
-
-  if (chart.ascendant) {
-    const ascAngle = planetAngles["ascendant"] || chart.ascendant.longitude;
-    planetPoints["ascendant"] = pointOnCircle(planetRadius, ascAngle);
-  }
-
-  const planetIcons: Record<string, string> = {
-    sun: "/planets/sun.svg",
-    moon: "/planets/moon.svg",
-    mercury: "/planets/mercury.svg",
-    venus: "/planets/venus.svg",
-    mars: "/planets/mars.svg",
-    jupiter: "/planets/jupiter.svg",
-    saturn: "/planets/saturn.svg",
-    uranus: "/planets/uranus.svg",
-    neptune: "/planets/neptune.svg",
-    pluto: "/planets/pluto.svg",
-    ascendant: "/planets/ascendant.svg",
+  const normalizeAngle = (angle: number): number => {
+    while (angle < 0) angle += 360;
+    while (angle >= 360) angle -= 360;
+    return angle;
   };
 
-  const formatPlanetName = (name: string) => {
+  const calculatePlanetPositions = (): Record<
+    string,
+    { x: number; y: number }
+  > => {
+    const planetAngles: Record<string, number> = {};
+    const planetEntries = Object.entries(chart.planets);
+
+    planetEntries.forEach(([name, pos]) => {
+      planetAngles[name] = pos.longitude;
+    });
+
+    if (chart.ascendant) {
+      planetAngles["ascendant"] = chart.ascendant.longitude;
+    }
+
+    const allEntries = [
+      ...planetEntries.map(([name, pos]) => ({
+        name,
+        longitude: pos.longitude,
+      })),
+      ...(chart.ascendant
+        ? [{ name: "ascendant", longitude: chart.ascendant.longitude }]
+        : []),
+    ];
+
+    const sortedEntries = allEntries.sort((a, b) => a.longitude - b.longitude);
+
+    for (
+      let pass = 0;
+      pass < CHART_CONSTANTS.PLANET_POSITIONING_PASSES;
+      pass++
+    ) {
+      for (let i = 0; i < sortedEntries.length; i++) {
+        const current = sortedEntries[i];
+        const next = sortedEntries[(i + 1) % sortedEntries.length];
+        const currentAngle = planetAngles[current.name];
+        const nextAngle = planetAngles[next.name];
+        const dist = angularDistance(currentAngle, nextAngle);
+
+        if (dist < CHART_CONSTANTS.MIN_ANGULAR_SEPARATION) {
+          const diff = nextAngle - currentAngle;
+          let normalizedDiff = diff;
+          if (diff > 180) normalizedDiff = diff - 360;
+          else if (diff < -180) normalizedDiff = diff + 360;
+
+          const adjustment =
+            (CHART_CONSTANTS.MIN_ANGULAR_SEPARATION -
+              Math.abs(normalizedDiff)) /
+              2 +
+            0.5;
+
+          planetAngles[current.name] = normalizeAngle(
+            currentAngle - adjustment
+          );
+          planetAngles[next.name] = normalizeAngle(nextAngle + adjustment);
+        }
+      }
+    }
+
+    const planetPoints: Record<string, { x: number; y: number }> = {};
+    Object.entries(chart.planets).forEach(([name]) => {
+      const angle = planetAngles[name] || chart.planets[name].longitude;
+      planetPoints[name] = pointOnCircle(planetRadius, angle);
+    });
+
+    if (chart.ascendant) {
+      const ascAngle = planetAngles["ascendant"] || chart.ascendant.longitude;
+      planetPoints["ascendant"] = pointOnCircle(planetRadius, ascAngle);
+    }
+
+    return planetPoints;
+  };
+
+  const planetPoints = calculatePlanetPositions();
+
+  const formatPlanetName = (name: string): string => {
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
   };
 
-  const getAspectStyle = (type: string, orb: number) => {
+  type AspectStyle = {
+    color: string;
+    dash: string | undefined;
+    width: number;
+    opacity: number;
+  };
+
+  const getAspectStyle = (type: string, orb: number): AspectStyle => {
     const isMajor =
       type === "Conjunction" || type === "Opposition" || type === "Square";
     const isMedium = type === "Trine";
@@ -242,11 +286,41 @@ const NatalChart = ({ chart }: { chart: ChartData }) => {
     };
   };
 
+  const handlePlanetMouseEnter = (
+    e: React.MouseEvent<SVGGElement>,
+    name: string,
+    pos: PlanetPosition
+  ) => {
+    const container = e.currentTarget.closest("div");
+    const rect = container?.getBoundingClientRect();
+    if (rect) {
+      setTooltip({
+        name: formatPlanetName(name),
+        sign: pos.sign,
+        degree: Math.round(pos.degreeInsideSign * 10) / 10,
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+    }
+  };
+
+  const handlePlanetMouseMove = (e: React.MouseEvent<SVGGElement>) => {
+    const container = e.currentTarget.closest("div");
+    const rect = container?.getBoundingClientRect();
+    if (rect && tooltip) {
+      setTooltip({
+        ...tooltip,
+        x: e.clientX - rect.left,
+        y: e.clientY - rect.top,
+      });
+    }
+  };
+
   return (
     <div className="w-full flex justify-center relative">
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
         <defs>
-          {signs.map((_, index) => (
+          {ZODIAC_SIGNS.map((_, index) => (
             <path
               key={`arc-${index}`}
               id={`signArc_${index}`}
@@ -298,9 +372,9 @@ const NatalChart = ({ chart }: { chart: ChartData }) => {
           opacity={0.6}
         />
 
-        {signs.map((sign, index) => {
-          const startLon = index * 30;
-          const endLon = startLon + 30;
+        {ZODIAC_SIGNS.map((sign, index) => {
+          const startLon = index * CHART_CONSTANTS.DEGREES_PER_SIGN;
+          const endLon = startLon + CHART_CONSTANTS.DEGREES_PER_SIGN;
           const start = pointOnCircle(outerRadius, startLon);
           const end = pointOnCircle(outerRadius, endLon);
           return (
@@ -353,35 +427,13 @@ const NatalChart = ({ chart }: { chart: ChartData }) => {
         {Object.entries(chart.planets).map(([name, pos]) => {
           const point = planetPoints[name];
           const key = name.toLowerCase();
-          const icon = planetIcons[key];
+          const icon = PLANET_ICONS[key];
           if (!point) return null;
           return (
             <g
               key={name}
-              onMouseEnter={(e) => {
-                const container = e.currentTarget.closest("div");
-                const rect = container?.getBoundingClientRect();
-                if (rect) {
-                  setTooltip({
-                    name: formatPlanetName(name),
-                    sign: pos.sign,
-                    degree: Math.round(pos.degreeInsideSign * 10) / 10,
-                    x: e.clientX - rect.left,
-                    y: e.clientY - rect.top,
-                  });
-                }
-              }}
-              onMouseMove={(e) => {
-                const container = e.currentTarget.closest("div");
-                const rect = container?.getBoundingClientRect();
-                if (rect && tooltip) {
-                  setTooltip({
-                    ...tooltip,
-                    x: e.clientX - rect.left,
-                    y: e.clientY - rect.top,
-                  });
-                }
-              }}
+              onMouseEnter={(e) => handlePlanetMouseEnter(e, name, pos)}
+              onMouseMove={handlePlanetMouseMove}
               onMouseLeave={() => setTooltip(null)}
               style={{ cursor: "pointer" }}
             >
@@ -392,10 +444,10 @@ const NatalChart = ({ chart }: { chart: ChartData }) => {
                   }°`}</title>
                   <image
                     href={icon}
-                    x={point.x - iconSizePx / 2}
-                    y={point.y - iconSizePx / 2}
-                    width={iconSizePx}
-                    height={iconSizePx}
+                    x={point.x - CHART_CONSTANTS.ICON_SIZE_PX / 2}
+                    y={point.y - CHART_CONSTANTS.ICON_SIZE_PX / 2}
+                    width={CHART_CONSTANTS.ICON_SIZE_PX}
+                    height={CHART_CONSTANTS.ICON_SIZE_PX}
                   />
                 </>
               ) : (
@@ -420,35 +472,15 @@ const NatalChart = ({ chart }: { chart: ChartData }) => {
         {chart.ascendant &&
           (() => {
             const asc = chart.ascendant;
-            const ascAngle = planetAngles["ascendant"] || asc.longitude;
-            const ascPoint = pointOnCircle(planetRadius, ascAngle);
-            const icon = planetIcons.ascendant;
+            const ascPoint = planetPoints["ascendant"];
+            const icon = PLANET_ICONS.ascendant;
+            if (!ascPoint) return null;
             return (
               <g
-                onMouseEnter={(e) => {
-                  const container = e.currentTarget.closest("div");
-                  const rect = container?.getBoundingClientRect();
-                  if (rect) {
-                    setTooltip({
-                      name: "Ascendant",
-                      sign: asc.sign,
-                      degree: Math.round(asc.degreeInsideSign * 10) / 10,
-                      x: e.clientX - rect.left,
-                      y: e.clientY - rect.top,
-                    });
-                  }
-                }}
-                onMouseMove={(e) => {
-                  const container = e.currentTarget.closest("div");
-                  const rect = container?.getBoundingClientRect();
-                  if (rect && tooltip) {
-                    setTooltip({
-                      ...tooltip,
-                      x: e.clientX - rect.left,
-                      y: e.clientY - rect.top,
-                    });
-                  }
-                }}
+                onMouseEnter={(e) =>
+                  handlePlanetMouseEnter(e, "ascendant", asc)
+                }
+                onMouseMove={handlePlanetMouseMove}
                 onMouseLeave={() => setTooltip(null)}
                 style={{ cursor: "pointer" }}
               >
@@ -459,10 +491,10 @@ const NatalChart = ({ chart }: { chart: ChartData }) => {
                     }°`}</title>
                     <image
                       href={icon}
-                      x={ascPoint.x - iconSizePx / 2}
-                      y={ascPoint.y - iconSizePx / 2}
-                      width={iconSizePx}
-                      height={iconSizePx}
+                      x={ascPoint.x - CHART_CONSTANTS.ICON_SIZE_PX / 2}
+                      y={ascPoint.y - CHART_CONSTANTS.ICON_SIZE_PX / 2}
+                      width={CHART_CONSTANTS.ICON_SIZE_PX}
+                      height={CHART_CONSTANTS.ICON_SIZE_PX}
                     />
                   </>
                 )}

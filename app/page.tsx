@@ -13,7 +13,7 @@ const LandingPage = () => {
           through NASA data and biting truth.
         </p>
 
-        <Button text="Start" className="my-8" onClick={() => {}} />
+        <Button text="Start" className="my-8" href="/astrology" />
 
         <div className="flex justify-center">
           <img

@@ -40,7 +40,7 @@ const Navbar = () => {
           ))}
         </ul>
 
-        <Button size="small" text="Start" onClick={() => {}} />
+        <Button size="small" text="Start" href="/astrology" />
       </div>
     </nav>
   );

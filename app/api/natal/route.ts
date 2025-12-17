@@ -280,8 +280,11 @@ export async function POST(req: Request) {
     const houses = getHouseCusps(astroTime, lat, lon);
     const aspects = calculateAspects(planetPositions);
 
+    const ist = utc.setZone("Asia/Kolkata");
+
     const chart = {
       utc: utc.toISO(),
+      ist: ist.toISO(),
       planets: planetPositions,
       ascendant,
       houses,

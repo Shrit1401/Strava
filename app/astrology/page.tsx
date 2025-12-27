@@ -50,8 +50,8 @@ const AstrologyPage = () => {
           </section>
         </div>
 
-        {submitted && !loading && chart?.interpretations && (
-          <Predictions interpretations={chart.interpretations} />
+        {submitted && !loading && chart && (
+          <Predictions chart={chart} />
         )}
       </div>
     </div>

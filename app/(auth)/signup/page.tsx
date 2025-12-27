@@ -243,10 +243,17 @@ const ResultsStep = ({
 const SignUpPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM_DATA);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   const handleNext = () => {
-    if (currentStep < TOTAL_STEPS) {
-      setCurrentStep(currentStep + 1);
+    if (currentStep < TOTAL_STEPS && !isAnimating) {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setCurrentStep(currentStep + 1);
+        setTimeout(() => {
+          setIsAnimating(false);
+        }, 50);
+      }, 300);
     }
   };
 
@@ -276,7 +283,13 @@ const SignUpPage = () => {
   return (
     <div className="flex min-h-screen overflow-y-hidden">
       <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-16 relative">
-        <div className="w-full">{renderCurrentStep()}</div>
+        <div
+          className={`w-full step-transition ${
+            isAnimating ? "fade-out" : "fade-in"
+          }`}
+        >
+          {renderCurrentStep()}
+        </div>
       </div>
 
       <div className="hidden md:flex md:w-1/2 relative">

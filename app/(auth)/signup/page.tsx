@@ -36,7 +36,7 @@ const INITIAL_FORM_DATA: FormData = {
   birthDay: "11",
   birthMonth: "January",
   birthYear: "2001",
-  birthTime: "11:00 AM",
+  birthTime: "11:00",
 };
 
 const INPUT_STYLES =
@@ -211,20 +211,73 @@ const BirthInfoStep = ({
 };
 
 type ResultsStepProps = {
-  traits?: string;
+  traits: string[];
+  loading?: boolean;
 };
 
-const ResultsStep = ({
-  traits = "Ambitious, Cool, Calm",
-}: ResultsStepProps) => {
+const ResultsStep = ({ traits, loading }: ResultsStepProps) => {
+  const [revealedTraits, setRevealedTraits] = useState<string[]>([]);
+  const [showSection, setShowSection] = useState(false);
+
+  useEffect(() => {
+    if (!loading && traits.length > 0) {
+      setShowSection(true);
+      setRevealedTraits([]);
+
+      traits.forEach((trait, index) => {
+        setTimeout(() => {
+          setRevealedTraits((prev) => [...prev, trait]);
+        }, index * 600 + 400);
+      });
+    }
+  }, [loading, traits]);
+
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[50vh] text-center space-y-8 max-w-2xl mx-auto">
+        <div className="space-y-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-white/50">
+            Reading the Stars...
+          </h2>
+          <p className="text-white/60">Calculating your personality traits</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center justify-between h-[50vh] text-center space-y-12 max-w-2xl mx-auto">
-      <div className="space-y-2">
-        <h2 className=" text-2xl md:text-3xl font-bold text-white/50">
-          Stars Tell me You're
-        </h2>
-        <p className=" cormorant text-3xl md:text-4xl  text-white">{traits}</p>
+      <div className="w-full space-y-8">
+        <div
+          className={`trait-section ${
+            showSection ? "fade-in-slow" : "opacity-0"
+          }`}
+        >
+          <h2 className="text-2xl md:text-3xl font-bold text-white/50 mb-8">
+            Stars Tell me You're
+          </h2>
+
+          <div className="flex flex-wrap items-center justify-center gap-x-2 min-h-[80px]">
+            {traits.map((trait, index) => (
+              <div
+                key={index}
+                className={`trait-item inline-flex items-center ${
+                  revealedTraits.includes(trait) ? "fade-in-slow" : "opacity-0"
+                }`}
+                style={{ transitionDelay: `${index * 0.1}s` }}
+              >
+                <span className="cormorant text-3xl md:text-4xl text-white">
+                  {trait}
+                </span>
+                {index < traits.length - 1 && (
+                  <span className="text-white/30 mx-2 text-2xl">,</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
+
       <div className="space-y-6 pt-8">
         <h2 className="cormorant text-3xl md:text-4xl text-white">
           Let's Dive Deeper
@@ -240,20 +293,278 @@ const ResultsStep = ({
   );
 };
 
+const extractTraits = (chart: any): string[] => {
+  const traitScores: Record<string, number> = {};
+
+  if (chart?.planets?.sun) {
+    const sunSign = chart.planets.sun.sign;
+    const sunStyle = getSignStyle(sunSign);
+    if (sunStyle) traitScores[sunStyle] = (traitScores[sunStyle] || 0) + 4;
+
+    const sunHouse = chart?.planetHouses?.sun;
+    if (sunHouse) {
+      const houseTrait = getHouseTrait(sunHouse);
+      if (houseTrait)
+        traitScores[houseTrait] = (traitScores[houseTrait] || 0) + 2;
+    }
+  }
+
+  if (chart?.planets?.moon) {
+    const moonSign = chart.planets.moon.sign;
+    const moonStyle = getSignStyle(moonSign);
+    if (moonStyle) traitScores[moonStyle] = (traitScores[moonStyle] || 0) + 3.5;
+
+    const moonHouse = chart?.planetHouses?.moon;
+    if (moonHouse) {
+      const houseTrait = getHouseTrait(moonHouse);
+      if (houseTrait)
+        traitScores[houseTrait] = (traitScores[houseTrait] || 0) + 2;
+    }
+  }
+
+  if (chart?.ascendant?.sign) {
+    const ascSign = chart.ascendant.sign;
+    const ascStyle = getSignStyle(ascSign);
+    if (ascStyle) traitScores[ascStyle] = (traitScores[ascStyle] || 0) + 3;
+  }
+
+  if (chart?.planets?.mars) {
+    const marsSign = chart.planets.mars.sign;
+    const marsStyle = getSignStyle(marsSign);
+    if (marsStyle) traitScores[marsStyle] = (traitScores[marsStyle] || 0) + 1.5;
+  }
+
+  if (chart?.planets?.venus) {
+    const venusSign = chart.planets.venus.sign;
+    const venusStyle = getSignStyle(venusSign);
+    if (venusStyle)
+      traitScores[venusStyle] = (traitScores[venusStyle] || 0) + 1.5;
+  }
+
+  if (chart?.planets?.mercury) {
+    const mercurySign = chart.planets.mercury.sign;
+    const mercuryStyle = getSignStyle(mercurySign);
+    if (mercuryStyle)
+      traitScores[mercuryStyle] = (traitScores[mercuryStyle] || 0) + 1;
+  }
+
+  if (chart?.aspects && Array.isArray(chart.aspects)) {
+    const trineAspects = chart.aspects.filter(
+      (a: any) => a.type === "Trine" || a.type === "Sextile"
+    );
+    if (trineAspects.length > 2) {
+      traitScores["Harmonious"] = (traitScores["Harmonious"] || 0) + 1.5;
+    }
+
+    const squareAspects = chart.aspects.filter(
+      (a: any) => a.type === "Square" || a.type === "Opposition"
+    );
+    if (squareAspects.length > 2) {
+      traitScores["Intense"] = (traitScores["Intense"] || 0) + 1.5;
+    }
+  }
+
+  if (chart?.interpretations?.strengths?.length > 0) {
+    chart.interpretations.strengths.forEach((strength: string) => {
+      const strengthTrait = extractTraitFromText(strength);
+      if (strengthTrait) {
+        traitScores[strengthTrait] = (traitScores[strengthTrait] || 0) + 1;
+      }
+    });
+  }
+
+  if (chart?.interpretations?.corePersonality?.length > 0) {
+    chart.interpretations.corePersonality.forEach((personality: string) => {
+      const personalityTrait = extractTraitFromText(personality);
+      if (personalityTrait) {
+        traitScores[personalityTrait] =
+          (traitScores[personalityTrait] || 0) + 1;
+      }
+    });
+  }
+
+  const sortedTraits = Object.entries(traitScores)
+    .sort(([, a], [, b]) => b - a)
+    .map(([trait]) => trait)
+    .slice(0, 3);
+
+  while (sortedTraits.length < 3) {
+    const fallbackTraits = [
+      "Intuitive",
+      "Creative",
+      "Determined",
+      "Empathetic",
+      "Adventurous",
+    ];
+    const randomTrait =
+      fallbackTraits[Math.floor(Math.random() * fallbackTraits.length)];
+    if (!sortedTraits.includes(randomTrait)) {
+      sortedTraits.push(randomTrait);
+    }
+  }
+
+  return sortedTraits.slice(0, 3);
+};
+
+const getHouseTrait = (house: number): string | null => {
+  const houseTraits: Record<number, string> = {
+    1: "Bold",
+    2: "Stable",
+    3: "Curious",
+    4: "Nurturing",
+    5: "Creative",
+    6: "Analytical",
+    7: "Harmonious",
+    8: "Intense",
+    9: "Adventurous",
+    10: "Ambitious",
+    11: "Innovative",
+    12: "Intuitive",
+  };
+  return houseTraits[house] || null;
+};
+
+const getSignStyle = (sign: string): string | null => {
+  const signStyles: Record<string, string> = {
+    Aries: "Bold",
+    Taurus: "Stable",
+    Gemini: "Curious",
+    Cancer: "Nurturing",
+    Leo: "Creative",
+    Virgo: "Analytical",
+    Libra: "Harmonious",
+    Scorpio: "Intense",
+    Sagittarius: "Adventurous",
+    Capricorn: "Ambitious",
+    Aquarius: "Innovative",
+    Pisces: "Intuitive",
+  };
+  return signStyles[sign] || null;
+};
+
+const extractTraitFromText = (text: string): string | null => {
+  const traitKeywords: Record<string, string> = {
+    creative: "Creative",
+    ambitious: "Ambitious",
+    adventurous: "Adventurous",
+    analytical: "Analytical",
+    intuitive: "Intuitive",
+    harmonious: "Harmonious",
+    bold: "Bold",
+    stable: "Stable",
+    nurturing: "Nurturing",
+    intense: "Intense",
+    innovative: "Innovative",
+  };
+
+  const lowerText = text.toLowerCase();
+  for (const [key, trait] of Object.entries(traitKeywords)) {
+    if (lowerText.includes(key)) {
+      return trait;
+    }
+  }
+  return null;
+};
+
+const parseTime = (timeStr: string): { hour: number; minute: number } => {
+  const upperTime = timeStr.toUpperCase().trim();
+  const isPM = upperTime.includes("PM");
+  const isAM = upperTime.includes("AM");
+  const timeMatch = timeStr.match(/(\d{1,2}):(\d{2})/);
+
+  if (timeMatch) {
+    let hour = parseInt(timeMatch[1], 10);
+    const minute = parseInt(timeMatch[2], 10);
+
+    if (isPM && hour !== 12) {
+      hour += 12;
+    } else if (isAM && hour === 12) {
+      hour = 0;
+    } else if (!isPM && !isAM && hour >= 0 && hour <= 23) {
+      return { hour, minute };
+    }
+
+    return { hour, minute };
+  }
+
+  return { hour: 12, minute: 0 };
+};
+
+const getMonthNumber = (monthName: string): number => {
+  const monthIndex = MONTHS.findIndex(
+    (m) => m.toLowerCase() === monthName.toLowerCase()
+  );
+  return monthIndex >= 0 ? monthIndex + 1 : 1;
+};
+
 const SignUpPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(INITIAL_FORM_DATA);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [traits, setTraits] = useState<string[]>([]);
+  const [loadingTraits, setLoadingTraits] = useState(false);
 
-  const handleNext = () => {
+  const fetchPersonalityTraits = async () => {
+    if (!formData.latitude || !formData.longitude) {
+      setTraits(["Mysterious", "Unique", "Special"]);
+      return;
+    }
+
+    setLoadingTraits(true);
+
+    try {
+      const { hour, minute } = parseTime(formData.birthTime);
+      const month = getMonthNumber(formData.birthMonth);
+      const year = parseInt(formData.birthYear, 10);
+      const day = parseInt(formData.birthDay, 10);
+
+      const response = await fetch("/api/natal", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          year,
+          month,
+          day,
+          hour,
+          minute,
+          second: 0,
+          timezone: "Asia/Kolkata",
+          lat: formData.latitude,
+          lon: formData.longitude,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        const extractedTraits = extractTraits(data.chart);
+        setTraits(extractedTraits);
+      } else {
+        setTraits(["Mysterious", "Unique", "Special"]);
+      }
+    } catch (error) {
+      console.error("Error fetching traits:", error);
+      setTraits(["Mysterious", "Unique", "Special"]);
+    } finally {
+      setLoadingTraits(false);
+    }
+  };
+
+  const handleNext = async () => {
     if (currentStep < TOTAL_STEPS && !isAnimating) {
       setIsAnimating(true);
+
+      if (currentStep === 2) {
+        await fetchPersonalityTraits();
+      }
+
       setTimeout(() => {
         setCurrentStep(currentStep + 1);
         setTimeout(() => {
           setIsAnimating(false);
-        }, 50);
-      }, 300);
+        }, 100);
+      }, 600);
     }
   };
 
@@ -274,7 +585,7 @@ const SignUpPage = () => {
           />
         );
       case 3:
-        return <ResultsStep />;
+        return <ResultsStep traits={traits} loading={loadingTraits} />;
       default:
         return null;
     }

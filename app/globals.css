@@ -35,7 +35,8 @@ body {
 }
 
 .geoapify-autocomplete-wrapper input:not(:first-of-type),
-.geoapify-autocomplete-wrapper .geoapify-autocomplete-input:not(:first-of-type) {
+.geoapify-autocomplete-wrapper
+  .geoapify-autocomplete-input:not(:first-of-type) {
   display: none !important;
 }
 
@@ -98,7 +99,8 @@ body {
 
 .geoapify-autocomplete-wrapper .geoapify-autocomplete-item:hover,
 .geoapify-autocomplete-wrapper .geoapify-autocomplete-item.active,
-.geoapify-autocomplete-wrapper .geoapify-autocomplete-item[aria-selected="true"],
+.geoapify-autocomplete-wrapper
+  .geoapify-autocomplete-item[aria-selected="true"],
 .geoapify-autocomplete-item:hover,
 .geoapify-autocomplete-item.active,
 .geoapify-autocomplete-item[class*="active"],
@@ -135,7 +137,7 @@ body {
 }
 
 .step-transition {
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
 }
 
 .step-transition.fade-in {
@@ -146,4 +148,29 @@ body {
 .step-transition.fade-out {
   opacity: 0;
   transform: translateY(-10px);
+}
+
+.trait-section {
+  transition: opacity 1.2s ease-in-out;
+}
+
+.trait-section.fade-in-slow {
+  opacity: 1;
+}
+
+.trait-item {
+  display: inline-flex;
+  align-items: center;
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+  transform: translateY(0);
+}
+
+.trait-item.fade-in-slow {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.trait-item.opacity-0 {
+  opacity: 0;
+  transform: translateY(8px);
 }

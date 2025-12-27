@@ -1,39 +1,5 @@
 import React, { useState } from "react";
-
-export type ChartData = {
-  utc: string;
-  planets: Record<
-    string,
-    {
-      longitude: number;
-      sign: string;
-      signIndex: number;
-      degreeInsideSign: number;
-    }
-  >;
-  ascendant: {
-    longitude: number;
-    sign: string;
-    signIndex: number;
-    degreeInsideSign: number;
-  } | null;
-  houses:
-    | {
-        house: number;
-        longitude: number;
-        sign: string;
-        signIndex: number;
-        degreeInsideSign: number;
-      }[]
-    | null;
-  aspects: {
-    body1: string;
-    body2: string;
-    angle: number;
-    type: string;
-    orb: number;
-  }[];
-};
+import { ChartData } from "@/types/chart";
 
 type TooltipState = {
   name: string;

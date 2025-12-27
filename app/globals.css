@@ -11,3 +11,125 @@ body {
 .cormorant {
   font-family: "Cormorant Infant", serif;
 }
+
+.geoapify-autocomplete-wrapper {
+  position: relative !important;
+}
+
+.geoapify-autocomplete-wrapper > *:not(.geoapify-autocomplete-items) {
+  display: block !important;
+}
+
+.geoapify-autocomplete-wrapper input,
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-input,
+.geoapify-autocomplete-input {
+  width: 100% !important;
+  padding: 0.75rem 1rem !important;
+  background: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: white !important;
+  transition: border-color 0.2s;
+  font-size: 1rem !important;
+  border-radius: 0 !important;
+  display: block !important;
+}
+
+.geoapify-autocomplete-wrapper input:not(:first-of-type),
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-input:not(:first-of-type) {
+  display: none !important;
+}
+
+.geoapify-autocomplete-wrapper input::placeholder,
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-input::placeholder,
+.geoapify-autocomplete-input::placeholder {
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.geoapify-autocomplete-wrapper input:focus,
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-input:focus,
+.geoapify-autocomplete-input:focus {
+  outline: none !important;
+  border-color: white !important;
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-items,
+.geoapify-autocomplete-items {
+  position: absolute !important;
+  top: 100% !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1000 !important;
+  background: rgba(17, 17, 17, 0.98) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: white !important;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  margin-top: 0.25rem !important;
+  max-height: 300px !important;
+  overflow-y: auto !important;
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-item,
+.geoapify-autocomplete-item {
+  color: white !important;
+  padding: 0.75rem 1rem !important;
+  background: transparent !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-item:last-child,
+.geoapify-autocomplete-item:last-child {
+  border-bottom: none !important;
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-item *,
+.geoapify-autocomplete-item *,
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-item span,
+.geoapify-autocomplete-item span,
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-item div,
+.geoapify-autocomplete-item div {
+  color: white !important;
+  background: transparent !important;
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-item:hover,
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-item.active,
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-item[aria-selected="true"],
+.geoapify-autocomplete-item:hover,
+.geoapify-autocomplete-item.active,
+.geoapify-autocomplete-item[class*="active"],
+.geoapify-autocomplete-item[aria-selected="true"] {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-item:hover *,
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-item.active *,
+.geoapify-autocomplete-item:hover *,
+.geoapify-autocomplete-item.active * {
+  color: white !important;
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-item b,
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-item strong,
+.geoapify-autocomplete-item b,
+.geoapify-autocomplete-item strong {
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-item .icon,
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-item svg,
+.geoapify-autocomplete-wrapper .geoapify-autocomplete-item img,
+.geoapify-autocomplete-item .icon,
+.geoapify-autocomplete-item svg,
+.geoapify-autocomplete-item img {
+  filter: brightness(0) invert(1);
+  opacity: 0.7;
+  width: 16px !important;
+  height: 16px !important;
+}

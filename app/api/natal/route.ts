@@ -31,6 +31,10 @@ type HouseCusp = {
   degreeInsideSign: number;
 };
 
+type PlanetHouseAssignment = {
+  [planetName: string]: number;
+};
+
 type Aspect = {
   body1: string;
   body2: string;
@@ -108,51 +112,47 @@ const getAscendant = (
   return zodiacFromLongitude(sphere.lon);
 };
 
-const getHouseCusps = (
-  astroTime: Astronomy.AstroTime,
-  latitude: number,
-  longitude: number
-): HouseCusp[] | null => {
-  const lib: any = Astronomy;
-  let cusps: number[] | null = null;
+const getWholeSignHouses = (ascendant: ZodiacPosition): HouseCusp[] => {
+  const houses: HouseCusp[] = [];
+  const ascendantSignIndex = ascendant.signIndex;
 
-  if (lib.HouseCusps) {
-    try {
-      const c = lib.HouseCusps(astroTime, longitude, latitude);
-      if (Array.isArray(c) && c.length >= NUM_HOUSES) {
-        cusps = c;
-      }
-    } catch {}
+  for (let i = 0; i < NUM_HOUSES; i++) {
+    const signIndex = (ascendantSignIndex + i) % NUM_HOUSES;
+    const sign = ZODIAC_SIGNS[signIndex];
+    const longitude = signIndex * DEGREES_PER_SIGN;
+
+    houses.push({
+      house: i + 1,
+      longitude,
+      sign,
+      signIndex,
+      degreeInsideSign: 0,
+    });
   }
 
-  if (!cusps && lib.Houses) {
-    try {
-      const h = lib.Houses(astroTime, longitude, latitude);
-      if (h && Array.isArray(h.cusps) && h.cusps.length >= NUM_HOUSES) {
-        cusps = h.cusps;
-      }
-    } catch {}
-  }
+  return houses;
+};
 
-  if (!cusps) {
-    const asc = getAscendant(astroTime, latitude, longitude);
-    if (!asc) return null;
-    cusps = [];
-    for (let i = 0; i < NUM_HOUSES; i++) {
-      cusps.push(asc.longitude + i * DEGREES_PER_SIGN);
+const assignPlanetsToHouses = (
+  planetPositions: Record<string, PlanetPosition>,
+  ascendant: ZodiacPosition
+): PlanetHouseAssignment => {
+  const assignments: PlanetHouseAssignment = {};
+  const ascendantSignIndex = ascendant.signIndex;
+
+  for (const [planetName, position] of Object.entries(planetPositions)) {
+    const planetSignIndex = position.signIndex;
+    let signDifference = planetSignIndex - ascendantSignIndex;
+
+    if (signDifference < 0) {
+      signDifference += NUM_HOUSES;
     }
+
+    const houseNumber = signDifference + 1;
+    assignments[planetName] = houseNumber;
   }
 
-  return cusps.map((cuspLon, idx) => {
-    const z = zodiacFromLongitude(cuspLon);
-    return {
-      house: idx + 1,
-      longitude: z.longitude,
-      sign: z.sign,
-      signIndex: z.signIndex,
-      degreeInsideSign: z.degreeInsideSign,
-    };
-  });
+  return assignments;
 };
 
 const calculatePlanetPositions = (
@@ -277,7 +277,8 @@ export async function POST(req: Request) {
 
     const planetPositions = calculatePlanetPositions(astroTime);
     const ascendant = getAscendant(astroTime, lat, lon);
-    const houses = getHouseCusps(astroTime, lat, lon);
+    const houses = getWholeSignHouses(ascendant);
+    const planetHouses = assignPlanetsToHouses(planetPositions, ascendant);
     const aspects = calculateAspects(planetPositions);
 
     const ist = utc.setZone("Asia/Kolkata");
@@ -288,7 +289,9 @@ export async function POST(req: Request) {
       planets: planetPositions,
       ascendant,
       houses,
+      planetHouses,
       aspects,
+      houseSystem: "Whole Sign",
     };
 
     return NextResponse.json({ chart });

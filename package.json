@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@geoapify/geocoder-autocomplete": "^3.0.1",
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.89.0",
     "@types/luxon": "^3.7.1",
     "astronomy-engine": "^2.1.19",
     "luxon": "^3.7.2",

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Button from "@/components/ui/Button";
 import { GeocoderAutocomplete } from "@geoapify/geocoder-autocomplete";
+import { login } from "@/lib/auth/login";
 
 const MONTHS = [
   "January",
@@ -32,11 +33,11 @@ type FormData = {
 };
 
 const INITIAL_FORM_DATA: FormData = {
-  birthPlace: "Delhi, India",
-  birthDay: "11",
+  birthPlace: "",
+  birthDay: "",
   birthMonth: "January",
-  birthYear: "2001",
-  birthTime: "11:00",
+  birthYear: "",
+  birthTime: "",
 };
 
 const INPUT_STYLES =
@@ -77,6 +78,68 @@ type BirthInfoStepProps = {
   onNext: () => void;
 };
 
+const getDaysInMonth = (month: string, year: number): number => {
+  const monthIndex = MONTHS.findIndex(
+    (m) => m.toLowerCase() === month.toLowerCase()
+  );
+  if (monthIndex === -1) return 31;
+
+  const monthNumber = monthIndex + 1;
+  return new Date(year, monthNumber, 0).getDate();
+};
+
+const validateForm = (
+  formData: FormData
+): { isValid: boolean; errors: string[] } => {
+  const errors: string[] = [];
+
+  if (!formData.birthPlace || formData.birthPlace.trim() === "") {
+    errors.push("Birth place is required");
+  }
+
+  if (!formData.latitude || !formData.longitude) {
+    errors.push("Please select a valid birth place from the suggestions");
+  }
+
+  if (!formData.birthMonth) {
+    errors.push("Please select a month");
+  }
+
+  const year = parseInt(formData.birthYear, 10);
+  const currentYear = new Date().getFullYear();
+  if (!formData.birthYear || isNaN(year) || year < 1900 || year > currentYear) {
+    errors.push(`Please enter a valid year (1900-${currentYear})`);
+  }
+
+  const day = parseInt(formData.birthDay, 10);
+  if (!formData.birthDay || isNaN(day) || day < 1) {
+    errors.push("Please enter a valid day");
+  } else if (
+    formData.birthMonth &&
+    !isNaN(year) &&
+    year >= 1900 &&
+    year <= currentYear
+  ) {
+    const maxDays = getDaysInMonth(formData.birthMonth, year);
+    if (day > maxDays) {
+      errors.push(
+        `Please enter a valid day for ${formData.birthMonth} (1-${maxDays})`
+      );
+    }
+  } else if (day > 31) {
+    errors.push("Please enter a valid day (1-31)");
+  }
+
+  if (!formData.birthTime || formData.birthTime.trim() === "") {
+    errors.push("Birth time is required");
+  }
+
+  return {
+    isValid: errors.length === 0,
+    errors,
+  };
+};
+
 const BirthInfoStep = ({
   formData,
   onInputChange,
@@ -85,6 +148,17 @@ const BirthInfoStep = ({
   const autocompleteRef = useRef<HTMLDivElement>(null);
   const geocoderInstanceRef = useRef<GeocoderAutocomplete | null>(null);
   const onInputChangeRef = useRef(onInputChange);
+  const [errors, setErrors] = useState<string[]>([]);
+
+  const handleNextClick = () => {
+    const validation = validateForm(formData);
+    if (validation.isValid) {
+      setErrors([]);
+      onNext();
+    } else {
+      setErrors(validation.errors);
+    }
+  };
 
   useEffect(() => {
     onInputChangeRef.current = onInputChange;
@@ -131,6 +205,7 @@ const BirthInfoStep = ({
         if (coordinates && coordinates.length >= 2) {
           onInputChangeRef.current("longitude", coordinates[0]);
           onInputChangeRef.current("latitude", coordinates[1]);
+          setErrors([]);
         }
       }
     });
@@ -145,10 +220,48 @@ const BirthInfoStep = ({
     };
   }, []);
 
+  const handleDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, "");
+    if (
+      value === "" ||
+      (parseInt(value, 10) >= 1 && parseInt(value, 10) <= 31)
+    ) {
+      onInputChange("birthDay", value);
+      setErrors([]);
+    }
+  };
+
+  const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/\D/g, "");
+    const currentYear = new Date().getFullYear();
+    const numValue = parseInt(value, 10);
+
+    if (value === "" || value.length < 4) {
+      onInputChange("birthYear", value);
+      setErrors([]);
+    } else if (numValue >= 1900 && numValue <= currentYear) {
+      onInputChange("birthYear", value);
+      setErrors([]);
+    }
+  };
+
+  const handleMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    onInputChange("birthMonth", e.target.value);
+    setErrors([]);
+  };
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onInputChange("birthTime", e.target.value);
+    setErrors([]);
+  };
+
+  const validation = validateForm(formData);
+  const isFormValid = validation.isValid;
+
   return (
     <div className="flex flex-col space-y-12 max-w-2xl mx-auto w-full">
-      <div className="space-y-4 text-center ">
-        <h2 className="cormorant text-3xl md:text-4xl  text-white">
+      <div className="space-y-4 text-center">
+        <h2 className="cormorant text-3xl md:text-4xl text-white">
           Your Birth Place
         </h2>
         <div
@@ -156,23 +269,44 @@ const BirthInfoStep = ({
           className="w-full geoapify-autocomplete-wrapper"
           style={{ position: "relative" }}
         />
+        {errors.some(
+          (e) => e.includes("Birth place") || e.includes("valid birth place")
+        ) && (
+          <p className="text-red-400 text-sm mt-2">
+            Please select a valid birth place from the suggestions
+          </p>
+        )}
       </div>
 
       <div className="space-y-4 text-center">
-        <h2 className="cormorant text-3xl md:text-4xl  text-white">
+        <h2 className="cormorant text-3xl md:text-4xl text-white">
           Your Birth Date & Time
         </h2>
         <div className="flex gap-3">
-          <input
-            type="text"
-            value={formData.birthDay}
-            onChange={(e) => onInputChange("birthDay", e.target.value)}
-            className={`w-24 ${INPUT_STYLES}`}
-            placeholder="Day"
-          />
+          <div className="flex flex-col">
+            <input
+              type="text"
+              value={formData.birthDay}
+              onChange={handleDayChange}
+              onBlur={() => {
+                if (
+                  formData.birthDay &&
+                  (parseInt(formData.birthDay, 10) < 1 ||
+                    parseInt(formData.birthDay, 10) > 31)
+                ) {
+                  onInputChange("birthDay", "");
+                }
+              }}
+              className={`w-24 ${INPUT_STYLES} ${
+                errors.some((e) => e.includes("day")) ? "border-red-400" : ""
+              }`}
+              placeholder="Day"
+              maxLength={2}
+            />
+          </div>
           <select
             value={formData.birthMonth}
-            onChange={(e) => onInputChange("birthMonth", e.target.value)}
+            onChange={handleMonthChange}
             className={`flex-1 ${INPUT_STYLES}`}
           >
             {MONTHS.map((month) => (
@@ -181,30 +315,67 @@ const BirthInfoStep = ({
               </option>
             ))}
           </select>
-          <input
-            type="text"
-            value={formData.birthYear}
-            onChange={(e) => onInputChange("birthYear", e.target.value)}
-            className={`w-32 ${INPUT_STYLES}`}
-            placeholder="Year"
-          />
+          <div className="flex flex-col">
+            <input
+              type="text"
+              value={formData.birthYear}
+              onChange={handleYearChange}
+              onBlur={() => {
+                const year = parseInt(formData.birthYear, 10);
+                const currentYear = new Date().getFullYear();
+                if (
+                  formData.birthYear &&
+                  (isNaN(year) || year < 1900 || year > currentYear)
+                ) {
+                  onInputChange("birthYear", "");
+                }
+              }}
+              className={`w-32 ${INPUT_STYLES} ${
+                errors.some((e) => e.includes("year")) ? "border-red-400" : ""
+              }`}
+              placeholder="Year"
+              maxLength={4}
+            />
+          </div>
         </div>
         <input
           type="time"
           value={formData.birthTime}
-          onChange={(e) => onInputChange("birthTime", e.target.value)}
-          className={`w-full ${INPUT_STYLES}`}
+          onChange={handleTimeChange}
+          className={`w-full ${INPUT_STYLES} ${
+            errors.some((e) => e.includes("time")) ? "border-red-400" : ""
+          }`}
         />
+        {errors.length > 0 && (
+          <div className="space-y-1 mt-2">
+            {errors
+              .filter(
+                (e) =>
+                  !e.includes("Birth place") && !e.includes("valid birth place")
+              )
+              .map((error, index) => (
+                <p key={index} className="text-red-400 text-sm">
+                  {error}
+                </p>
+              ))}
+          </div>
+        )}
       </div>
 
-      <div className="flex justify-center pt-4">
+      <div className="flex flex-col items-center pt-4 space-y-4">
         <Button
           text="NEXT"
           variant="primary"
           size="medium"
-          onClick={onNext}
+          onClick={handleNextClick}
           className={BUTTON_STYLES}
+          disabled={!isFormValid}
         />
+        {!isFormValid && (
+          <p className="text-white/50 text-sm">
+            Please fill in all required fields correctly
+          </p>
+        )}
       </div>
     </div>
   );
@@ -253,7 +424,7 @@ const ResultsStep = ({ traits, loading }: ResultsStepProps) => {
             showSection ? "fade-in-slow" : "opacity-0"
           }`}
         >
-          <h2 className="text-2xl md:text-3xl font-bold text-white/50 mb-8">
+          <h2 className="text-2xl md:text-3xl font-semibold text-white/50 mb-8">
             Stars Tell me You're
           </h2>
 
@@ -287,6 +458,7 @@ const ResultsStep = ({ traits, loading }: ResultsStepProps) => {
           variant="primary"
           size="medium"
           className={BUTTON_STYLES}
+          onClick={() => login()}
         />
       </div>
     </div>

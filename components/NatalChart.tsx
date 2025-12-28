@@ -75,8 +75,8 @@ const NatalChart = ({ chart }: { chart: ChartData }) => {
   const pointOnCircle = (radius: number, lon: number) => {
     const a = angleForLongitude(lon);
     return {
-      x: center + radius * Math.cos(a),
-      y: center + radius * Math.sin(a),
+      x: Math.round((center + radius * Math.cos(a)) * 100) / 100,
+      y: Math.round((center + radius * Math.sin(a)) * 100) / 100,
     };
   };
 
@@ -85,10 +85,10 @@ const NatalChart = ({ chart }: { chart: ChartData }) => {
     const endLon = startLon + CHART_CONSTANTS.DEGREES_PER_SIGN;
     const a1 = angleForLongitude(startLon);
     const a2 = angleForLongitude(endLon);
-    const x1 = center + signTextRadius * Math.cos(a1);
-    const y1 = center + signTextRadius * Math.sin(a1);
-    const x2 = center + signTextRadius * Math.cos(a2);
-    const y2 = center + signTextRadius * Math.sin(a2);
+    const x1 = Math.round((center + signTextRadius * Math.cos(a1)) * 100) / 100;
+    const y1 = Math.round((center + signTextRadius * Math.sin(a1)) * 100) / 100;
+    const x2 = Math.round((center + signTextRadius * Math.cos(a2)) * 100) / 100;
+    const y2 = Math.round((center + signTextRadius * Math.sin(a2)) * 100) / 100;
     return `M ${x1} ${y1} A ${signTextRadius} ${signTextRadius} 0 0 1 ${x2} ${y2}`;
   };
 

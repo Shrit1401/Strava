@@ -8,7 +8,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <Navbar isAsk />
+      <Navbar />
       <main className="grow">{children}</main>
       <BottomNav />
     </>

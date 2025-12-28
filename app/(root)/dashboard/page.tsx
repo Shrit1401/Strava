@@ -66,7 +66,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white pb-20">
+    <div className="min-h-screen pb-20">
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 pt-32 pb-40">
         <div className="grid grid-cols-1 lg:grid-cols-[1.8fr_1fr] gap-16 lg:gap-20">
           <div className="space-y-12 lg:space-y-16">

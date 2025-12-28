@@ -8,8 +8,8 @@ export default function RootLayout({
 }>) {
   return (
     <>
-      <Navbar />
-      <main className="grow">{children}</main>
+      <Navbar isAsk />
+      <main className="grow flex flex-col">{children}</main>
       <BottomNav />
     </>
   );

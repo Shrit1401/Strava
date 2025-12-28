@@ -113,8 +113,8 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
   return (
     <nav
       className={`w-full z-20 px-4 md:px-8 py-4 flex justify-between items-center ${
-        isAuth ? "fixed top-0 left-0 border-b border-black/10" : ""
-      } ${!isAsk ? "bg-black text-white" : ""}`}
+        isAuth || isAsk ? "fixed top-0 left-0 border-b border-black/10" : ""
+      } ${isAuth || isAsk ? "bg-black text-white" : ""}`}
       style={{
         minHeight: 56,
       }}
@@ -122,7 +122,7 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
       <Link href="/" className="flex items-center gap-2">
         <h2
           className={`cormorant font-bold text-xl md:text-2xl tracking-tight ${
-            isAuth || !isAsk ? "text-white" : ""
+            isAuth || isAsk ? "text-white" : ""
           }`}
         >
           Strava
@@ -137,10 +137,10 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
                 href={item.href}
                 className={`transition-colors ${
                   pathname === item.href
-                    ? isAuth || !isAsk
+                    ? isAuth || isAsk
                       ? "text-white underline underline-offset-2"
                       : "text-black underline underline-offset-2"
-                    : isAuth || !isAsk
+                    : isAuth || isAsk
                     ? "text-white hover:text-white"
                     : "text-[#575657] hover:text-black"
                 }`}
@@ -157,7 +157,7 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className={`transition-colors cursor-pointer px-4 py-2 rounded-md font-normal text-sm flex items-center gap-2 ${
-                    isAuth || !isAsk
+                    isAuth || isAsk
                       ? "text-white hover:bg-white/10"
                       : "text-[#575657] hover:text-black"
                   }`}
@@ -182,9 +182,9 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
                 {dropdownOpen && (
                   <div
                     className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-50 ${
-                      isAuth || !isAsk
-                        ? "bg-[#1a1a1a] border border-white/10"
-                        : "bg-white border border-gray-200"
+                      isAuth || isAsk
+                        ? "bg-[#2a2a2a] border border-white/30"
+                        : ""
                     }`}
                   >
                     <Link
@@ -194,7 +194,7 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
                         setDropdownOpen(false);
                       }}
                       className={`block px-4 py-2 text-sm transition-colors cursor-pointer ${
-                        isAuth || !isAsk
+                        isAuth || isAsk
                           ? "text-white hover:bg-white/10"
                           : "text-[#575657] hover:bg-gray-100"
                       }`}
@@ -204,7 +204,7 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
                     <button
                       onClick={handleSignOut}
                       className={`block w-full text-left px-4 py-2 text-sm transition-colors ${
-                        isAuth || !isAsk
+                        isAuth || isAsk
                           ? "text-white hover:bg-white/10"
                           : "text-[#575657] hover:bg-gray-100"
                       }`}

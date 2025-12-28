@@ -384,9 +384,16 @@ const BirthInfoStep = ({
 type ResultsStepProps = {
   traits: string[];
   loading?: boolean;
+  formData: FormData;
+  onLogin: () => void;
 };
 
-const ResultsStep = ({ traits, loading }: ResultsStepProps) => {
+const ResultsStep = ({
+  traits,
+  loading,
+  formData,
+  onLogin,
+}: ResultsStepProps) => {
   const [revealedTraits, setRevealedTraits] = useState<string[]>([]);
   const [showSection, setShowSection] = useState(false);
 
@@ -458,7 +465,7 @@ const ResultsStep = ({ traits, loading }: ResultsStepProps) => {
           variant="primary"
           size="medium"
           className={BUTTON_STYLES}
-          onClick={() => login()}
+          onClick={onLogin}
         />
       </div>
     </div>
@@ -757,7 +764,24 @@ const SignUpPage = () => {
           />
         );
       case 3:
-        return <ResultsStep traits={traits} loading={loadingTraits} />;
+        return (
+          <ResultsStep
+            traits={traits}
+            loading={loadingTraits}
+            formData={formData}
+            onLogin={() =>
+              login({
+                birthDay: formData.birthDay,
+                birthMonth: formData.birthMonth,
+                birthYear: formData.birthYear,
+                birthTime: formData.birthTime,
+                birthPlace: formData.birthPlace,
+                latitude: formData.latitude,
+                longitude: formData.longitude,
+              })
+            }
+          />
+        );
       default:
         return null;
     }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Button from "@/components/ui/Button";
+import Loader from "@/components/Loader";
 import { GeocoderAutocomplete } from "@geoapify/geocoder-autocomplete";
 import { login } from "@/lib/auth/login";
 
@@ -411,16 +412,7 @@ const ResultsStep = ({
   }, [loading, traits]);
 
   if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center h-[50vh] text-center space-y-8 max-w-2xl mx-auto">
-        <div className="space-y-2">
-          <h2 className="text-2xl md:text-3xl font-bold text-white/50">
-            Reading the Stars...
-          </h2>
-          <p className="text-white/60">Calculating your personality traits</p>
-        </div>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

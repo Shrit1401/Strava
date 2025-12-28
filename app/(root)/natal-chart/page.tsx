@@ -4,6 +4,7 @@ import React from "react";
 import NatalChart from "@/components/NatalChart";
 import Predictions from "@/components/Predictions";
 import BirthDataForm from "@/components/BirthDataForm";
+import Loader from "@/components/Loader";
 import { useChartForm } from "@/hooks/useChartForm";
 
 const AstrologyPage = () => {
@@ -21,6 +22,10 @@ const AstrologyPage = () => {
     e.preventDefault();
     fetchChart();
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div className="min-h-screen bg-[#f9fafb] text-[#111827]">
@@ -46,11 +51,11 @@ const AstrologyPage = () => {
           </section>
 
           <section className="flex-1 flex justify-center lg:justify-end">
-            {submitted && !loading && chart && <NatalChart chart={chart} />}
+            {submitted && chart && <NatalChart chart={chart} />}
           </section>
         </div>
 
-        {submitted && !loading && chart && (
+        {submitted && chart && (
           <Predictions chart={chart} />
         )}
       </div>

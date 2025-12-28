@@ -1,4 +1,5 @@
 import Navbar from "@/components/Navbar";
+import BottomNav from "@/components/BottomNav";
 
 export default function RootLayout({
   children,
@@ -9,6 +10,7 @@ export default function RootLayout({
     <>
       <Navbar />
       <main className="grow">{children}</main>
+      <BottomNav />
     </>
   );
 }

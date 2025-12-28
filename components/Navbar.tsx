@@ -23,10 +23,11 @@ const navItems = [
 ];
 
 type NavbarProps = {
+  isAsk?: boolean;
   isAuth?: boolean;
 };
 
-const Navbar = ({ isAuth }: NavbarProps) => {
+const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
@@ -113,7 +114,7 @@ const Navbar = ({ isAuth }: NavbarProps) => {
     <nav
       className={`w-full z-20 px-4 md:px-8 py-4 flex justify-between items-center ${
         isAuth ? "fixed top-0 left-0 border-b border-black/10" : ""
-      }`}
+      } ${!isAsk ? "bg-black text-white" : ""}`}
       style={{
         minHeight: 56,
       }}
@@ -121,7 +122,7 @@ const Navbar = ({ isAuth }: NavbarProps) => {
       <Link href="/" className="flex items-center gap-2">
         <h2
           className={`cormorant font-bold text-xl md:text-2xl tracking-tight ${
-            isAuth ? "text-white" : ""
+            isAuth || !isAsk ? "text-white" : ""
           }`}
         >
           Strava
@@ -136,10 +137,10 @@ const Navbar = ({ isAuth }: NavbarProps) => {
                 href={item.href}
                 className={`transition-colors ${
                   pathname === item.href
-                    ? isAuth
+                    ? isAuth || !isAsk
                       ? "text-white underline underline-offset-2"
                       : "text-black underline underline-offset-2"
-                    : isAuth
+                    : isAuth || !isAsk
                     ? "text-white hover:text-white"
                     : "text-[#575657] hover:text-black"
                 }`}
@@ -156,7 +157,7 @@ const Navbar = ({ isAuth }: NavbarProps) => {
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className={`transition-colors cursor-pointer px-4 py-2 rounded-md font-normal text-sm flex items-center gap-2 ${
-                    isAuth
+                    isAuth || !isAsk
                       ? "text-white hover:bg-white/10"
                       : "text-[#575657] hover:text-black"
                   }`}
@@ -181,7 +182,7 @@ const Navbar = ({ isAuth }: NavbarProps) => {
                 {dropdownOpen && (
                   <div
                     className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-50 ${
-                      isAuth
+                      isAuth || !isAsk
                         ? "bg-[#1a1a1a] border border-white/10"
                         : "bg-white border border-gray-200"
                     }`}
@@ -193,7 +194,7 @@ const Navbar = ({ isAuth }: NavbarProps) => {
                         setDropdownOpen(false);
                       }}
                       className={`block px-4 py-2 text-sm transition-colors cursor-pointer ${
-                        isAuth
+                        isAuth || !isAsk
                           ? "text-white hover:bg-white/10"
                           : "text-[#575657] hover:bg-gray-100"
                       }`}
@@ -203,7 +204,7 @@ const Navbar = ({ isAuth }: NavbarProps) => {
                     <button
                       onClick={handleSignOut}
                       className={`block w-full text-left px-4 py-2 text-sm transition-colors ${
-                        isAuth
+                        isAuth || !isAsk
                           ? "text-white hover:bg-white/10"
                           : "text-[#575657] hover:bg-gray-100"
                       }`}
@@ -221,7 +222,9 @@ const Navbar = ({ isAuth }: NavbarProps) => {
                   variant="outline"
                   href="/login"
                   className={`font-normal ${
-                    isAuth ? "text-white! border-white! hover:bg-white/10!" : ""
+                    isAuth || !isAsk
+                      ? "text-white! border-white! hover:bg-white/10!"
+                      : ""
                   }`}
                 />
                 <Button
@@ -230,7 +233,7 @@ const Navbar = ({ isAuth }: NavbarProps) => {
                   variant="primary"
                   href="/signup"
                   className={`font-normal ${
-                    isAuth
+                    isAuth || !isAsk
                       ? "bg-white! text-black! border-white! hover:bg-white/90!"
                       : ""
                   }`}
@@ -247,7 +250,7 @@ const Navbar = ({ isAuth }: NavbarProps) => {
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className={`transition-colors cursor-pointer px-3 py-2 rounded-md font-normal text-sm flex items-center gap-1 ${
-                isAuth
+                isAuth || !isAsk
                   ? "text-white hover:bg-white/10"
                   : "text-[#575657] hover:text-black"
               }`}
@@ -272,7 +275,7 @@ const Navbar = ({ isAuth }: NavbarProps) => {
             {dropdownOpen && (
               <div
                 className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-50 ${
-                  isAuth
+                  isAuth || !isAsk
                     ? "bg-[#1a1a1a] border border-white/10"
                     : "bg-white border border-gray-200"
                 }`}
@@ -284,7 +287,7 @@ const Navbar = ({ isAuth }: NavbarProps) => {
                     setDropdownOpen(false);
                   }}
                   className={`block px-4 py-2 text-sm transition-colors cursor-pointer ${
-                    isAuth
+                    isAuth || !isAsk
                       ? "text-white hover:bg-white/10"
                       : "text-[#575657] hover:bg-gray-100"
                   }`}
@@ -297,7 +300,7 @@ const Navbar = ({ isAuth }: NavbarProps) => {
                     handleSignOut();
                   }}
                   className={`block w-full text-left px-4 py-2 text-sm transition-colors cursor-pointer ${
-                    isAuth
+                    isAuth || !isAsk
                       ? "text-white hover:bg-white/10"
                       : "text-[#575657] hover:bg-gray-100"
                   }`}
@@ -315,7 +318,7 @@ const Navbar = ({ isAuth }: NavbarProps) => {
             setMobileMenuOpen(!mobileMenuOpen);
           }}
           className={`p-2 rounded-md transition-colors ${
-            isAuth
+            isAuth || !isAsk
               ? "text-white hover:bg-white/10"
               : "text-[#575657] hover:bg-gray-100"
           }`}
@@ -357,7 +360,7 @@ const Navbar = ({ isAuth }: NavbarProps) => {
         <div
           ref={mobileMenuRef}
           className={`md:hidden fixed top-[56px] left-0 right-0 z-50 ${
-            isAuth
+            isAuth || !isAsk
               ? "bg-[#111] border-b border-black/10"
               : "bg-white border-b border-gray-200"
           }`}
@@ -370,7 +373,7 @@ const Navbar = ({ isAuth }: NavbarProps) => {
                   onClick={() => setMobileMenuOpen(false)}
                   className={`block px-8 py-3 text-sm transition-colors ${
                     pathname === item.href
-                      ? isAuth
+                      ? isAuth || !isAsk
                         ? "text-white underline underline-offset-2 bg-white/5"
                         : "text-black underline underline-offset-2 bg-gray-100"
                       : isAuth

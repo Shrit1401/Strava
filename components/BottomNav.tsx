@@ -53,7 +53,7 @@ const BottomNav = () => {
       <Link
         href="/ask"
         className={`px-8 py-4 text-white uppercase font-mono text-sm tracking-wide transition-opacity ${
-          pathname === "/void" ? "opacity-100" : "opacity-70 hover:opacity-100"
+          pathname === "/ask" ? "opacity-100" : "opacity-70 hover:opacity-100"
         }`}
       >
         ASK

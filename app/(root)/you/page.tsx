@@ -11,6 +11,7 @@ import {
   SIGN_MEANINGS,
   HOUSE_MEANINGS,
 } from "@/constants/astrology";
+import { getRandomIcon } from "@/utils/astrology";
 
 type SelfData = {
   theme: string;
@@ -46,21 +47,22 @@ type SelfData = {
   logicalBullets: string[];
 };
 
+const planetIconMap: Record<string, string> = {
+  sun: getRandomIcon(),
+  moon: getRandomIcon(),
+  ascendant: getRandomIcon(),
+  mercury: getRandomIcon(),
+  venus: getRandomIcon(),
+  mars: getRandomIcon(),
+  jupiter: getRandomIcon(),
+  saturn: getRandomIcon(),
+  uranus: getRandomIcon(),
+  neptune: getRandomIcon(),
+  pluto: getRandomIcon(),
+};
+
 const getPlanetIcon = (planetName: string): string => {
-  const iconMap: Record<string, string> = {
-    sun: "/icons/butterfly.png",
-    moon: "/icons/moon.png",
-    ascendant: "/icons/moon.png",
-    mercury: "/icons/telephone.png",
-    venus: "/icons/leaf.png",
-    mars: "/icons/prisma.png",
-    jupiter: "/icons/jug.png",
-    saturn: "/icons/jug.png",
-    uranus: "/icons/prisma.png",
-    neptune: "/icons/leaf.png",
-    pluto: "/icons/butterfly.png",
-  };
-  return iconMap[planetName.toLowerCase()] || "/icons/butterfly.png";
+  return planetIconMap[planetName.toLowerCase()] || getRandomIcon();
 };
 
 const getPlanetDescription = (

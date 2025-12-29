@@ -52,7 +52,7 @@ const Loader = () => {
       <div className="fixed inset-0 bg-[#f7f7f7] flex flex-col items-center justify-center z-50">
         <div className="moon-container mb-8">
           <img
-            src="/icons/moon.png"
+            src="/icons/11.png"
             alt="Moon"
             className="moon-image moon-rotating w-full h-full object-contain"
           />

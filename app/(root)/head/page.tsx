@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { getRandomIcon } from "@/utils/astrology";
 
 const MasterHeadPage = () => {
   return (
@@ -97,25 +98,25 @@ const MasterHeadPage = () => {
 
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 opacity-10">
         <div className="absolute top-20 left-12 w-32 h-32  hidden lg:block">
-          <Image src="/icons/moon.png" alt="" fill className="object-contain" />
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
         <div className="absolute top-32 right-16 w-28 h-28 hidden lg:block">
           <Image
-            src="/icons/butterfly.png"
+            src={getRandomIcon()}
             alt=""
             fill
             className="object-contain"
           />
         </div>
         <div className="absolute top-1/2 left-8 w-24 h-24 hidden lg:block">
-          <Image src="/icons/leaf.png" alt="" fill className="object-contain" />
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
         <div className="absolute top-1/3 right-1/4 w-20 h-20 opacity-[0.025] hidden lg:block">
-          <Image src="/icons/jug.png" alt="" fill className="object-contain" />
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
         <div className="absolute bottom-32 right-20 w-16 h-16  hidden lg:block">
           <Image
-            src="/icons/telephone.png"
+            src={getRandomIcon()}
             alt=""
             fill
             className="object-contain"
@@ -123,32 +124,32 @@ const MasterHeadPage = () => {
         </div>
         <div className="absolute top-24 right-1/3 w-20 h-20  hidden lg:block">
           <Image
-            src="/icons/prisma.png"
+            src={getRandomIcon()}
             alt=""
             fill
             className="object-contain"
           />
         </div>
         <div className="absolute bottom-1/4 left-1/5 w-16 h-16 hidden lg:block">
-          <Image src="/icons/moon.png" alt="" fill className="object-contain" />
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
         <div className="absolute bottom-1/3 left-16 w-20 h-20  hidden lg:block">
           <Image
-            src="/icons/butterfly.png"
+            src={getRandomIcon()}
             alt=""
             fill
             className="object-contain"
           />
         </div>
         <div className="absolute top-2/3 left-1/4 w-16 h-16  hidden lg:block">
-          <Image src="/icons/leaf.png" alt="" fill className="object-contain" />
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
         <div className="absolute bottom-40 left-1/3 w-24 h-24 hidden lg:block">
-          <Image src="/icons/jug.png" alt="" fill className="object-contain" />
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
         <div className="absolute top-1/4 left-1/3 w-14 h-14  hidden lg:block">
           <Image
-            src="/icons/telephone.png"
+            src={getRandomIcon()}
             alt=""
             fill
             className="object-contain"
@@ -156,7 +157,7 @@ const MasterHeadPage = () => {
         </div>
         <div className="absolute bottom-24 right-12 w-26 h-26 hidden lg:block">
           <Image
-            src="/icons/prisma.png"
+            src={getRandomIcon()}
             alt=""
             fill
             className="object-contain"

@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Dialog } from "@/components/ui/Dialog";
 import TransitChart from "@/components/TransitChart";
 import Loader from "@/components/Loader";
+import { getRandomIcon } from "@/utils/astrology";
 
 type DailyPrediction = {
   date: string;
@@ -414,9 +415,9 @@ const DashboardPage = () => {
         <div className="space-y-20">
           <div className="space-y-8">
             <div className="relative">
-              <div className="absolute -right-8 -top-8 w-48 h-48 opacity-20 pointer-events-none hidden lg:block">
+              <div className="absolute -right-8 -top-8 w-72 h-72 z-[-1] opacity-60 pointer-events-none hidden lg:block">
                 <Image
-                  src="/sky.png"
+                  src={`/day/${Math.floor(Math.random() * 15 + 1)}.png`}
                   alt=""
                   width={200}
                   height={200}
@@ -554,7 +555,7 @@ const DashboardPage = () => {
               <div className="hidden md:block shrink-0 text-md">
                 <div className="w-full aspect-square relative">
                   <Image
-                    src="/icons/telephone.png"
+                    src={getRandomIcon()}
                     alt=""
                     fill
                     className="object-contain"
@@ -567,7 +568,7 @@ const DashboardPage = () => {
               <div className="hidden md:block shrink-0 text-md order-2 md:order-1">
                 <div className="w-full aspect-square relative">
                   <Image
-                    src="/icons/jug.png"
+                    src={getRandomIcon()}
                     alt=""
                     fill
                     className="object-contain"
@@ -623,7 +624,7 @@ const DashboardPage = () => {
               <div className="hidden md:block shrink-0 text-md">
                 <div className="w-full aspect-square relative">
                   <Image
-                    src="/icons/leaf.png"
+                    src={getRandomIcon()}
                     alt=""
                     fill
                     className="object-contain"
@@ -636,7 +637,7 @@ const DashboardPage = () => {
               <div className="hidden md:block shrink-0 text-md order-2 md:order-1">
                 <div className="w-full aspect-square relative">
                   <Image
-                    src="/icons/butterfly.png"
+                    src={getRandomIcon()}
                     alt=""
                     fill
                     className="object-contain"
@@ -691,7 +692,7 @@ const DashboardPage = () => {
               <div className="hidden md:block shrink-0 text-md">
                 <div className="w-full aspect-square relative">
                   <Image
-                    src="/icons/jug.png"
+                    src={getRandomIcon()}
                     alt=""
                     fill
                     className="object-contain"
@@ -704,7 +705,7 @@ const DashboardPage = () => {
               <div className="hidden md:block shrink-0 text-md order-2 md:order-1">
                 <div className="w-full aspect-square relative">
                   <Image
-                    src="/icons/prisma.png"
+                    src={getRandomIcon()}
                     alt=""
                     fill
                     className="object-contain"

@@ -1,3 +1,8 @@
+export const getRandomIcon = (): string => {
+  const iconNumber = Math.floor(Math.random() * 13) + 1;
+  return `/icons/${iconNumber}.png`;
+};
+
 export const formatDegrees = (degrees: number): string => {
   const deg = Math.floor(degrees);
   const minutesDecimal = (degrees - deg) * 60;

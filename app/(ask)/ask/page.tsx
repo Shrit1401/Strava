@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import StarryBackground from "@/components/StarryBackground";
 import Image from "next/image";
 import TransitChart from "@/components/TransitChart";
+import { getRandomIcon } from "@/utils/astrology";
 
 const ZODIAC_SIGNS = [
   "Aries",
@@ -31,7 +32,7 @@ const categories: {
   {
     id: "SELF",
     label: "SELF",
-    icon: "/icons/moon.png",
+    icon: getRandomIcon(),
     questions: [
       "WHO AM I?",
       "WHAT DO I REALLY WANT?",
@@ -46,7 +47,7 @@ const categories: {
   {
     id: "LOVE",
     label: "LOVE",
-    icon: "/icons/butterfly.png",
+    icon: getRandomIcon(),
     questions: [
       "AM I READY FOR LOVE?",
       "WHAT AM I LOOKING FOR IN A PARTNER?",
@@ -61,7 +62,7 @@ const categories: {
   {
     id: "WORK",
     label: "WORK",
-    icon: "/icons/jug.png",
+    icon: getRandomIcon(),
     questions: [
       "AM I FULFILLED IN MY CAREER?",
       "WHAT IS MY CALLING?",
@@ -76,7 +77,7 @@ const categories: {
   {
     id: "SOCIAL",
     label: "SOCIAL",
-    icon: "/icons/leaf.png",
+    icon: getRandomIcon(),
     questions: [
       "IS THIS THE YEAR TO LET SOME FRIENDSHIPS GO?",
       "DO I HAVE TOO MANY FRIENDS?",
@@ -289,7 +290,7 @@ const AskPage = () => {
                 <div className="relative mb-8">
                   <div className="w-24 h-24 moon-glow">
                     <Image
-                      src="/icons/moon.png"
+                      src={getRandomIcon()}
                       alt="Moon"
                       width={96}
                       height={96}

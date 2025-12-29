@@ -216,26 +216,26 @@ Tone: ${tone}
 Logical Bullets: ${logicalBullets.join(", ")}
 
 CRITICAL INSTRUCTIONS:
-- Write in second person ("you", "your") speaking directly to the person
-- Focus 80% on HOW THIS AFFECTS THEM PERSONALLY - their thinking patterns, mental clarity, creative flow, how their mind works today
-- Focus 20% on the astrology (brief mention is fine)
-- Make it deeply emotional and reflective - help them understand their mental and creative experience
-- Use phrases like "You might notice yourself...", "You may feel...", "Pay attention to how you're thinking...", "This could show up as..."
-- Describe their inner experience of thinking and creativity - what does this feel like? How is their mind working?
-- Help them understand that creative and intellectual energy moves in waves
-- Make it feel like a trusted mentor helping them understand their thinking patterns
-- The tone should be supportive and encouraging
-- Do not introduce new planets beyond Moon, Mercury, and Uranus
-- Do not mention astrology terms not provided
-- Do not make absolute claims
+Write in second person ("you", "your") speaking directly to the person
+Focus 80% on HOW THIS AFFECTS THEM PERSONALLY: their thinking patterns, mental clarity, creative flow, how their mind works today
+Focus 20% on the astrology (brief mention is fine)
+Make it deeply emotional and reflective: help them understand their mental and creative experience
+Use phrases like "You might notice yourself...", "You may feel...", "Pay attention to how you're thinking...", "This could show up as..."
+Describe their inner experience of thinking and creativity: what does this feel like? How is their mind working?
+Help them understand that creative and intellectual energy moves in waves
+Make it feel like a trusted mentor helping them understand their thinking patterns
+The tone should be supportive and encouraging
+Do not introduce new planets beyond Moon, Mercury, and Uranus
+Do not mention astrology terms not provided
+Do not make absolute claims
 
 Generate exactly three outputs:
 
-1. One paragraph summary (under "Thinking & Creativity" title) - 3-4 sentences describing HOW THEY'RE EXPERIENCING THEIR THINKING AND CREATIVITY TODAY. What might they notice about their mental clarity? How might their thoughts feel - focused or scattered? What patterns might emerge?
+1. One paragraph summary (under "Thinking & Creativity" title): 3-4 sentences describing HOW THEY'RE EXPERIENCING THEIR THINKING AND CREATIVITY TODAY. What might they notice about their mental clarity? How might their thoughts feel: focused or scattered? What patterns might emerge?
 
-2. One explanatory paragraph (under the graph) - 3-4 sentences that BRIEFLY mentions the Moon-Mercury/Uranus relationship but FOCUSES on what this means FOR THEM. How does this show up in their thinking? What does this reveal about their mental patterns and creative capacity?
+2. One explanatory paragraph (under the graph): 3-4 sentences that BRIEFLY mentions the Moon and Mercury/Uranus relationship but FOCUSES on what this means FOR THEM. How does this show up in their thinking? What does this reveal about their mental patterns and creative capacity?
 
-3. One closing encouragement paragraph - 3-4 sentences offering deep, personal reflection. Help them understand their thinking patterns better. What should they pay attention to? What might this teach them about honoring different modes of thinking - focused reasoning vs free association?
+3. One closing encouragement paragraph: 3-4 sentences offering deep, personal reflection. Help them understand their thinking patterns better. What should they pay attention to? What might this teach them about honoring different modes of thinking: focused reasoning vs free association?
 
 Format your response as JSON:
 {
@@ -266,34 +266,34 @@ Format your response as JSON:
     }
   }
 
-  let summary = "You might notice yourself feeling more aware of your thinking patterns today. Perhaps you're feeling more focused, or maybe you're noticing that your thoughts feel more scattered or creative. Pay attention to how you're experiencing your mind—this is showing you something important about your mental capacity.";
-  let explanation = "Your thinking and creativity are asking for more attention today. You might find yourself feeling more aware of how your mind processes information, or noticing that your thoughts feel either sharper or more scattered. Notice how this shows up for you—are you feeling more focused? More creative? Your reactions are revealing something important about your authentic mental patterns.";
-  let encouragement = "When you notice yourself feeling more focused or more scattered, trust that. Creative and intellectual energy moves in waves—some days favor focused reasoning, while others favor free association and creative exploration. Both modes are valuable. Not all thinking needs to be efficient to be valuable. What are your reactions showing you about how your mind works?";
+  let summary = "You might notice yourself feeling more aware of your thinking patterns today. Perhaps you're feeling more focused, or maybe you're noticing that your thoughts feel more scattered or creative. Pay attention to how you're experiencing your mind. This is showing you something important about your mental capacity.";
+  let explanation = "Your thinking and creativity are asking for more attention today. You might find yourself feeling more aware of how your mind processes information, or noticing that your thoughts feel either sharper or more scattered. Notice how this shows up for you. Are you feeling more focused? More creative? Your reactions are revealing something important about your authentic mental patterns.";
+  let encouragement = "When you notice yourself feeling more focused or more scattered, trust that. Creative and intellectual energy moves in waves. Some days favor focused reasoning, while others favor free association and creative exploration. Both modes are valuable. Not all thinking needs to be efficient to be valuable. What are your reactions showing you about how your mind works?";
 
   if (moonHouse === 3) {
-    summary = "You might notice yourself feeling more aware of your thinking and communication today. Perhaps you're feeling more curious, or maybe you're noticing that your mental processes feel more active. Pay attention to how you're experiencing your thoughts—this is showing you something important about how your mind works.";
-    explanation = `Your thinking and communication are being activated today. You might find yourself feeling more aware of how you process information, or noticing that you're more focused on learning and communication. Notice how this shows up for you—are you feeling more curious? More able to express ideas? Your reactions are revealing something important about your authentic mental patterns.`;
-    encouragement = "When you notice yourself feeling more focused or more scattered, trust that. Some days favor focused reasoning, while others favor free association and creative exploration. Both modes are valuable. If your thoughts feel sharper today, embrace that. If they feel scattered, honor that too—it's not a flaw but a different mode of thinking. What are your reactions showing you about how your mind works?";
+    summary = "You might notice yourself feeling more aware of your thinking and communication today. Perhaps you're feeling more curious, or maybe you're noticing that your mental processes feel more active. Pay attention to how you're experiencing your thoughts. This is showing you something important about how your mind works.";
+    explanation = `Your thinking and communication are being activated today. You might find yourself feeling more aware of how you process information, or noticing that you're more focused on learning and communication. Notice how this shows up for you. Are you feeling more curious? More able to express ideas? Your reactions are revealing something important about your authentic mental patterns.`;
+    encouragement = "When you notice yourself feeling more focused or more scattered, trust that. Some days favor focused reasoning, while others favor free association and creative exploration. Both modes are valuable. If your thoughts feel sharper today, embrace that. If they feel scattered, honor that too. It's not a flaw but a different mode of thinking. What are your reactions showing you about how your mind works?";
   }
 
   if (moonHouse === 5) {
-    summary = "You might notice yourself feeling more drawn to creative expression and play today. Perhaps you're feeling more imaginative, or maybe you're noticing that your thinking feels more playful or experimental. Pay attention to how you're experiencing your creativity—this is showing you something important about your capacity for inspiration.";
-    explanation = `Your creativity and play are being activated today. You might find yourself feeling more drawn to creative projects, or noticing that you're more open to inspiration and free association. Notice how this shows up for you—are you feeling more playful? More willing to explore ideas? Your reactions are revealing something important about your authentic creative patterns.`;
-    encouragement = "When you notice yourself feeling more creative or more scattered, trust that. Some days favor focused reasoning, while others favor free association and creative exploration. Both modes are valuable. If your thoughts feel more imaginative today, embrace that. If they feel scattered, honor that too—it's not a flaw but a different mode of thinking. Allow yourself to explore ideas without pressure to be productive. What are your reactions showing you about your creative capacity?";
+    summary = "You might notice yourself feeling more drawn to creative expression and play today. Perhaps you're feeling more imaginative, or maybe you're noticing that your thinking feels more playful or experimental. Pay attention to how you're experiencing your creativity. This is showing you something important about your capacity for inspiration.";
+    explanation = `Your creativity and play are being activated today. You might find yourself feeling more drawn to creative projects, or noticing that you're more open to inspiration and free association. Notice how this shows up for you. Are you feeling more playful? More willing to explore ideas? Your reactions are revealing something important about your authentic creative patterns.`;
+    encouragement = "When you notice yourself feeling more creative or more scattered, trust that. Some days favor focused reasoning, while others favor free association and creative exploration. Both modes are valuable. If your thoughts feel more imaginative today, embrace that. If they feel scattered, honor that too. It's not a flaw but a different mode of thinking. Allow yourself to explore ideas without pressure to be productive. What are your reactions showing you about your creative capacity?";
   }
 
   if (moonAspect.planet === "Mercury" && moonAspect.aspectType) {
     const aspectLower = moonAspect.aspectType.toLowerCase();
-    summary = "You might notice yourself feeling more focused or clear in your thinking today. Perhaps you're feeling more able to process information, or maybe you're noticing that your mental clarity feels more accessible. Pay attention to how you're experiencing your thoughts—this is showing you something important about your mental capacity.";
-    explanation = `Your mental processing and clarity are being activated today. You might find yourself feeling more aware of how your mind works, or noticing that you're more able to process information clearly. Notice how this shows up for you—are you feeling more focused? More able to communicate ideas? Your reactions are revealing something important about your authentic mental patterns.`;
-    encouragement = "When you notice yourself feeling more focused, honor that. However, remember that creative and intellectual energy moves in waves. Some days favor focused reasoning, while others favor free association and creative exploration. Both modes are valuable. If your thoughts feel scattered today, that's okay—it's not a flaw but a different mode of thinking. What are your reactions showing you about how your mind works?";
+    summary = "You might notice yourself feeling more focused or clear in your thinking today. Perhaps you're feeling more able to process information, or maybe you're noticing that your mental clarity feels more accessible. Pay attention to how you're experiencing your thoughts. This is showing you something important about your mental capacity.";
+    explanation = `Your mental processing and clarity are being activated today. You might find yourself feeling more aware of how your mind works, or noticing that you're more able to process information clearly. Notice how this shows up for you. Are you feeling more focused? More able to communicate ideas? Your reactions are revealing something important about your authentic mental patterns.`;
+    encouragement = "When you notice yourself feeling more focused, honor that. However, remember that creative and intellectual energy moves in waves. Some days favor focused reasoning, while others favor free association and creative exploration. Both modes are valuable. If your thoughts feel scattered today, that's okay. It's not a flaw but a different mode of thinking. What are your reactions showing you about how your mind works?";
   }
 
   if (moonAspect.planet === "Uranus" && moonAspect.aspectType) {
     const aspectLower = moonAspect.aspectType.toLowerCase();
-    summary = "You might notice yourself feeling more open to unexpected ideas or sudden insights today. Perhaps you're feeling more creative, or maybe you're noticing that your thoughts are jumping and connecting in unusual ways. Pay attention to how you're experiencing your thinking—this is showing you something important about your capacity for originality.";
-    explanation = `Your originality and sudden insights are being activated today. You might find yourself feeling more aware of how your thoughts connect in unexpected ways, or noticing that you're more open to nonlinear thinking. Notice how this shows up for you—are you feeling more creative? More willing to explore ideas without a straight path? Your reactions are revealing something important about your authentic creative patterns.`;
-    encouragement = "When you notice yourself thinking in scattered or nonlinear ways, trust that. This isn't a flaw—it's a different mode of thinking. Some days favor focused reasoning, while others favor free association and creative exploration. Both modes are valuable. Your sudden insights and original connections are gifts, even if they don't follow a straight path. What are your reactions showing you about your creative capacity?";
+    summary = "You might notice yourself feeling more open to unexpected ideas or sudden insights today. Perhaps you're feeling more creative, or maybe you're noticing that your thoughts are jumping and connecting in unusual ways. Pay attention to how you're experiencing your thinking. This is showing you something important about your capacity for originality.";
+    explanation = `Your originality and sudden insights are being activated today. You might find yourself feeling more aware of how your thoughts connect in unexpected ways, or noticing that you're more open to nonlinear thinking. Notice how this shows up for you. Are you feeling more creative? More willing to explore ideas without a straight path? Your reactions are revealing something important about your authentic creative patterns.`;
+    encouragement = "When you notice yourself thinking in scattered or nonlinear ways, trust that. This isn't a flaw. It's a different mode of thinking. Some days favor focused reasoning, while others favor free association and creative exploration. Both modes are valuable. Your sudden insights and original connections are gifts, even if they don't follow a straight path. What are your reactions showing you about your creative capacity?";
   }
 
   if (!moonAspect.aspectType && moonHouse !== 3 && moonHouse !== 5) {

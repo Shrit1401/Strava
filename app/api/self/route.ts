@@ -218,26 +218,26 @@ Tone: ${tone}
 Logical Bullets: ${logicalBullets.join(", ")}
 
 CRITICAL INSTRUCTIONS:
-- Write in second person ("you", "your") speaking directly to the person
-- Focus 80% on HOW THIS AFFECTS THEM PERSONALLY - their emotional experience, reactions, sensitivity, inner world
-- Focus 20% on the astrology (brief mention is fine)
-- Make it deeply emotional and reflective - help them understand what they're feeling
-- Use phrases like "You might notice yourself...", "You may feel...", "Pay attention to how you're reacting...", "This could show up as..."
-- Describe their inner emotional experience in detail - what does this feel like?
-- Help them understand why their reactions feel closer to the surface
-- Make it feel like a trusted friend helping them understand their emotional patterns
-- The tone should be gentle and reassuring - NOT saying something is wrong
-- Do not introduce new planets beyond Moon, Saturn, and Mars
-- Do not mention astrology terms not provided
-- Do not make absolute claims
+Write in second person ("you", "your") speaking directly to the person
+Focus 80% on HOW THIS AFFECTS THEM PERSONALLY: their emotional experience, reactions, sensitivity, inner world
+Focus 20% on the astrology (brief mention is fine)
+Make it deeply emotional and reflective: help them understand what they're feeling
+Use phrases like "You might notice yourself...", "You may feel...", "Pay attention to how you're reacting...", "This could show up as..."
+Describe their inner emotional experience in detail: what does this feel like?
+Help them understand why their reactions feel closer to the surface
+Make it feel like a trusted friend helping them understand their emotional patterns
+The tone should be gentle and reassuring: NOT saying something is wrong
+Do not introduce new planets beyond Moon, Saturn, and Mars
+Do not mention astrology terms not provided
+Do not make absolute claims
 
 Generate exactly three outputs:
 
-1. One paragraph summary (under "Self" title) - 3-4 sentences describing HOW THEY'RE EXPERIENCING THEIR INNER WORLD TODAY. What might they notice about their emotional state? How might their reactions feel different? What patterns might emerge?
+1. One paragraph summary (under "Self" title): 3-4 sentences describing HOW THEY'RE EXPERIENCING THEIR INNER WORLD TODAY. What might they notice about their emotional state? How might their reactions feel different? What patterns might emerge?
 
-2. One explanatory paragraph (under the graph) - 3-4 sentences that BRIEFLY mentions the Moon's activation but FOCUSES on what this means FOR THEM. How does this show up in their emotional experience? What does this reveal about their needs for care and gentleness?
+2. One explanatory paragraph (under the graph): 3-4 sentences that BRIEFLY mentions the Moon's activation but FOCUSES on what this means FOR THEM. How does this show up in their emotional experience? What does this reveal about their needs for care and gentleness?
 
-3. One closing encouragement paragraph - 3-4 sentences offering deep, personal reflection. Help them understand their emotional patterns better. What should they pay attention to? What might this teach them about their need for self-care?
+3. One closing encouragement paragraph: 3-4 sentences offering deep, personal reflection. Help them understand their emotional patterns better. What should they pay attention to? What might this teach them about their need for self-care?
 
 Format your response as JSON:
 {
@@ -268,31 +268,31 @@ Format your response as JSON:
     }
   }
 
-  let summary = "You might notice yourself feeling more sensitive today—your reactions might feel closer to the surface, or maybe you're noticing that things that usually don't bother you are stinging more than usual. Pay attention to how you're responding emotionally—this sensitivity is showing you something important about what you need right now.";
-  let explanation = "Your emotional world is asking for more attention today. You might find yourself feeling more aware of your reactions, or noticing that your usual defenses feel thinner. This isn't a flaw—it's your system telling you that you need more care and gentleness. Notice how you're responding to things—are you feeling more vulnerable? More reactive? Your reactions are teaching you about your emotional needs.";
-  let encouragement = "When you notice yourself feeling more sensitive, pause and ask yourself what you need. What feels like it's missing? What boundary needs to be set? Your reactions aren't random—they're information about your deepest needs. Be gentle with yourself today. Your emotional skin is thinner, which means you need more care and awareness, not that something is wrong with you.";
+  let summary = "You might notice yourself feeling more sensitive today. Your reactions might feel closer to the surface, or maybe you're noticing that things that usually don't bother you are stinging more than usual. Pay attention to how you're responding emotionally. This sensitivity is showing you something important about what you need right now.";
+  let explanation = "Your emotional world is asking for more attention today. You might find yourself feeling more aware of your reactions, or noticing that your usual defenses feel thinner. This isn't a flaw. It's your system telling you that you need more care and gentleness. Notice how you're responding to things. Are you feeling more vulnerable? More reactive? Your reactions are teaching you about your emotional needs.";
+  let encouragement = "When you notice yourself feeling more sensitive, pause and ask yourself what you need. What feels like it's missing? What boundary needs to be set? Your reactions aren't random. They're information about your deepest needs. Be gentle with yourself today. Your emotional skin is thinner, which means you need more care and awareness, not that something is wrong with you.";
 
   if (moonAspect.planet === "Saturn" && moonAspect.aspectType) {
     const aspectLower = moonAspect.aspectType.toLowerCase();
     if (aspectLower === "square" || aspectLower === "opposition" || aspectLower === "conjunction") {
-      summary = "You might notice yourself feeling more serious or burdened today. Perhaps you're feeling more sensitive to criticism, or maybe you're noticing that your inner critic is louder than usual. Pay attention to how this shows up—are you feeling more self-critical? More aware of your limitations? These feelings are showing you something important about what you need emotionally.";
-      explanation = `Today's energy activates themes of emotional weight and restraint. You might find yourself feeling more aware of your limitations, or noticing that self-criticism comes up more easily. Notice how this shows up for you—are you feeling more serious? More burdened by responsibility? Your reactions are revealing something important about your emotional patterns. This isn't a flaw—it's your system asking you to pay attention to your boundaries and to be more careful with yourself. The pressure you're feeling is information about what you need.`;
-      encouragement = "When you notice yourself feeling self-critical or burdened, pause and ask yourself what need isn't being met. What boundary needs to be set or respected? Your reactions are teaching you about your deepest needs. Instead of judging yourself for feeling this way, try to understand what your emotional system is trying to tell you. Be gentle with yourself—your inner world requires more awareness and gentleness right now, not more criticism.";
+      summary = "You might notice yourself feeling more serious or burdened today. Perhaps you're feeling more sensitive to criticism, or maybe you're noticing that your inner critic is louder than usual. Pay attention to how this shows up. Are you feeling more self-critical? More aware of your limitations? These feelings are showing you something important about what you need emotionally.";
+      explanation = `Today's energy activates themes of emotional weight and restraint. You might find yourself feeling more aware of your limitations, or noticing that self-criticism comes up more easily. Notice how this shows up for you. Are you feeling more serious? More burdened by responsibility? Your reactions are revealing something important about your emotional patterns. This isn't a flaw. It's your system asking you to pay attention to your boundaries and to be more careful with yourself. The pressure you're feeling is information about what you need.`;
+      encouragement = "When you notice yourself feeling self-critical or burdened, pause and ask yourself what need isn't being met. What boundary needs to be set or respected? Your reactions are teaching you about your deepest needs. Instead of judging yourself for feeling this way, try to understand what your emotional system is trying to tell you. Be gentle with yourself. Your inner world requires more awareness and gentleness right now, not more criticism.";
     }
   }
 
   if (moonAspect.planet === "Mars" && moonAspect.aspectType) {
     const aspectLower = moonAspect.aspectType.toLowerCase();
     if (aspectLower === "square" || aspectLower === "opposition" || aspectLower === "conjunction") {
-      summary = "You might notice yourself reacting more quickly today—perhaps you're feeling irritated more easily, or maybe you're noticing that your defenses come up faster than usual. Pay attention to how you're responding emotionally—are you feeling more reactive? More defensive? These reactions are showing you something important about what feels threatening or what boundaries feel crossed.";
-      explanation = `Today's energy activates themes of emotional reactivity and defensiveness. You might find yourself feeling more easily irritated, or noticing that your emotional responses come up faster than usual. Notice how this shows up for you—are you feeling more defensive? More protective of your boundaries? Your reactions are revealing something important about what matters to you and what feels threatening. This isn't about you being too sensitive—it's your system responding more quickly to protect you.`;
-      encouragement = "When you notice yourself reacting quickly, pause and ask yourself what you're responding to. What feels threatening? What boundary feels crossed? Your defensiveness or irritation is information about what matters to you. Instead of judging your reactions, try to understand what they're protecting. Take time to pause before reacting, and remember that your emotional skin is thinner today—this means you need more care and awareness, not that something is wrong with you.";
+      summary = "You might notice yourself reacting more quickly today. Perhaps you're feeling irritated more easily, or maybe you're noticing that your defenses come up faster than usual. Pay attention to how you're responding emotionally. Are you feeling more reactive? More defensive? These reactions are showing you something important about what feels threatening or what boundaries feel crossed.";
+      explanation = `Today's energy activates themes of emotional reactivity and defensiveness. You might find yourself feeling more easily irritated, or noticing that your emotional responses come up faster than usual. Notice how this shows up for you. Are you feeling more defensive? More protective of your boundaries? Your reactions are revealing something important about what matters to you and what feels threatening. This isn't about you being too sensitive. It's your system responding more quickly to protect you.`;
+      encouragement = "When you notice yourself reacting quickly, pause and ask yourself what you're responding to. What feels threatening? What boundary feels crossed? Your defensiveness or irritation is information about what matters to you. Instead of judging your reactions, try to understand what they're protecting. Take time to pause before reacting, and remember that your emotional skin is thinner today. This means you need more care and awareness, not that something is wrong with you.";
     }
   }
 
   if (!moonAspect.aspectType) {
     const angleText = aspectAngle ? `approximately ${Math.round(aspectAngle)} degrees` : "some distance";
-    explanation = `The Moon is currently ${angleText} away from your natal Saturn and Mars positions. While there isn't a tight aspect activating these planets, the Moon's movement through ${moonSign} in the ${moonHouse}th house still brings attention to your inner emotional state. The Moon represents your emotional skin—how safe or exposed you feel, your instincts, and your daily emotional responses. Even without a major activation, the Moon's position invites you to notice your inner world and to be aware of how you're feeling emotionally.`;
+    explanation = `The Moon is currently ${angleText} away from your natal Saturn and Mars positions. While there isn't a tight aspect activating these planets, the Moon's movement through ${moonSign} in the ${moonHouse}th house still brings attention to your inner emotional state. The Moon represents your emotional skin: how safe or exposed you feel, your instincts, and your daily emotional responses. Even without a major activation, the Moon's position invites you to notice your inner world and to be aware of how you're feeling emotionally.`;
   }
 
   return {

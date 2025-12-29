@@ -1,121 +1,49 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import NatalChart from "@/components/NatalChart";
+import Loader from "@/components/Loader";
 import { ChartData } from "@/types/chart";
 import Image from "next/image";
+import { createClient } from "@/lib/supabase/client";
+import {
+  PLANET_MEANINGS,
+  SIGN_MEANINGS,
+  HOUSE_MEANINGS,
+} from "@/constants/astrology";
 
-const getSignIndex = (sign: string): number => {
-  const signs = [
-    "Aries",
-    "Taurus",
-    "Gemini",
-    "Cancer",
-    "Leo",
-    "Virgo",
-    "Libra",
-    "Scorpio",
-    "Sagittarius",
-    "Capricorn",
-    "Aquarius",
-    "Pisces",
-  ];
-  return signs.indexOf(sign);
-};
-
-const getLongitude = (sign: string, degree: number = 15): number => {
-  const signIndex = getSignIndex(sign);
-  return signIndex * 30 + degree;
-};
-
-const createChartData = (): ChartData => {
-  return {
-    utc: "2008-01-14T05:30:00Z",
-    ist: "2008-01-14T11:00:00",
-    planets: {
-      sun: {
-        longitude: getLongitude("Capricorn", 23),
-        sign: "Capricorn",
-        signIndex: getSignIndex("Capricorn"),
-        degreeInsideSign: 23,
-      },
-      moon: {
-        longitude: getLongitude("Aries", 12),
-        sign: "Aries",
-        signIndex: getSignIndex("Aries"),
-        degreeInsideSign: 12,
-      },
-      mercury: {
-        longitude: getLongitude("Aquarius", 8),
-        sign: "Aquarius",
-        signIndex: getSignIndex("Aquarius"),
-        degreeInsideSign: 8,
-      },
-      venus: {
-        longitude: getLongitude("Sagittarius", 18),
-        sign: "Sagittarius",
-        signIndex: getSignIndex("Sagittarius"),
-        degreeInsideSign: 18,
-      },
-      mars: {
-        longitude: getLongitude("Gemini", 5),
-        sign: "Gemini",
-        signIndex: getSignIndex("Gemini"),
-        degreeInsideSign: 5,
-      },
-      jupiter: {
-        longitude: getLongitude("Capricorn", 15),
-        sign: "Capricorn",
-        signIndex: getSignIndex("Capricorn"),
-        degreeInsideSign: 15,
-      },
-      saturn: {
-        longitude: getLongitude("Virgo", 22),
-        sign: "Virgo",
-        signIndex: getSignIndex("Virgo"),
-        degreeInsideSign: 22,
-      },
-      uranus: {
-        longitude: getLongitude("Pisces", 19),
-        sign: "Pisces",
-        signIndex: getSignIndex("Pisces"),
-        degreeInsideSign: 19,
-      },
-      neptune: {
-        longitude: getLongitude("Aquarius", 3),
-        sign: "Aquarius",
-        signIndex: getSignIndex("Aquarius"),
-        degreeInsideSign: 3,
-      },
-      pluto: {
-        longitude: getLongitude("Sagittarius", 28),
-        sign: "Sagittarius",
-        signIndex: getSignIndex("Sagittarius"),
-        degreeInsideSign: 28,
-      },
-    },
-    ascendant: {
-      longitude: getLongitude("Aries", 4),
-      sign: "Aries",
-      signIndex: getSignIndex("Aries"),
-      degreeInsideSign: 4,
-    },
-    houses: null,
-    planetHouses: {
-      sun: 10,
-      moon: 12,
-      mercury: 11,
-      venus: 9,
-      mars: 3,
-      jupiter: 10,
-      saturn: 6,
-      uranus: 12,
-      neptune: 11,
-      pluto: 9,
-      ascendant: 1,
-    },
-    aspects: [],
-    houseSystem: "Placidus",
+type SelfData = {
+  theme: string;
+  signalStrength: "Pressure" | "Neutral" | "Supportive";
+  moonAspect: {
+    planet: "Saturn" | "Mars" | null;
+    aspectType: string | null;
+    angle: number | null;
   };
+  moonToday: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  moonHouse: number;
+  moonSign: string;
+  natalSaturn: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  natalMars: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  summary: string;
+  explanation: string;
+  encouragement: string;
+  logicalBullets: string[];
 };
 
 const getPlanetIcon = (planetName: string): string => {
@@ -138,59 +66,66 @@ const getPlanetIcon = (planetName: string): string => {
 const getPlanetDescription = (
   planetName: string,
   sign: string,
-  house: number
+  house: number,
+  selfData: SelfData | null
 ): string => {
-  const descriptions: Record<string, Record<string, string>> = {
-    sun: {
-      Capricorn:
-        "The Sun represents your ego, identity, and core self. In Capricorn, you are responsible, serious, efficient, rational, ambitious, and workaholic. You may be emotionally reserved and focused on achieving your goals.",
-    },
-    moon: {
-      Aries:
-        "The Moon represents your emotions, moods, and feelings. In Aries, you have an independent, energetic, and enthusiastic emotional self. You may have a tendency to feel inadequate or overcompensate due to fear of failure.",
-    },
-    ascendant: {
-      Aries:
-        "The Ascendant represents your outward personality and how others perceive you. In Aries, you present yourself as bold, independent, and action-oriented. You have a natural leadership presence and aren't afraid to take initiative.",
-    },
-    mercury: {
-      Aquarius:
-        "Mercury represents your mind, communication, and thinking style. In Aquarius, you think in innovative, unconventional ways. You're intellectually independent, value freedom of thought, and excel at seeing the bigger picture.",
-    },
-    venus: {
-      Sagittarius:
-        "Venus represents love, beauty, and what you value. In Sagittarius, you seek adventure in relationships and are attracted to people who share your love of exploration and learning. You value freedom and honesty in love.",
-    },
-    mars: {
-      Gemini:
-        "Mars represents your aggression, assertion, action, and energy. It influences your sex life, ambition, and how you express anger. In Gemini, you have quick, heady assertion and are energetic but sometimes unfocused.",
-    },
-    jupiter: {
-      Capricorn:
-        "Jupiter represents expansion, growth, and your philosophy of life. In Capricorn, you find growth through discipline, structure, and long-term planning. You expand through responsibility and achieving your ambitions.",
-    },
-    saturn: {
-      Virgo:
-        "Saturn represents structure, discipline, and your limitations. In Virgo, you find structure through attention to detail, service, and practical work. You may be critical of yourself and others, but this helps you refine and improve.",
-    },
-    uranus: {
-      Pisces:
-        "Uranus represents innovation, rebellion, and sudden change. In Pisces, your uniqueness comes through intuition, creativity, and spiritual insights. You break free from limitations through imagination and compassion.",
-    },
-    neptune: {
-      Aquarius:
-        "Neptune represents dreams, illusions, and spirituality. In Aquarius, your dreams are connected to humanitarian ideals and collective consciousness. You may have visionary ideas about the future of humanity.",
-    },
-    pluto: {
-      Sagittarius:
-        "Pluto represents transformation, power, and deep psychological change. In Sagittarius, your transformation comes through expanding your beliefs, exploring different philosophies, and seeking deeper meaning in life.",
-    },
-  };
+  const planetMeaning = PLANET_MEANINGS[planetName.toLowerCase()] || "";
+  const signMeaning = SIGN_MEANINGS[sign] || "";
+  const houseMeaning = HOUSE_MEANINGS[house] || "";
 
-  return (
-    descriptions[planetName.toLowerCase()]?.[sign] ||
-    `${planetName} in ${sign} influences your chart in unique ways.`
-  );
+  let baseDescription = `The ${planetName} represents ${planetMeaning}. In ${sign}, you express this through ${signMeaning} ways.`;
+
+  if (house > 0) {
+    baseDescription += ` It's in your ${house}th house, meaning it influences ${houseMeaning}.`;
+  }
+
+  if (planetName.toLowerCase() === "moon" && selfData) {
+    baseDescription += ` Today, the Moon's movement through ${selfData.moonSign} activates your emotional sensitivity. ${selfData.summary}`;
+  }
+
+  if (
+    planetName.toLowerCase() === "saturn" &&
+    selfData?.moonAspect.planet === "Saturn"
+  ) {
+    baseDescription += ` Today's Moon activation brings attention to how Saturn's themes of restraint and structure show up in your emotional world. You might notice yourself feeling more serious or burdened, or perhaps more aware of your limitations. This isn't a flaw—it's your system asking you to pay attention to your boundaries and to be more careful with yourself.`;
+  }
+
+  if (
+    planetName.toLowerCase() === "mars" &&
+    selfData?.moonAspect.planet === "Mars"
+  ) {
+    baseDescription += ` Today's Moon activation highlights how Mars's themes of action and assertion influence your emotional responses. You might find yourself reacting more quickly, feeling more easily irritated, or noticing that your defenses come up faster than usual. Your reactions are revealing something important about what matters to you and what feels threatening.`;
+  }
+
+  if (planetName.toLowerCase() === "sun") {
+    baseDescription += ` This is your core identity—how you see yourself and how you want to be seen. Notice how this shows up in your daily life. What patterns do you recognize?`;
+  }
+
+  if (planetName.toLowerCase() === "venus") {
+    baseDescription += ` This reveals what you value, what you're attracted to, and how you give and receive love. Pay attention to how these themes show up in your relationships and choices.`;
+  }
+
+  if (planetName.toLowerCase() === "mercury") {
+    baseDescription += ` This influences how you think, communicate, and process information. Notice how your mind works—what patterns do you see in your thoughts?`;
+  }
+
+  if (planetName.toLowerCase() === "jupiter") {
+    baseDescription += ` This shows where you find expansion, growth, and meaning. Where do you seek wisdom? How do you grow?`;
+  }
+
+  if (planetName.toLowerCase() === "uranus") {
+    baseDescription += ` This reveals where you break free from limitations, where you innovate, and where sudden change might enter your life.`;
+  }
+
+  if (planetName.toLowerCase() === "neptune") {
+    baseDescription += ` This connects you to dreams, intuition, and the spiritual realm. Notice where illusion and inspiration meet in your life.`;
+  }
+
+  if (planetName.toLowerCase() === "pluto") {
+    baseDescription += ` This shows where deep transformation happens, where power dynamics play out, and where you experience profound change.`;
+  }
+
+  return baseDescription;
 };
 
 const getHouseDescription = (house: number): string => {
@@ -207,8 +142,56 @@ const getHouseDescription = (house: number): string => {
 };
 
 const YouPage = () => {
-  const chartData = createChartData();
-  const userName = "Shrit Shrivastava";
+  const [chartData, setChartData] = useState<ChartData | null>(null);
+  const [userName, setUserName] = useState("");
+  const [selfData, setSelfData] = useState<SelfData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const supabase = createClient();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
+        if (user) {
+          const name =
+            user.user_metadata?.full_name ||
+            user.user_metadata?.name ||
+            user.email?.split("@")[0] ||
+            "";
+          setUserName(name);
+        }
+
+        const [chartResponse, selfResponse] = await Promise.all([
+          fetch("/api/natal-chart"),
+          fetch("/api/self"),
+        ]);
+
+        if (chartResponse.ok) {
+          const chartResult = await chartResponse.json();
+          setChartData(chartResult.chart);
+        }
+
+        if (selfResponse.ok) {
+          const selfResult = await selfResponse.json();
+          setSelfData(selfResult.self);
+        }
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading || !chartData) {
+    return <Loader />;
+  }
 
   const planetsData = [
     {
@@ -301,7 +284,7 @@ const YouPage = () => {
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 pt-32 pb-40">
         <div className="text-center">
           <h1 className="text-5xl md:text-6xl cormorant font-light mb-3 tracking-tight">
-            {userName}
+            {userName || "You"}
           </h1>
           <div className="text-sm text-gray-500 tracking-wider flex items-center justify-center gap-3">
             <div className="flex items-center gap-1.5">
@@ -343,6 +326,21 @@ const YouPage = () => {
           <NatalChart chart={chartData} />
         </div>
 
+        {selfData && (
+          <div className="max-w-3xl mx-auto mb-20 pt-12 border-t border-black/5">
+            <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 mb-6">
+              Today&apos;s Reflection
+            </p>
+            <div className="space-y-6 text-base text-black/80 leading-relaxed">
+              <p className="cormorant text-xl font-light text-black mb-4">
+                {selfData.summary}
+              </p>
+              <p>{selfData.explanation}</p>
+              <p className="italic text-black/70">{selfData.encouragement}</p>
+            </div>
+          </div>
+        )}
+
         <div className="max-w-7xl mx-auto space-y-20 pt-16">
           {planetsData.map((planet, index) => {
             const layout = getCardLayout(index);
@@ -350,7 +348,8 @@ const YouPage = () => {
             const description = getPlanetDescription(
               planet.name,
               planet.sign,
-              planet.house
+              planet.house,
+              selfData
             );
             const houseDesc = getHouseDescription(planet.house);
 

@@ -261,7 +261,7 @@ const callGemini = async (
       const genAI = new GoogleGenerativeAI(apiKey);
       const model = genAI.getGenerativeModel({ model: GEMINI_MODEL });
 
-      const prompt = `You are writing a deeply personal daily reflection about THIS PERSON'S experience today. Write as if speaking directly to them about their inner world, feelings, and patterns. The astrology has already been calculated - focus on HOW IT AFFECTS THEM PERSONALLY.
+      const prompt = `You are writing a deeply personal daily reflection about THIS PERSON'S experience today. Write as if speaking directly to them about their inner world, feelings, and patterns. The astrology has already been calculated. Focus on HOW IT AFFECTS THEM PERSONALLY.
 
 Theme: ${theme}
 Tone: ${tone}
@@ -270,42 +270,42 @@ DON'T list: ${dontList.join(", ")}
 Signals: ${JSON.stringify(signals)}
 
 CRITICAL INSTRUCTIONS:
-- Write in second person ("you", "your") speaking directly to the person
-- Focus 80% on HOW THIS AFFECTS THEM PERSONALLY - their feelings, reactions, patterns, inner experience
-- Focus 20% on astrology (brief mentions are fine, but make it about them)
-- Make it deeply emotional and reflective - help them understand what they're experiencing
-- Use phrases like "You might notice yourself...", "You may feel...", "Pay attention to how...", "This could show up as..."
-- Describe their inner experience in vivid detail - what does this feel like emotionally and mentally?
-- Help them understand their patterns and reactions
-- Make it feel like a trusted friend having a meaningful conversation
-- Do not introduce new astrology concepts
-- Do not make absolute claims
-- Avoid fatalism - feels like advice not prophecy
+Write in second person ("you", "your") speaking directly to the person
+Focus 80% on HOW THIS AFFECTS THEM PERSONALLY: their feelings, reactions, patterns, inner experience
+Focus 20% on astrology (brief mentions are fine, but make it about them)
+Make it deeply emotional and reflective: help them understand what they're experiencing
+Use phrases like "You might notice yourself...", "You may feel...", "Pay attention to how...", "This could show up as..."
+Describe their inner experience in vivid detail: what does this feel like emotionally and mentally?
+Help them understand their patterns and reactions
+Make it feel like a trusted friend having a meaningful conversation
+Do not introduce new astrology concepts
+Do not make absolute claims
+Avoid fatalism: feels like advice not prophecy
 
 Generate:
 1. One short headline (one sentence, reflects HOW THEY'RE EXPERIENCING TODAY PERSONALLY, feels deeply personal and emotional, no absolute claims)
 
 2. Three to four bullet points in this specific format:
-   - Use descriptive phrases like "Power in social life", "Pressure in self", "Trouble with routine, thinking & creativity, spirituality, and sex & love"
-   - Each bullet should describe an area of focus, energy, or challenge FOR THEM
-   - Use phrases like "Power in...", "Pressure in...", "Trouble with...", "Focus on...", "Energy in..."
-   - If listing multiple items, use commas and "and" before the last item
-   - Make them feel specific and actionable
+   Use descriptive phrases like "Power in social life", "Pressure in self", "Trouble with routine, thinking & creativity, spirituality, and sex & love"
+   Each bullet should describe an area of focus, energy, or challenge FOR THEM
+   Use phrases like "Power in...", "Pressure in...", "Trouble with...", "Focus on...", "Energy in..."
+   If listing multiple items, use commas and "and" before the last item
+   Make them feel specific and actionable
 
 3. A detailed closing section with 4-5 substantial paragraphs (each paragraph should be 3-4 full sentences, minimum 50 words per paragraph) that:
-   - First paragraph: Describes in vivid detail WHAT THEY'RE EXPERIENCING emotionally and mentally. Paint a picture of their inner world. Use "you" and describe their feelings, reactions, and patterns.
-   - Second paragraph: Explores WHAT'S HAPPENING BENEATH THE SURFACE FOR THEM. What patterns are showing up? What does this reveal about their needs, fears, or desires? Help them understand themselves better.
-   - Third paragraph: Offers practical guidance SPECIFIC TO THEIR EXPERIENCE. What should they pay attention to? How can they work with what they're feeling? Make it personal and actionable.
-   - Fourth paragraph: Connects THEIR EXPERIENCE to broader patterns or growth opportunities. How does today fit into their larger journey? What might this teach them about themselves?
-   - Fifth paragraph (optional): Ends with deep personal reflection and reassurance. Help them understand their agency and capacity. Leave them feeling seen and understood.
-   - Write as if speaking directly to them about their experience
-   - Should be substantial, thoughtful, and deeply personal
-   - Each paragraph must be rich with emotional insight and feel complete on its own
-   - Example format:
-     ["Today you feel torn between the pressure to let your guard down and your love of safety and security. It's good to draw boundaries if that's what you need, but notice where that instinct comes from. Are you protecting yourself from something real, or are you avoiding the vulnerability that comes with connection? This tension isn't random—it's showing you what matters most to you right now.",
-     "Just make sure you're not doing that thing where you shut down, and then convince yourself that it is self-centered to make requests of others. The truth is, you can honor your need for space while still being present for the people who matter. The challenge isn't choosing between boundaries and connection—it's learning to hold both at once. What if your boundaries could actually deepen your relationships instead of creating distance?",
-     "The tension you're experiencing isn't a flaw—it's information about what matters to you. Pay attention to where you feel pulled in different directions, because those are the places where growth is waiting. When you feel conflicted, it usually means you're trying to honor multiple important values at once. The work isn't to eliminate the tension, but to understand it better and find ways to honor all parts of yourself.",
-     "Expand the definition of who you are and trust that you can hold both needs at once without having to choose one over the other. You don't have to be either guarded or open—you can be both, depending on what the moment calls for. This flexibility is actually a strength, not a weakness. Trust yourself to know when to draw boundaries and when to let people in, and remember that both are valid expressions of self-care."]
+   First paragraph: Describes in vivid detail WHAT THEY'RE EXPERIENCING emotionally and mentally. Paint a picture of their inner world. Use "you" and describe their feelings, reactions, and patterns.
+   Second paragraph: Explores WHAT'S HAPPENING BENEATH THE SURFACE FOR THEM. What patterns are showing up? What does this reveal about their needs, fears, or desires? Help them understand themselves better.
+   Third paragraph: Offers practical guidance SPECIFIC TO THEIR EXPERIENCE. What should they pay attention to? How can they work with what they're feeling? Make it personal and actionable.
+   Fourth paragraph: Connects THEIR EXPERIENCE to broader patterns or growth opportunities. How does today fit into their larger journey? What might this teach them about themselves?
+   Fifth paragraph (optional): Ends with deep personal reflection and reassurance. Help them understand their agency and capacity. Leave them feeling seen and understood.
+   Write as if speaking directly to them about their experience
+   Should be substantial, thoughtful, and deeply personal
+   Each paragraph must be rich with emotional insight and feel complete on its own
+   Example format:
+     ["Today you feel torn between the pressure to let your guard down and your love of safety and security. It's good to draw boundaries if that's what you need, but notice where that instinct comes from. Are you protecting yourself from something real, or are you avoiding the vulnerability that comes with connection? This tension isn't random. It's showing you what matters most to you right now.",
+     "Just make sure you're not doing that thing where you shut down, and then convince yourself that it is self-centered to make requests of others. The truth is, you can honor your need for space while still being present for the people who matter. The challenge isn't choosing between boundaries and connection. It's learning to hold both at once. What if your boundaries could actually deepen your relationships instead of creating distance?",
+     "The tension you're experiencing isn't a flaw. It's information about what matters to you. Pay attention to where you feel pulled in different directions, because those are the places where growth is waiting. When you feel conflicted, it usually means you're trying to honor multiple important values at once. The work isn't to eliminate the tension, but to understand it better and find ways to honor all parts of yourself.",
+     "Expand the definition of who you are and trust that you can hold both needs at once without having to choose one over the other. You don't have to be either guarded or open. You can be both, depending on what the moment calls for. This flexibility is actually a strength, not a weakness. Trust yourself to know when to draw boundaries and when to let people in, and remember that both are valid expressions of self-care."]
 
 Format your response as JSON:
 {
@@ -355,10 +355,10 @@ Format your response as JSON:
       "Trouble with routine, thinking & creativity, spirituality, and sex & love",
     ],
     closing: [
-      "Today you feel torn between the pressure to let your guard down and your love of safety and security. It's good to draw boundaries if that's what you need, but notice where that instinct comes from. Are you protecting yourself from something real, or are you avoiding the vulnerability that comes with connection? This tension isn't random—it's showing you what matters most to you right now.",
-      "Just make sure you're not doing that thing where you shut down, and then convince yourself that it is self-centered to make requests of others. The truth is, you can honor your need for space while still being present for the people who matter. The challenge isn't choosing between boundaries and connection—it's learning to hold both at once. What if your boundaries could actually deepen your relationships instead of creating distance?",
-      "The tension you're experiencing isn't a flaw—it's information about what matters to you. Pay attention to where you feel pulled in different directions, because those are the places where growth is waiting. When you feel conflicted, it usually means you're trying to honor multiple important values at once. The work isn't to eliminate the tension, but to understand it better and find ways to honor all parts of yourself.",
-      "Expand the definition of who you are and trust that you can hold both needs at once without having to choose one over the other. You don't have to be either guarded or open—you can be both, depending on what the moment calls for. This flexibility is actually a strength, not a weakness. Trust yourself to know when to draw boundaries and when to let people in, and remember that both are valid expressions of self-care.",
+      "Today you feel torn between the pressure to let your guard down and your love of safety and security. It's good to draw boundaries if that's what you need, but notice where that instinct comes from. Are you protecting yourself from something real, or are you avoiding the vulnerability that comes with connection? This tension isn't random. It's showing you what matters most to you right now.",
+      "Just make sure you're not doing that thing where you shut down, and then convince yourself that it is self-centered to make requests of others. The truth is, you can honor your need for space while still being present for the people who matter. The challenge isn't choosing between boundaries and connection. It's learning to hold both at once. What if your boundaries could actually deepen your relationships instead of creating distance?",
+      "The tension you're experiencing isn't a flaw. It's information about what matters to you. Pay attention to where you feel pulled in different directions, because those are the places where growth is waiting. When you feel conflicted, it usually means you're trying to honor multiple important values at once. The work isn't to eliminate the tension, but to understand it better and find ways to honor all parts of yourself.",
+      "Expand the definition of who you are and trust that you can hold both needs at once without having to choose one over the other. You don't have to be either guarded or open. You can be both, depending on what the moment calls for. This flexibility is actually a strength, not a weakness. Trust yourself to know when to draw boundaries and when to let people in, and remember that both are valid expressions of self-care.",
     ],
   };
 };

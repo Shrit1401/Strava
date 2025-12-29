@@ -212,26 +212,26 @@ Tone: ${tone}
 Logical Bullets: ${logicalBullets.join(", ")}
 
 CRITICAL INSTRUCTIONS:
-- Write in second person ("you", "your") speaking directly to the person
-- Focus 80% on HOW THIS AFFECTS THEM PERSONALLY - their desires, emotional needs, vulnerability, boundaries, patterns in relationships
-- Focus 20% on the astrology (brief mention is fine)
-- Make it deeply emotional and reflective - help them understand their relational patterns
-- Use phrases like "You might notice yourself...", "You may feel...", "Pay attention to how you're responding to...", "This could show up as..."
-- Describe their inner experience of desire, connection, and intimacy - what does this feel like?
-- Help them understand when desire wants expression, when emotions want reassurance, when intimacy asks for honesty
-- Make it feel like a trusted confidant helping them understand their relational patterns
-- The tone should be gentle, honest, and reassuring
-- Do not introduce new planets beyond Moon, Venus, and Mars
-- Do not mention astrology terms not provided
-- Do not make absolute claims
+Write in second person ("you", "your") speaking directly to the person
+Focus 80% on HOW THIS AFFECTS THEM PERSONALLY: their desires, emotional needs, vulnerability, boundaries, patterns in relationships
+Focus 20% on the astrology (brief mention is fine)
+Make it deeply emotional and reflective: help them understand their relational patterns
+Use phrases like "You might notice yourself...", "You may feel...", "Pay attention to how you're responding to...", "This could show up as..."
+Describe their inner experience of desire, connection, and intimacy: what does this feel like?
+Help them understand when desire wants expression, when emotions want reassurance, when intimacy asks for honesty
+Make it feel like a trusted confidant helping them understand their relational patterns
+The tone should be gentle, honest, and reassuring
+Do not introduce new planets beyond Moon, Venus, and Mars
+Do not mention astrology terms not provided
+Do not make absolute claims
 
 Generate exactly three outputs:
 
-1. One paragraph summary (under "Sex & Love" title) - 3-4 sentences describing HOW THEY'RE EXPERIENCING LOVE AND DESIRE TODAY. What might they notice about their longing? How might they feel about connection? What patterns might emerge in their relationships?
+1. One paragraph summary (under "Sex & Love" title): 3-4 sentences describing HOW THEY'RE EXPERIENCING LOVE AND DESIRE TODAY. What might they notice about their longing? How might they feel about connection? What patterns might emerge in their relationships?
 
-2. One explanatory paragraph (under the graph) - 3-4 sentences that BRIEFLY mentions the Moon-Venus/Mars relationship but FOCUSES on what this means FOR THEM. How does this show up in their relationships? What does this reveal about their needs for connection, touch, and emotional safety?
+2. One explanatory paragraph (under the graph): 3-4 sentences that BRIEFLY mentions the Moon and Venus/Mars relationship but FOCUSES on what this means FOR THEM. How does this show up in their relationships? What does this reveal about their needs for connection, touch, and emotional safety?
 
-3. One closing encouragement paragraph - 3-4 sentences offering deep, personal reflection. Help them understand their relational patterns better. What should they pay attention to? What might this teach them about when desire wants expression, when emotions want reassurance, and when intimacy asks for honesty?
+3. One closing encouragement paragraph: 3-4 sentences offering deep, personal reflection. Help them understand their relational patterns better. What should they pay attention to? What might this teach them about when desire wants expression, when emotions want reassurance, and when intimacy asks for honesty?
 
 Format your response as JSON:
 {
@@ -262,34 +262,34 @@ Format your response as JSON:
     }
   }
 
-  let summary = "You might notice yourself feeling more aware of your longing for connection today. Perhaps you're feeling more drawn to intimacy, touch, or emotional merging, or maybe you're noticing that your usual boundaries feel different. Pay attention to how you're experiencing your desire—this is showing you something important about what you need in relationships.";
-  let explanation = "Your relationship with love and desire is asking for more attention today. You might find yourself feeling more aware of how you give and receive affection, or noticing that your need for emotional safety feels more present. Notice how this shows up for you—are you feeling more open to connection? More protective of your boundaries? Your reactions are revealing something important about your authentic needs in relationships.";
-  let encouragement = "When you notice yourself feeling drawn to connection or needing space, trust that. Your desires and boundaries are both valid. Pay attention to when desire wants expression, when emotions want reassurance, and when intimacy asks for honesty rather than performance. Your reactions are teaching you about your patterns—what do they show you about what you truly need?";
+  let summary = "You might notice yourself feeling more aware of your longing for connection today. Perhaps you're feeling more drawn to intimacy, touch, or emotional merging, or maybe you're noticing that your usual boundaries feel different. Pay attention to how you're experiencing your desire. This is showing you something important about what you need in relationships.";
+  let explanation = "Your relationship with love and desire is asking for more attention today. You might find yourself feeling more aware of how you give and receive affection, or noticing that your need for emotional safety feels more present. Notice how this shows up for you. Are you feeling more open to connection? More protective of your boundaries? Your reactions are revealing something important about your authentic needs in relationships.";
+  let encouragement = "When you notice yourself feeling drawn to connection or needing space, trust that. Your desires and boundaries are both valid. Pay attention to when desire wants expression, when emotions want reassurance, and when intimacy asks for honesty rather than performance. Your reactions are teaching you about your patterns. What do they show you about what you truly need?";
 
   if (moonHouse === 5) {
-    summary = "You might notice yourself feeling more aware of your longing for romance and pleasure today. Perhaps you're feeling more open to touch, or maybe you're noticing that your desire for connection feels more present. Pay attention to how you're experiencing your longing—this is showing you something important about what you need in relationships.";
-    explanation = `Your desire for connection and pleasure is being activated today. You might find yourself feeling more aware of your longing for romance, or noticing that you're more open to experiences that feel joyful and creative. Notice how this shows up for you—are you feeling more willing to express what you want? More able to receive affection? Your reactions are revealing something important about your authentic needs for connection and pleasure.`;
-    encouragement = "When you notice yourself wanting touch, romance, or emotional merging, honor that. These are valid needs. However, remember that desire wants expression, not performance. Be honest about what you want and need. Your emotional safety matters—honor your boundaries while staying open to connection. What are your desires showing you about what you truly need?";
+    summary = "You might notice yourself feeling more aware of your longing for romance and pleasure today. Perhaps you're feeling more open to touch, or maybe you're noticing that your desire for connection feels more present. Pay attention to how you're experiencing your longing. This is showing you something important about what you need in relationships.";
+    explanation = `Your desire for connection and pleasure is being activated today. You might find yourself feeling more aware of your longing for romance, or noticing that you're more open to experiences that feel joyful and creative. Notice how this shows up for you. Are you feeling more willing to express what you want? More able to receive affection? Your reactions are revealing something important about your authentic needs for connection and pleasure.`;
+    encouragement = "When you notice yourself wanting touch, romance, or emotional merging, honor that. These are valid needs. However, remember that desire wants expression, not performance. Be honest about what you want and need. Your emotional safety matters. Honor your boundaries while staying open to connection. What are your desires showing you about what you truly need?";
   }
 
   if (moonHouse === 8) {
-    summary = "You might notice yourself feeling more aware of your vulnerability or capacity for deep connection today. Perhaps you're feeling more protective of your boundaries, or maybe you're noticing that you're more drawn to emotional merging. Pay attention to how you're experiencing intimacy—this is showing you something important about your needs for safety and connection.";
-    explanation = `Your relationship with intimacy is being activated today. You might find yourself feeling more aware of your vulnerability, or noticing that you're more conscious of what feels safe and what doesn't. Notice how this shows up for you—are you feeling more protective? More willing to open up? Your reactions are revealing something important about your authentic needs for emotional safety and deep connection.`;
-    encouragement = "When you feel protective of your boundaries, that's your system telling you something feels unsafe—honor that. When you feel drawn to deep connection, that's your desire for emotional merging—honor that too. Intimacy asks for honesty, not performance. Trust your instincts about what feels safe and what doesn't. What are your reactions showing you about your needs for safety and connection?";
+    summary = "You might notice yourself feeling more aware of your vulnerability or capacity for deep connection today. Perhaps you're feeling more protective of your boundaries, or maybe you're noticing that you're more drawn to emotional merging. Pay attention to how you're experiencing intimacy. This is showing you something important about your needs for safety and connection.";
+    explanation = `Your relationship with intimacy is being activated today. You might find yourself feeling more aware of your vulnerability, or noticing that you're more conscious of what feels safe and what doesn't. Notice how this shows up for you. Are you feeling more protective? More willing to open up? Your reactions are revealing something important about your authentic needs for emotional safety and deep connection.`;
+    encouragement = "When you feel protective of your boundaries, that's your system telling you something feels unsafe. Honor that. When you feel drawn to deep connection, that's your desire for emotional merging. Honor that too. Intimacy asks for honesty, not performance. Trust your instincts about what feels safe and what doesn't. What are your reactions showing you about your needs for safety and connection?";
   }
 
   if (moonAspect.planet === "Venus" && moonAspect.aspectType) {
     const aspectLower = moonAspect.aspectType.toLowerCase();
-    summary = "You might notice yourself feeling more aware of your need for affection and connection today. Perhaps you're feeling more sensitive to how you're being valued, or maybe you're noticing that your longing for touch feels more present. Pay attention to how you're experiencing your need for love—this is showing you something important about what makes you feel valued.";
-    explanation = `Your need for connection and affection is being activated today. You might find yourself feeling more aware of your longing for emotional bonding, or noticing that you're more sensitive to how you're being valued (or not). Notice how this shows up for you—are you feeling more open to receiving affection? More aware of what makes you feel desired? Your reactions are revealing something important about your authentic needs for connection and love.`;
-    encouragement = "When you notice yourself longing for touch or emotional merging, honor that. Your desire wants expression—it's not something to dismiss or judge. However, remember that love asks for honesty, not performance. Be clear about what makes you feel valued and desired, and communicate your needs honestly. Your emotional safety matters—honor your boundaries while staying open to connection. What are your reactions showing you about what you truly need?";
+    summary = "You might notice yourself feeling more aware of your need for affection and connection today. Perhaps you're feeling more sensitive to how you're being valued, or maybe you're noticing that your longing for touch feels more present. Pay attention to how you're experiencing your need for love. This is showing you something important about what makes you feel valued.";
+    explanation = `Your need for connection and affection is being activated today. You might find yourself feeling more aware of your longing for emotional bonding, or noticing that you're more sensitive to how you're being valued (or not). Notice how this shows up for you. Are you feeling more open to receiving affection? More aware of what makes you feel desired? Your reactions are revealing something important about your authentic needs for connection and love.`;
+    encouragement = "When you notice yourself longing for touch or emotional merging, honor that. Your desire wants expression. It's not something to dismiss or judge. However, remember that love asks for honesty, not performance. Be clear about what makes you feel valued and desired, and communicate your needs honestly. Your emotional safety matters. Honor your boundaries while staying open to connection. What are your reactions showing you about what you truly need?";
   }
 
   if (moonAspect.planet === "Mars" && moonAspect.aspectType) {
     const aspectLower = moonAspect.aspectType.toLowerCase();
-    summary = "You might notice yourself feeling more aware of your attraction and desire today. Perhaps you're feeling more drawn to pursue closeness, or maybe you're noticing that your sexual drive feels more active. Pay attention to how you're experiencing your desire—this is showing you something important about what you want in intimacy.";
-    explanation = `Your attraction and desire are being activated today. You might find yourself feeling more aware of your sexual drive, or noticing that you're more drawn to pursue connection. Notice how this shows up for you—are you feeling more willing to express what you want? More protective of your boundaries if something feels unsafe? Your reactions are revealing something important about your authentic needs for intimacy and connection.`;
-    encouragement = "When you notice yourself feeling drawn to pursue closeness or express your sexual drive, honor that. Your desire wants expression—it's valid. However, remember that intimacy asks for honesty, not performance. Be clear about what you want and need, and communicate your desires authentically. Your emotional safety matters—honor your boundaries while staying open to connection. Listen to what each part of you is saying: when does desire want expression? When do emotions want reassurance? When does intimacy ask for honesty?";
+    summary = "You might notice yourself feeling more aware of your attraction and desire today. Perhaps you're feeling more drawn to pursue closeness, or maybe you're noticing that your sexual drive feels more active. Pay attention to how you're experiencing your desire. This is showing you something important about what you want in intimacy.";
+    explanation = `Your attraction and desire are being activated today. You might find yourself feeling more aware of your sexual drive, or noticing that you're more drawn to pursue connection. Notice how this shows up for you. Are you feeling more willing to express what you want? More protective of your boundaries if something feels unsafe? Your reactions are revealing something important about your authentic needs for intimacy and connection.`;
+    encouragement = "When you notice yourself feeling drawn to pursue closeness or express your sexual drive, honor that. Your desire wants expression. It's valid. However, remember that intimacy asks for honesty, not performance. Be clear about what you want and need, and communicate your desires authentically. Your emotional safety matters. Honor your boundaries while staying open to connection. Listen to what each part of you is saying: when does desire want expression? When do emotions want reassurance? When does intimacy ask for honesty?";
   }
 
   if (!moonAspect.aspectType && moonHouse !== 5 && moonHouse !== 8) {

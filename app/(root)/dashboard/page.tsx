@@ -410,78 +410,82 @@ const DashboardPage = () => {
 
   return (
     <div className="min-h-screen pb-20">
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 pt-32 pb-40">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.8fr_1fr] gap-16 lg:gap-20">
-          <div className="space-y-12 lg:space-y-16">
-            <div className="space-y-3">
-              <p className="text-sm text-[#575657] tracking-wide">
-                {getGreeting()} {userName}, It&apos;s {currentDate}
-              </p>
-              <p className="text-xs text-[#575657] uppercase tracking-wider">
-                Your Day at Glance
-              </p>
+      <div className="max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-32 pb-40">
+        <div className="space-y-20">
+          <div className="space-y-8">
+            <div className="relative">
+              <div className="absolute -right-8 -top-8 w-48 h-48 opacity-20 pointer-events-none hidden lg:block">
+                <Image
+                  src="/sky.png"
+                  alt=""
+                  width={200}
+                  height={200}
+                  className="w-full h-full object-cover"
+                  priority
+                />
+              </div>
+              <div className="space-y-2">
+                <p className="text-xs text-[#575657] tracking-[0.15em] uppercase">
+                  {getGreeting()} {userName}
+                </p>
+                <p className="text-xs text-[#575657] tracking-wide">
+                  {currentDate}
+                </p>
+              </div>
+
+              <div className="pt-6">
+                <h1 className="cormorant text-5xl md:text-6xl lg:text-7xl font-light text-black leading-[1.1] tracking-tight">
+                  {loading
+                    ? "Loading your daily reflection..."
+                    : prediction?.headline ||
+                      "Today brings opportunities for reflection"}
+                </h1>
+              </div>
             </div>
 
-            <div className="pt-4">
-              <h1 className="cormorant text-5xl md:text-6xl lg:text-7xl font-light text-black leading-[1.1] tracking-tight">
-                {loading
-                  ? "Loading your daily reflection..."
-                  : prediction?.headline ||
-                    "Today brings opportunities for reflection"}
-              </h1>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pt-8 border-t border-black/5">
-              <div className="space-y-4">
-                <h2 className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 pt-12 border-t border-black/5">
+              <div className="space-y-6">
+                <h2 className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
                   Do
                 </h2>
-                <ul className="space-y-3 text-lg text-black/80 leading-relaxed">
+                <ul className="space-y-4 text-lg text-black/80 leading-relaxed">
                   {loading ? (
-                    <>
-                      <li className="pl-0 cormorant font-bold">Loading...</li>
-                    </>
+                    <li className="cormorant font-light">Loading...</li>
                   ) : prediction?.doList && prediction.doList.length > 0 ? (
                     prediction.doList.map((item, index) => (
-                      <li key={index} className="pl-0 cormorant font-bold">
+                      <li key={index} className="cormorant font-light">
                         {item}
                       </li>
                     ))
                   ) : (
                     <>
-                      <li className="pl-0 cormorant font-bold">
+                      <li className="cormorant font-light">
                         Trust your instincts
                       </li>
-                      <li className="pl-0 cormorant font-bold">
-                        Take your time
-                      </li>
-                      <li className="pl-0 cormorant font-bold">Stay present</li>
+                      <li className="cormorant font-light">Take your time</li>
+                      <li className="cormorant font-light">Stay present</li>
                     </>
                   )}
                 </ul>
               </div>
-              <div className="space-y-4">
-                <h2 className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 mb-6">
+              <div className="space-y-6">
+                <h2 className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
                   Don&apos;t
                 </h2>
-                <ul className="space-y-3 text-lg text-black/80 leading-relaxed">
+                <ul className="space-y-4 text-lg text-black/80 leading-relaxed">
                   {loading ? (
-                    <>
-                      <li className="pl-0 cormorant font-bold">Loading...</li>
-                    </>
+                    <li className="cormorant font-light">Loading...</li>
                   ) : prediction?.dontList && prediction.dontList.length > 0 ? (
                     prediction.dontList.map((item, index) => (
-                      <li key={index} className="pl-0 cormorant font-bold">
+                      <li key={index} className="cormorant font-light">
                         {item}
                       </li>
                     ))
                   ) : (
                     <>
-                      <li className="pl-0 cormorant font-bold">
-                        Rush decisions
-                      </li>
-                      <li className="pl-0 cormorant font-bold">Overthink</li>
-                      <li className="pl-0 cormorant font-bold">
+                      <li className="cormorant font-light">Rush decisions</li>
+                      <li className="cormorant font-light">Overthink</li>
+                      <li className="cormorant font-light">
                         Ignore your needs
                       </li>
                     </>
@@ -490,44 +494,21 @@ const DashboardPage = () => {
               </div>
             </div>
 
-            <div className="pt-8 border-t border-black/5">
-              <h2 className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 mb-8">
-                Today
-              </h2>
-              <ul className="space-y-5 text-md text-black/80 leading-relaxed">
+            <div className="pt-12 border-t border-black/5">
+              <ul className="space-y-6 text-base text-black/70 leading-relaxed">
                 {loading ? (
-                  <li className="flex items-start gap-4">
-                    <span className="text-base mt-0.5 opacity-70">💡</span>
-                    <span>Loading your daily insights...</span>
-                  </li>
+                  <li>Loading your daily insights...</li>
                 ) : prediction?.bullets && prediction.bullets.length > 0 ? (
-                  prediction.bullets.map((bullet, index) => {
-                    const icons = ["💡", "🌱", "🔥", "🚫"];
-                    return (
-                      <li key={index} className="flex items-start gap-4">
-                        <span className="text-base mt-0.5 opacity-70">
-                          {icons[index % icons.length]}
-                        </span>
-                        <span>{bullet}</span>
-                      </li>
-                    );
-                  })
+                  prediction.bullets.map((bullet, index) => (
+                    <li key={index}>{bullet}</li>
+                  ))
                 ) : (
                   <>
-                    <li className="flex items-start gap-4">
-                      <span className="text-base mt-0.5 opacity-70">💡</span>
-                      <span>Power in social life</span>
-                    </li>
-                    <li className="flex items-start gap-4">
-                      <span className="text-base mt-0.5 opacity-70">🌱</span>
-                      <span>Pressure in self</span>
-                    </li>
-                    <li className="flex items-start gap-4">
-                      <span className="text-base mt-0.5 opacity-70">🔥</span>
-                      <span>
-                        Trouble with routine, thinking & creativity,
-                        spirituality, and sex & love
-                      </span>
+                    <li>Power in social life</li>
+                    <li>Pressure in self</li>
+                    <li>
+                      Trouble with routine, thinking & creativity, spirituality,
+                      and sex & love
                     </li>
                   </>
                 )}
@@ -535,250 +516,231 @@ const DashboardPage = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-1">
-            <div className="sticky top-32">
-              <div className="aspect-square w-full overflow-hidden scale-110">
-                <Image
-                  src="/sky.png"
-                  alt="Sky"
-                  width={800}
-                  height={800}
-                  className="w-full h-full object-cover"
-                  priority
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-5 pt-8 border-t border-black/5 text-md text-black/70 leading-[1.8] w-full">
-          {loading ? (
-            <p>Loading your daily reflection...</p>
-          ) : prediction?.closing && prediction.closing.length > 0 ? (
-            prediction.closing.map((paragraph, index) => (
-              <p key={index}>{paragraph}</p>
-            ))
-          ) : (
-            <>
-              <p>Today brings opportunities for reflection and growth.</p>
-              <p>Trust yourself and take things one step at a time.</p>
-            </>
-          )}
-        </div>
-
-        <div className="space-y-20 pt-16">
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_180px] gap-12 items-start">
-            <div className="space-y-3">
-              <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/60">
-                Power
-              </p>
-              <div className="border-t border-black/5 pt-4">
-                <h3 className="cormorant text-2xl font-light text-black mb-4">
-                  Social Life
-                </h3>
-                <p className="text-md text-black/70 leading-relaxed mb-4">
-                  {socialLifeLoading
-                    ? "Loading your social life reflection..."
-                    : socialLife?.summary ||
-                      "Today's social energy invites connection and awareness."}
-                </p>
-                <button
-                  onClick={() => setOpenDialog("social-life")}
-                  className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 hover:text-black/80 transition-colors flex items-center gap-2 cursor-pointer"
-                >
-                  Details
-                  <span className="text-base">→</span>
-                </button>
-              </div>
-            </div>
-            <div className="hidden md:block shrink-0">
-              <div className="w-full aspect-square relative">
-                <Image
-                  src="/icons/telephone.png"
-                  alt="Social Life"
-                  fill
-                  className="object-contain"
-                />
-              </div>
+          <div className="pt-8 border-t border-black/5">
+            <div className="space-y-6 text-base text-black/70 leading-relaxed">
+              {loading ? (
+                <p>Loading your daily reflection...</p>
+              ) : prediction?.closing && prediction.closing.length > 0 ? (
+                prediction.closing.map((paragraph, index) => (
+                  <p key={index}>{paragraph}</p>
+                ))
+              ) : (
+                <>
+                  <p>Today brings opportunities for reflection and growth.</p>
+                  <p>Trust yourself and take things one step at a time.</p>
+                </>
+              )}
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-10 items-start">
-            <div className="hidden md:block shrink-0 order-2 md:order-1">
-              <div className="w-full aspect-4/5 relative">
-                <Image
-                  src="/icons/jug.png"
-                  alt="Self"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            </div>
-            <div className="space-y-3 order-1 md:order-2">
-              <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/60">
-                Pressure
-              </p>
-              <div className="border-t border-black/5 pt-4">
-                <h3 className="cormorant text-2xl font-light text-black mb-4">
-                  Self
-                </h3>
-                <p className="text-md text-black/70 leading-relaxed mb-4">
-                  {selfLoading
-                    ? "Loading your self reflection..."
-                    : self?.summary ||
-                      "Your emotional skin feels more sensitive today. The Moon's movement activates themes that bring your inner world closer to the surface."}
+          <div className="space-y-24 pt-20">
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_120px] gap-8 items-start">
+              <div className="space-y-2">
+                <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
+                  Power
                 </p>
-                <button
-                  onClick={() => setOpenDialog("self")}
-                  className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 hover:text-black/80 transition-colors flex items-center gap-2 cursor-pointer"
-                >
-                  Details
-                  <span className="text-base">→</span>
-                </button>
+                <div className="border-t border-black/5 pt-6">
+                  <h3 className="cormorant text-3xl font-light text-black mb-6">
+                    Social Life
+                  </h3>
+                  <p className="text-base text-black/70 leading-relaxed mb-6">
+                    {socialLifeLoading
+                      ? "Loading your social life reflection..."
+                      : socialLife?.summary ||
+                        "Today's social energy invites connection and awareness."}
+                  </p>
+                  <button
+                    onClick={() => setOpenDialog("social-life")}
+                    className="text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
+                  >
+                    Details →
+                  </button>
+                </div>
+              </div>
+              <div className="hidden md:block shrink-0 text-md">
+                <div className="w-full aspect-square relative">
+                  <Image
+                    src="/icons/telephone.png"
+                    alt=""
+                    fill
+                    className="object-contain"
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_220px] gap-14 items-center">
-            <div className="space-y-3">
-              <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/60">
-                Trouble
-              </p>
-              <div className="border-t border-black/5 pt-4">
-                <h3 className="cormorant text-2xl font-light text-black mb-4">
-                  Spirituality
-                </h3>
-                <p className="text-md text-black/70 leading-relaxed mb-4">
-                  {spiritualityLoading
-                    ? "Loading your spirituality reflection..."
-                    : spirituality?.summary ||
-                      "Your spiritual path invites deeper listening today. The Moon's movement activates themes that thin mental noise, making space for intuition."}
+            <div className="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-8 items-start">
+              <div className="hidden md:block shrink-0 text-md order-2 md:order-1">
+                <div className="w-full aspect-square relative">
+                  <Image
+                    src="/icons/jug.png"
+                    alt=""
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2 order-1 md:order-2">
+                <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
+                  Pressure
                 </p>
-                <button
-                  onClick={() => setOpenDialog("spirituality")}
-                  className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 hover:text-black/80 transition-colors flex items-center gap-2 cursor-pointer"
-                >
-                  Details
-                  <span className="text-base">→</span>
-                </button>
+                <div className="border-t border-black/5 pt-6">
+                  <h3 className="cormorant text-3xl font-light text-black mb-6">
+                    Self
+                  </h3>
+                  <p className="text-base text-black/70 leading-relaxed mb-6">
+                    {selfLoading
+                      ? "Loading your self reflection..."
+                      : self?.summary ||
+                        "Your emotional skin feels more sensitive today. The Moon's movement activates themes that bring your inner world closer to the surface."}
+                  </p>
+                  <button
+                    onClick={() => setOpenDialog("self")}
+                    className="text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
+                  >
+                    Details →
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="hidden md:block shrink-0">
-              <div className="w-full aspect-3/4 relative">
-                <Image
-                  src="/icons/leaf.png"
-                  alt="Spirituality"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-8 items-end">
-            <div className="hidden md:block shrink-0 order-2 md:order-1">
-              <div className="w-full aspect-square relative">
-                <Image
-                  src="/icons/butterfly.png"
-                  alt="Sex & Love"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            </div>
-            <div className="space-y-3 order-1 md:order-2">
-              <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/60">
-                Trouble
-              </p>
-              <div className="border-t border-black/5 pt-4">
-                <h3 className="cormorant text-2xl font-light text-black mb-4">
-                  Sex & Love
-                </h3>
-                <p className="text-md text-black/70 leading-relaxed mb-4">
-                  {sexLoveLoading
-                    ? "Loading your sex & love reflection..."
-                    : sexLove?.summary ||
-                      "Your desire for connection feels more present today. The Moon's movement activates themes that bring attention to your longing for intimacy."}
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_100px] gap-8 items-start">
+              <div className="space-y-2">
+                <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
+                  Trouble
                 </p>
-                <button
-                  onClick={() => setOpenDialog("sex-love")}
-                  className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 hover:text-black/80 transition-colors flex items-center gap-2 cursor-pointer"
-                >
-                  Details
-                  <span className="text-base">→</span>
-                </button>
+                <div className="border-t border-black/5 pt-6">
+                  <h3 className="cormorant text-3xl font-light text-black mb-6">
+                    Spirituality
+                  </h3>
+                  <p className="text-base text-black/70 leading-relaxed mb-6">
+                    {spiritualityLoading
+                      ? "Loading your spirituality reflection..."
+                      : spirituality?.summary ||
+                        "Your spiritual path invites deeper listening today. The Moon's movement activates themes that thin mental noise, making space for intuition."}
+                  </p>
+                  <button
+                    onClick={() => setOpenDialog("spirituality")}
+                    className="text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
+                  >
+                    Details →
+                  </button>
+                </div>
+              </div>
+              <div className="hidden md:block shrink-0 text-md">
+                <div className="w-full aspect-square relative">
+                  <Image
+                    src="/icons/leaf.png"
+                    alt=""
+                    fill
+                    className="object-contain"
+                  />
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-[1fr_150px] gap-16 items-start">
-            <div className="space-y-3">
-              <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/60">
-                Trouble
-              </p>
-              <div className="border-t border-black/5 pt-4">
-                <h3 className="cormorant text-2xl font-light text-black mb-4">
-                  Routine
-                </h3>
-                <p className="text-md text-black/70 leading-relaxed mb-4">
-                  {routineLoading
-                    ? "Loading your routine reflection..."
-                    : routine?.summary ||
-                      "Your routine energy invites attention today. The Moon's movement activates themes that bring awareness to your daily rhythm."}
+            <div className="grid grid-cols-1 md:grid-cols-[120px_1fr] gap-8 items-start">
+              <div className="hidden md:block shrink-0 text-md order-2 md:order-1">
+                <div className="w-full aspect-square relative">
+                  <Image
+                    src="/icons/butterfly.png"
+                    alt=""
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2 order-1 md:order-2">
+                <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
+                  Trouble
                 </p>
-                <button
-                  onClick={() => setOpenDialog("routine")}
-                  className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 hover:text-black/80 transition-colors flex items-center gap-2 cursor-pointer"
-                >
-                  Details
-                  <span className="text-base">→</span>
-                </button>
+                <div className="border-t border-black/5 pt-6">
+                  <h3 className="cormorant text-3xl font-light text-black mb-6">
+                    Sex & Love
+                  </h3>
+                  <p className="text-base text-black/70 leading-relaxed mb-6">
+                    {sexLoveLoading
+                      ? "Loading your sex & love reflection..."
+                      : sexLove?.summary ||
+                        "Your desire for connection feels more present today. The Moon's movement activates themes that bring attention to your longing for intimacy."}
+                  </p>
+                  <button
+                    onClick={() => setOpenDialog("sex-love")}
+                    className="text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
+                  >
+                    Details →
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="hidden md:block shrink-0">
-              <div className="w-full aspect-5/4 relative">
-                <Image
-                  src="/icons/jug.png"
-                  alt="Routine"
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            </div>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-12 items-center">
-            <div className="hidden md:block shrink-0 order-2 md:order-1">
-              <div className="w-full aspect-square relative">
-                <Image
-                  src="/icons/prisma.png"
-                  alt="Thinking & Creativity"
-                  fill
-                  className="object-contain"
-                />
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_100px] gap-8 items-start">
+              <div className="space-y-2">
+                <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
+                  Trouble
+                </p>
+                <div className="border-t border-black/5 pt-6">
+                  <h3 className="cormorant text-3xl font-light text-black mb-6">
+                    Routine
+                  </h3>
+                  <p className="text-base text-black/70 leading-relaxed mb-6">
+                    {routineLoading
+                      ? "Loading your routine reflection..."
+                      : routine?.summary ||
+                        "Your routine energy invites attention today. The Moon's movement activates themes that bring awareness to your daily rhythm."}
+                  </p>
+                  <button
+                    onClick={() => setOpenDialog("routine")}
+                    className="text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
+                  >
+                    Details →
+                  </button>
+                </div>
+              </div>
+              <div className="hidden md:block shrink-0 text-md">
+                <div className="w-full aspect-square relative">
+                  <Image
+                    src="/icons/jug.png"
+                    alt=""
+                    fill
+                    className="object-contain"
+                  />
+                </div>
               </div>
             </div>
-            <div className="space-y-3 order-1 md:order-2">
-              <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/60">
-                Trouble
-              </p>
-              <div className="border-t border-black/5 pt-4">
-                <h3 className="cormorant text-2xl font-light text-black mb-4">
-                  Thinking & Creativity
-                </h3>
-                <p className="text-md text-black/70 leading-relaxed mb-4">
-                  {thinkingCreativityLoading
-                    ? "Loading your thinking & creativity reflection..."
-                    : thinkingCreativity?.summary ||
-                      "Your thinking and creativity feel more active today. The Moon's movement activates themes that bring attention to the flow between logic and imagination."}
+
+            <div className="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-8 items-start">
+              <div className="hidden md:block shrink-0 text-md order-2 md:order-1">
+                <div className="w-full aspect-square relative">
+                  <Image
+                    src="/icons/prisma.png"
+                    alt=""
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2 order-1 md:order-2">
+                <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
+                  Trouble
                 </p>
-                <button
-                  onClick={() => setOpenDialog("thinking-creativity")}
-                  className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 hover:text-black/80 transition-colors flex items-center gap-2 cursor-pointer"
-                >
-                  Details
-                  <span className="text-base">→</span>
-                </button>
+                <div className="border-t border-black/5 pt-6">
+                  <h3 className="cormorant text-3xl font-light text-black mb-6">
+                    Thinking & Creativity
+                  </h3>
+                  <p className="text-base text-black/70 leading-relaxed mb-6">
+                    {thinkingCreativityLoading
+                      ? "Loading your thinking & creativity reflection..."
+                      : thinkingCreativity?.summary ||
+                        "Your thinking and creativity feel more active today. The Moon's movement activates themes that bring attention to the flow between logic and imagination."}
+                  </p>
+                  <button
+                    onClick={() => setOpenDialog("thinking-creativity")}
+                    className="text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
+                  >
+                    Details →
+                  </button>
+                </div>
               </div>
             </div>
           </div>

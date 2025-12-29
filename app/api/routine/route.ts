@@ -217,26 +217,26 @@ Tone: ${tone}
 Logical Bullets: ${logicalBullets.join(", ")}
 
 CRITICAL INSTRUCTIONS:
-- Write in second person ("you", "your") speaking directly to the person
-- Focus 80% on HOW THIS AFFECTS THEM PERSONALLY - their energy, capacity, relationship with structure, need for rest or productivity
-- Focus 20% on the astrology (brief mention is fine)
-- Make it deeply emotional and reflective - help them understand their relationship with routine
-- Use phrases like "You might notice yourself...", "You may feel...", "Pay attention to how you're responding to...", "This could show up as..."
-- Describe their inner experience of routine and structure - what does this feel like? What do they need?
-- Help them understand why their energy for routine rises and falls
-- Make it feel like a trusted friend helping them understand their capacity and needs
-- The tone should be gentle and reassuring - NOT judging their ability to stay consistent
-- Do not introduce new planets beyond Moon, Mercury, and Saturn
-- Do not mention astrology terms not provided
-- Do not make absolute claims
+Write in second person ("you", "your") speaking directly to the person
+Focus 80% on HOW THIS AFFECTS THEM PERSONALLY: their energy, capacity, relationship with structure, need for rest or productivity
+Focus 20% on the astrology (brief mention is fine)
+Make it deeply emotional and reflective: help them understand their relationship with routine
+Use phrases like "You might notice yourself...", "You may feel...", "Pay attention to how you're responding to...", "This could show up as..."
+Describe their inner experience of routine and structure: what does this feel like? What do they need?
+Help them understand why their energy for routine rises and falls
+Make it feel like a trusted friend helping them understand their capacity and needs
+The tone should be gentle and reassuring: NOT judging their ability to stay consistent
+Do not introduce new planets beyond Moon, Mercury, and Saturn
+Do not mention astrology terms not provided
+Do not make absolute claims
 
 Generate exactly three outputs:
 
-1. One paragraph summary (under "Routine" title) - 3-4 sentences describing HOW THEY'RE EXPERIENCING ROUTINE AND STRUCTURE TODAY. What might they notice about their energy? How might structure feel - grounding or restrictive? What patterns might emerge?
+1. One paragraph summary (under "Routine" title): 3-4 sentences describing HOW THEY'RE EXPERIENCING ROUTINE AND STRUCTURE TODAY. What might they notice about their energy? How might structure feel: grounding or restrictive? What patterns might emerge?
 
-2. One explanatory paragraph (under the graph) - 3-4 sentences that BRIEFLY mentions the Moon-Mercury/Saturn relationship but FOCUSES on what this means FOR THEM. How does this show up in their daily life? What does this reveal about their capacity and needs for self-care?
+2. One explanatory paragraph (under the graph): 3-4 sentences that BRIEFLY mentions the Moon and Mercury/Saturn relationship but FOCUSES on what this means FOR THEM. How does this show up in their daily life? What does this reveal about their capacity and needs for self-care?
 
-3. One closing encouragement paragraph - 3-4 sentences offering deep, personal reflection. Help them understand their relationship with routine better. What should they pay attention to? What might this teach them about listening to their capacity rather than forcing productivity?
+3. One closing encouragement paragraph: 3-4 sentences offering deep, personal reflection. Help them understand their relationship with routine better. What should they pay attention to? What might this teach them about listening to their capacity rather than forcing productivity?
 
 Format your response as JSON:
 {
@@ -267,28 +267,28 @@ Format your response as JSON:
     }
   }
 
-  let summary = "You might notice yourself feeling more aware of your daily rhythm and structure today. Perhaps you're feeling more drawn to routine, or maybe you're noticing that your usual structure feels different. Pay attention to how you're experiencing your relationship with routine—this is showing you something important about what you need for self-care.";
-  let explanation = "Your relationship with routine and structure is asking for more attention today. You might find yourself feeling more aware of how your body and mind respond to daily demands, or noticing that structure feels either grounding or restrictive. Notice how this shows up for you—are you craving more routine? Feeling overwhelmed by it? Your reactions are revealing something important about your capacity and needs for self-care.";
-  let encouragement = "When you notice yourself feeling drawn to structure or needing more flexibility, trust that. Your energy for routine rises and falls—both responses are valid. Listen to your capacity today. If routine feels grounding, embrace it. If it feels heavy, honor that too. Forcing productivity when your capacity is low often backfires. What are your reactions showing you about what you truly need?";
+  let summary = "You might notice yourself feeling more aware of your daily rhythm and structure today. Perhaps you're feeling more drawn to routine, or maybe you're noticing that your usual structure feels different. Pay attention to how you're experiencing your relationship with routine. This is showing you something important about what you need for self-care.";
+  let explanation = "Your relationship with routine and structure is asking for more attention today. You might find yourself feeling more aware of how your body and mind respond to daily demands, or noticing that structure feels either grounding or restrictive. Notice how this shows up for you. Are you craving more routine? Feeling overwhelmed by it? Your reactions are revealing something important about your capacity and needs for self-care.";
+  let encouragement = "When you notice yourself feeling drawn to structure or needing more flexibility, trust that. Your energy for routine rises and falls. Both responses are valid. Listen to your capacity today. If routine feels grounding, embrace it. If it feels heavy, honor that too. Forcing productivity when your capacity is low often backfires. What are your reactions showing you about what you truly need?";
 
   if (moonHouse === 6) {
-    summary = "You might notice yourself feeling more aware of your daily demands and self-care needs today. Perhaps you're feeling more sensitive to how structure feels—either grounding or restrictive—or maybe you're noticing that your body and mind are asking for more attention. Pay attention to how you're experiencing routine—this is showing you something important about your capacity.";
-    explanation = `Your relationship with routine and self-care is being activated today. You might find yourself feeling more aware of what your body and mind need to function well, or noticing that structure feels either supportive or draining. Notice how this shows up for you—are you craving more routine? Feeling overwhelmed by it? Your reactions are revealing something important about your authentic needs for structure and self-care.`;
-    encouragement = "When you notice yourself craving structure or needing more flexibility, trust that. Both responses are valid. Listen to your capacity today—if routine feels grounding, embrace it. If it feels heavy, honor that too. Your energy for routine rises and falls, and forcing productivity when your capacity is low often backfires. What are your reactions showing you about what you truly need?";
+    summary = "You might notice yourself feeling more aware of your daily demands and self-care needs today. Perhaps you're feeling more sensitive to how structure feels: either grounding or restrictive, or maybe you're noticing that your body and mind are asking for more attention. Pay attention to how you're experiencing routine. This is showing you something important about your capacity.";
+    explanation = `Your relationship with routine and self-care is being activated today. You might find yourself feeling more aware of what your body and mind need to function well, or noticing that structure feels either supportive or draining. Notice how this shows up for you. Are you craving more routine? Feeling overwhelmed by it? Your reactions are revealing something important about your authentic needs for structure and self-care.`;
+    encouragement = "When you notice yourself craving structure or needing more flexibility, trust that. Both responses are valid. Listen to your capacity today. If routine feels grounding, embrace it. If it feels heavy, honor that too. Your energy for routine rises and falls, and forcing productivity when your capacity is low often backfires. What are your reactions showing you about what you truly need?";
   }
 
   if (moonAspect.planet === "Saturn" && moonAspect.aspectType) {
     const aspectLower = moonAspect.aspectType.toLowerCase();
-    summary = "You might notice yourself feeling more aware of responsibility and discipline today. Perhaps you're feeling more sensitive to how structure feels—either supportive or restrictive—or maybe you're noticing that the pressure of daily demands feels heavier. Pay attention to how you're experiencing discipline—this is showing you something important about your relationship with routine.";
-    explanation = `Your relationship with discipline and responsibility is being activated today. You might find yourself feeling more aware of the effort required to maintain routines, or noticing that structure feels either grounding or heavy. Notice how this shows up for you—are you feeling more burdened by responsibility? More supported by structure? Your reactions are revealing something important about your authentic needs for routine and self-care.`;
-    encouragement = "When you notice yourself feeling supported by structure or burdened by it, trust that. Both responses are valid. If structure feels supportive today, embrace it. If it feels restrictive or draining, honor that too. Your energy for routine rises and falls—some days you need more structure for safety, while other days the same structure can feel like a burden. Listen to your capacity. What are your reactions showing you about what you truly need?";
+    summary = "You might notice yourself feeling more aware of responsibility and discipline today. Perhaps you're feeling more sensitive to how structure feels: either supportive or restrictive, or maybe you're noticing that the pressure of daily demands feels heavier. Pay attention to how you're experiencing discipline. This is showing you something important about your relationship with routine.";
+    explanation = `Your relationship with discipline and responsibility is being activated today. You might find yourself feeling more aware of the effort required to maintain routines, or noticing that structure feels either grounding or heavy. Notice how this shows up for you. Are you feeling more burdened by responsibility? More supported by structure? Your reactions are revealing something important about your authentic needs for routine and self-care.`;
+    encouragement = "When you notice yourself feeling supported by structure or burdened by it, trust that. Both responses are valid. If structure feels supportive today, embrace it. If it feels restrictive or draining, honor that too. Your energy for routine rises and falls. Some days you need more structure for safety, while other days the same structure can feel like a burden. Listen to your capacity. What are your reactions showing you about what you truly need?";
   }
 
   if (moonAspect.planet === "Mercury" && moonAspect.aspectType) {
     const aspectLower = moonAspect.aspectType.toLowerCase();
-    summary = "You might notice yourself feeling more focused or organized today. Perhaps you're feeling more able to organize tasks, or maybe you're noticing that mental clarity feels more accessible. Pay attention to how you're experiencing your thinking—this is showing you something important about your capacity for structure.";
-    explanation = `Your mental focus and organization are being activated today. You might find yourself feeling more aware of how routine supports your clarity, or noticing that you're more able to organize your daily life. Notice how this shows up for you—are you feeling more focused? More supported by structure? Your reactions are revealing something important about your authentic needs for mental clarity and routine.`;
-    encouragement = "When you notice yourself feeling more focused or organized, honor that. However, remember that your energy for routine rises and falls—some days structure feels grounding, while other days it can feel restrictive. Both responses are valid. Listen to your capacity today. If you're feeling more focused, use that. If you're feeling scattered, honor that too. What are your reactions showing you about what you truly need?";
+    summary = "You might notice yourself feeling more focused or organized today. Perhaps you're feeling more able to organize tasks, or maybe you're noticing that mental clarity feels more accessible. Pay attention to how you're experiencing your thinking. This is showing you something important about your capacity for structure.";
+    explanation = `Your mental focus and organization are being activated today. You might find yourself feeling more aware of how routine supports your clarity, or noticing that you're more able to organize your daily life. Notice how this shows up for you. Are you feeling more focused? More supported by structure? Your reactions are revealing something important about your authentic needs for mental clarity and routine.`;
+    encouragement = "When you notice yourself feeling more focused or organized, honor that. However, remember that your energy for routine rises and falls. Some days structure feels grounding, while other days it can feel restrictive. Both responses are valid. Listen to your capacity today. If you're feeling more focused, use that. If you're feeling scattered, honor that too. What are your reactions showing you about what you truly need?";
   }
 
   if (!moonAspect.aspectType && moonHouse !== 6) {

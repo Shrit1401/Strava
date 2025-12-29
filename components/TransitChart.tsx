@@ -96,7 +96,7 @@ const TransitChart = ({
           cy={center}
           r={outerRadius}
           fill="none"
-          stroke="#e5e7eb"
+          stroke="#d1d5db"
           strokeWidth={1}
         />
         <circle
@@ -104,7 +104,7 @@ const TransitChart = ({
           cy={center}
           r={innerRadius}
           fill="none"
-          stroke="#f3f4f6"
+          stroke="#d1d5db"
           strokeWidth={0.7}
         />
         <circle
@@ -112,7 +112,7 @@ const TransitChart = ({
           cy={center}
           r={innerRadius - 20}
           fill="none"
-          stroke="#f9fafb"
+          stroke="#d1d5db"
           strokeWidth={0.5}
         />
         <circle
@@ -120,9 +120,9 @@ const TransitChart = ({
           cy={center}
           r={planetRadius}
           fill="none"
-          stroke="#e5e7eb"
+          stroke="#9ca3af"
           strokeWidth={0.5}
-          opacity={0.5}
+          opacity={0.8}
         />
 
         {Array.from({ length: 12 }, (_, i) => {
@@ -136,7 +136,7 @@ const TransitChart = ({
               y={y}
               textAnchor="middle"
               dominantBaseline="middle"
-              fill="#9ca3af"
+              fill="#6b7280"
               fontSize="12"
               fontFamily="sans-serif"
             >
@@ -177,7 +177,7 @@ const TransitChart = ({
             cy={p1.y}
             r={12}
             fill="white"
-            stroke="#e5e7eb"
+            stroke="#9ca3af"
             strokeWidth={1}
           />
           <image
@@ -195,7 +195,7 @@ const TransitChart = ({
             cy={p2.y}
             r={12}
             fill="white"
-            stroke="#e5e7eb"
+            stroke="#9ca3af"
             strokeWidth={1}
           />
           <image
@@ -212,7 +212,7 @@ const TransitChart = ({
           cy={center}
           r={size * 0.08}
           fill="#f9fafb"
-          stroke="#e5e7eb"
+          stroke="#d1d5db"
           strokeWidth={0.5}
         />
       </svg>

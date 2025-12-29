@@ -40,7 +40,7 @@ export const Dialog = ({
       onClick={onClose}
     >
       <div
-        className={`fixed inset-0 bg-black/20 backdrop-blur-sm transition-opacity duration-300 ${
+        className={`fixed inset-0 bg-gray-200 transition-opacity duration-300 ${
           isAnimating ? "opacity-100" : "opacity-0"
         }`}
       />

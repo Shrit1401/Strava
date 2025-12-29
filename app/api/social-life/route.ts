@@ -180,25 +180,25 @@ Tone: ${tone}
 Logical Bullets: ${logicalBullets.join(", ")}
 
 CRITICAL INSTRUCTIONS:
-- Write in second person ("you", "your") speaking directly to the person
-- Focus 80% on HOW THIS AFFECTS THEM PERSONALLY - their feelings, reactions, needs, patterns
-- Focus 20% on the astrology (brief mention is fine)
-- Make it deeply emotional and reflective - help them understand what they're experiencing
-- Use phrases like "You might notice...", "You may feel...", "This could show up as...", "Pay attention to how..."
-- Describe their inner experience, not just astrological facts
-- Help them reflect on their patterns, needs, and reactions
-- Make it feel like a trusted friend helping them understand themselves
-- Do not introduce new planets beyond Moon and Venus
-- Do not mention astrology terms not provided
-- Do not make absolute claims
+Write in second person ("you", "your") speaking directly to the person
+Focus 80% on HOW THIS AFFECTS THEM PERSONALLY: their feelings, reactions, needs, patterns
+Focus 20% on the astrology (brief mention is fine)
+Make it deeply emotional and reflective: help them understand what they're experiencing
+Use phrases like "You might notice...", "You may feel...", "This could show up as...", "Pay attention to how..."
+Describe their inner experience, not just astrological facts
+Help them reflect on their patterns, needs, and reactions
+Make it feel like a trusted friend helping them understand themselves
+Do not introduce new planets beyond Moon and Venus
+Do not mention astrology terms not provided
+Do not make absolute claims
 
 Generate exactly three outputs:
 
-1. One paragraph summary (under "Social Life" title) - 3-4 sentences describing how TODAY'S SOCIAL ENERGY AFFECTS THEM PERSONALLY. What might they notice? How might they feel? What patterns might emerge?
+1. One paragraph summary (under "Social Life" title): 3-4 sentences describing how TODAY'S SOCIAL ENERGY AFFECTS THEM PERSONALLY. What might they notice? How might they feel? What patterns might emerge?
 
-2. One explanatory paragraph (under the graph) - 3-4 sentences that BRIEFLY mentions the Moon-Venus relationship but FOCUSES on what this means FOR THEM. How does this show up in their relationships? What does this reveal about their needs?
+2. One explanatory paragraph (under the graph): 3-4 sentences that BRIEFLY mentions the Moon and Venus relationship but FOCUSES on what this means FOR THEM. How does this show up in their relationships? What does this reveal about their needs?
 
-3. One closing encouragement paragraph - 3-4 sentences offering deep, personal reflection. Help them understand themselves better. What should they pay attention to? What might this teach them about their patterns?
+3. One closing encouragement paragraph: 3-4 sentences offering deep, personal reflection. Help them understand themselves better. What should they pay attention to? What might this teach them about their patterns?
 
 Format your response as JSON:
 {
@@ -240,38 +240,38 @@ Format your response as JSON:
   const isChallenging = signalStrength === "Challenging";
 
   let summary =
-    "You might notice yourself feeling more aware of your social needs today. Perhaps you're feeling drawn to connect, or maybe you're noticing a deeper longing for meaningful interaction. Pay attention to how you're responding to others—are you feeling more open, or more protective? These feelings are telling you something important about what you need right now.";
+    "You might notice yourself feeling more aware of your social needs today. Perhaps you're feeling drawn to connect, or maybe you're noticing a deeper longing for meaningful interaction. Pay attention to how you're responding to others. Are you feeling more open, or more protective? These feelings are telling you something important about what you need right now.";
   let explanation =
-    "Today's energy highlights your relationship with connection and how you give and receive affection. You might find yourself more aware of how you're being seen, or more sensitive to the quality of your interactions. Notice what feels good and what doesn't—your reactions are showing you what you truly need in your relationships. This isn't about forcing connection or avoiding it, but about understanding your authentic social needs.";
+    "Today's energy highlights your relationship with connection and how you give and receive affection. You might find yourself more aware of how you're being seen, or more sensitive to the quality of your interactions. Notice what feels good and what doesn't. Your reactions are showing you what you truly need in your relationships. This isn't about forcing connection or avoiding it, but about understanding your authentic social needs.";
   let encouragement =
-    "Trust what you're feeling. If you notice yourself wanting more connection, honor that. If you notice yourself needing space, honor that too. Your social impulses are valid information about your needs. Pay attention to how you're responding to others today—your reactions are teaching you about your patterns, your boundaries, and what makes you feel truly seen and valued.";
+    "Trust what you're feeling. If you notice yourself wanting more connection, honor that. If you notice yourself needing space, honor that too. Your social impulses are valid information about your needs. Pay attention to how you're responding to others today. Your reactions are teaching you about your patterns, your boundaries, and what makes you feel truly seen and valued.";
 
   if (aspectType) {
     const aspectLower = aspectType.toLowerCase();
     if (aspectLower === "trine" || aspectLower === "sextile") {
       summary =
-        "You might notice yourself feeling more naturally open to connection today. Perhaps you're finding it easier to be yourself around others, or maybe you're noticing that your usual social defenses feel softer. Pay attention to how you're responding—do you feel more comfortable being seen? More willing to let people in? These feelings are showing you that your emotional needs and your desire for connection are aligning in a way that feels supportive.";
-      explanation = `Today's energy creates a sense of ease between your emotional needs and your desire for connection. You might find yourself more naturally charming without trying, or more comfortable expressing what you want socially. Notice how you're responding to others—are you feeling more open? More able to receive affection? Your reactions are revealing something important about your capacity for authentic connection. This isn't about forcing interactions, but about recognizing when connection feels natural and good.`;
+        "You might notice yourself feeling more naturally open to connection today. Perhaps you're finding it easier to be yourself around others, or maybe you're noticing that your usual social defenses feel softer. Pay attention to how you're responding. Do you feel more comfortable being seen? More willing to let people in? These feelings are showing you that your emotional needs and your desire for connection are aligning in a way that feels supportive.";
+      explanation = `Today's energy creates a sense of ease between your emotional needs and your desire for connection. You might find yourself more naturally charming without trying, or more comfortable expressing what you want socially. Notice how you're responding to others. Are you feeling more open? More able to receive affection? Your reactions are revealing something important about your capacity for authentic connection. This isn't about forcing interactions, but about recognizing when connection feels natural and good.`;
       encouragement =
-        "Trust what feels natural today. If you notice yourself wanting to reach out, do it. If you notice yourself feeling more comfortable being seen, honor that. Your social impulses are showing you what you need—pay attention to them. However, remember that even when connection feels easier, you still get to choose how much you share and with whom. Your boundaries matter, even when the energy feels supportive. Use this time to notice what authentic connection feels like for you, and let that guide you.";
+        "Trust what feels natural today. If you notice yourself wanting to reach out, do it. If you notice yourself feeling more comfortable being seen, honor that. Your social impulses are showing you what you need. Pay attention to them. However, remember that even when connection feels easier, you still get to choose how much you share and with whom. Your boundaries matter, even when the energy feels supportive. Use this time to notice what authentic connection feels like for you, and let that guide you.";
     } else if (aspectLower === "conjunction") {
       summary =
-        "You might notice yourself feeling more magnetic or aware of how others are responding to you today. Perhaps you're feeling more confident in your ability to connect, or maybe you're noticing that people seem more drawn to you. Pay attention to how this feels—do you enjoy the attention, or does it feel overwhelming? Your reactions are showing you something important about your relationship with visibility and connection.";
-      explanation = `Today's energy intensifies your capacity for connection and attraction. You might find yourself more aware of how you're being seen, or more conscious of what you find appealing in others. Notice how you're responding to this energy—are you feeling more confident? More willing to express what you want? Your reactions are revealing something important about your authentic social needs. This isn't about performing or trying to be charming—it's about recognizing when your natural appeal is working and understanding what that means for you.`;
+        "You might notice yourself feeling more magnetic or aware of how others are responding to you today. Perhaps you're feeling more confident in your ability to connect, or maybe you're noticing that people seem more drawn to you. Pay attention to how this feels. Do you enjoy the attention, or does it feel overwhelming? Your reactions are showing you something important about your relationship with visibility and connection.";
+      explanation = `Today's energy intensifies your capacity for connection and attraction. You might find yourself more aware of how you're being seen, or more conscious of what you find appealing in others. Notice how you're responding to this energy. Are you feeling more confident? More willing to express what you want? Your reactions are revealing something important about your authentic social needs. This isn't about performing or trying to be charming. It's about recognizing when your natural appeal is working and understanding what that means for you.`;
       encouragement =
-        "Pay attention to how this visibility feels. If you notice yourself enjoying the attention, that's valid. If you notice yourself feeling overwhelmed or pressured, that's valid too. Your reactions are teaching you about your relationship with being seen and your capacity for connection. Notice what feels truly good versus what you think you should want. Your authentic needs matter—honor them, whether that means embracing connection or protecting your boundaries.";
+        "Pay attention to how this visibility feels. If you notice yourself enjoying the attention, that's valid. If you notice yourself feeling overwhelmed or pressured, that's valid too. Your reactions are teaching you about your relationship with being seen and your capacity for connection. Notice what feels truly good versus what you think you should want. Your authentic needs matter. Honor them, whether that means embracing connection or protecting your boundaries.";
     } else if (aspectLower === "square" || aspectLower === "opposition") {
       summary =
-        "You might notice yourself feeling torn between different social needs today. Perhaps you want connection but also need space, or maybe you're feeling conflicted about how much to share. Pay attention to this tension—it's showing you something important about your authentic needs versus what you think you should want socially.";
-      explanation = `Today's energy creates tension between your emotional needs and your social desires. You might find yourself feeling conflicted—wanting to connect but needing space, or wanting to be authentic but fearing rejection. Notice how this shows up for you—are you feeling pulled in different directions? Are you noticing yourself trying to please others while ignoring your own needs? Your reactions are revealing something important about your patterns in relationships. This tension isn't a flaw—it's information about what you truly need versus what you think you should want.`;
+        "You might notice yourself feeling torn between different social needs today. Perhaps you want connection but also need space, or maybe you're feeling conflicted about how much to share. Pay attention to this tension. It's showing you something important about your authentic needs versus what you think you should want socially.";
+      explanation = `Today's energy creates tension between your emotional needs and your social desires. You might find yourself feeling conflicted: wanting to connect but needing space, or wanting to be authentic but fearing rejection. Notice how this shows up for you. Are you feeling pulled in different directions? Are you noticing yourself trying to please others while ignoring your own needs? Your reactions are revealing something important about your patterns in relationships. This tension isn't a flaw. It's information about what you truly need versus what you think you should want.`;
       encouragement =
-        "When you feel this tension, pause and ask yourself what each part of you is trying to say. What does the part that wants connection need? What does the part that needs space need? Both are valid. The work isn't to choose one over the other, but to understand both and find ways to honor them. Maybe you need clearer boundaries while still being open. Maybe you need to express your authentic self even if it means risking disapproval. Trust that this tension is teaching you something important about yourself—pay attention to what it's showing you.";
+        "When you feel this tension, pause and ask yourself what each part of you is trying to say. What does the part that wants connection need? What does the part that needs space need? Both are valid. The work isn't to choose one over the other, but to understand both and find ways to honor them. Maybe you need clearer boundaries while still being open. Maybe you need to express your authentic self even if it means risking disapproval. Trust that this tension is teaching you something important about yourself. Pay attention to what it's showing you.";
     }
   } else {
     const angleText = aspectAngle
       ? `approximately ${Math.round(aspectAngle)} degrees`
       : "some distance";
-    explanation = `The Moon is currently ${angleText} away from your natal Venus position. While this isn't within the orb for a major aspect, the Moon's proximity still activates Venusian themes in your life. The Moon represents your emotional world and daily responses, while Venus shows how you love, what you find beautiful, and how you attract others. Even without a tight aspect, the Moon's movement through the zodiac brings attention to these themes, inviting you to notice how you're relating socially and what feels pleasurable or meaningful in your connections. This is a time to pay attention to your social impulses—what draws you to others, what repels you, and what feels authentic versus what feels like performance.`;
+    explanation = `The Moon is currently ${angleText} away from your natal Venus position. While this isn't within the orb for a major aspect, the Moon's proximity still activates Venusian themes in your life. The Moon represents your emotional world and daily responses, while Venus shows how you love, what you find beautiful, and how you attract others. Even without a tight aspect, the Moon's movement through the zodiac brings attention to these themes, inviting you to notice how you're relating socially and what feels pleasurable or meaningful in your connections. This is a time to pay attention to your social impulses: what draws you to others, what repels you, and what feels authentic versus what feels like performance.`;
   }
 
   return {

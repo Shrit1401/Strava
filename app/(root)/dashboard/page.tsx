@@ -5,11 +5,228 @@ import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Dialog } from "@/components/ui/Dialog";
 import TransitChart from "@/components/TransitChart";
+import Loader from "@/components/Loader";
+
+type DailyPrediction = {
+  date: string;
+  theme: string;
+  tone: string;
+  doList: string[];
+  dontList: string[];
+  headline: string;
+  bullets: string[];
+  closing: string[];
+};
+
+type SocialLifeData = {
+  theme: string;
+  signalStrength: "Supportive" | "Neutral" | "Challenging";
+  aspectType: string | null;
+  aspectAngle: number | null;
+  moonToday: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  moonHouse: number;
+  natalVenus: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  summary: string;
+  explanation: string;
+  encouragement: string;
+  logicalBullets: string[];
+};
+
+type SelfData = {
+  theme: string;
+  signalStrength: "Pressure" | "Neutral" | "Supportive";
+  moonAspect: {
+    planet: "Saturn" | "Mars" | null;
+    aspectType: string | null;
+    angle: number | null;
+  };
+  moonToday: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  moonHouse: number;
+  moonSign: string;
+  natalSaturn: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  natalMars: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  summary: string;
+  explanation: string;
+  encouragement: string;
+  logicalBullets: string[];
+};
+
+type SpiritualityData = {
+  theme: string;
+  signalStrength: "Active" | "Neutral" | "Subtle";
+  moonAspect: {
+    aspectType: string | null;
+    angle: number | null;
+  };
+  moonToday: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  moonHouse: number;
+  moonSign: string;
+  natalNeptune: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  summary: string;
+  explanation: string;
+  encouragement: string;
+  logicalBullets: string[];
+};
+
+type SexLoveData = {
+  theme: string;
+  signalStrength: "Active" | "Neutral" | "Complex";
+  moonAspect: {
+    planet: "Venus" | "Mars" | null;
+    aspectType: string | null;
+    angle: number | null;
+  };
+  moonToday: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  moonHouse: number;
+  moonSign: string;
+  natalVenus: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  natalMars: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  summary: string;
+  explanation: string;
+  encouragement: string;
+  logicalBullets: string[];
+};
+
+type RoutineData = {
+  theme: string;
+  signalStrength: "Grounding" | "Heavy" | "Neutral";
+  moonAspect: {
+    planet: "Mercury" | "Saturn" | null;
+    aspectType: string | null;
+    angle: number | null;
+  };
+  moonToday: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  moonHouse: number;
+  moonSign: string;
+  natalMercury: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  natalSaturn: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  summary: string;
+  explanation: string;
+  encouragement: string;
+  logicalBullets: string[];
+};
+
+type ThinkingCreativityData = {
+  theme: string;
+  signalStrength: "Active" | "Scattered" | "Neutral";
+  moonAspect: {
+    planet: "Mercury" | "Uranus" | null;
+    aspectType: string | null;
+    angle: number | null;
+  };
+  moonToday: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  moonHouse: number;
+  moonSign: string;
+  natalMercury: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  natalUranus: {
+    longitude: number;
+    sign: string;
+    signIndex: number;
+    degreeInsideSign: number;
+  };
+  summary: string;
+  explanation: string;
+  encouragement: string;
+  logicalBullets: string[];
+};
 
 const DashboardPage = () => {
   const [userName, setUserName] = useState("Shrit");
   const [currentDate, setCurrentDate] = useState("");
   const [openDialog, setOpenDialog] = useState<string | null>(null);
+  const [prediction, setPrediction] = useState<DailyPrediction | null>(null);
+  const [socialLife, setSocialLife] = useState<SocialLifeData | null>(null);
+  const [self, setSelf] = useState<SelfData | null>(null);
+  const [spirituality, setSpirituality] = useState<SpiritualityData | null>(
+    null
+  );
+  const [sexLove, setSexLove] = useState<SexLoveData | null>(null);
+  const [routine, setRoutine] = useState<RoutineData | null>(null);
+  const [thinkingCreativity, setThinkingCreativity] =
+    useState<ThinkingCreativityData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [socialLifeLoading, setSocialLifeLoading] = useState(true);
+  const [selfLoading, setSelfLoading] = useState(true);
+  const [spiritualityLoading, setSpiritualityLoading] = useState(true);
+  const [sexLoveLoading, setSexLoveLoading] = useState(true);
+  const [routineLoading, setRoutineLoading] = useState(true);
+  const [thinkingCreativityLoading, setThinkingCreativityLoading] =
+    useState(true);
 
   useEffect(() => {
     const supabase = createClient();
@@ -56,6 +273,119 @@ const DashboardPage = () => {
     const month = months[now.getMonth()];
     const day = now.getDate();
     setCurrentDate(`${dayName} ${month} ${day}`);
+
+    const fetchDailyPrediction = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch("/api/daily");
+        if (response.ok) {
+          const data = await response.json();
+          setPrediction(data.prediction);
+        }
+      } catch (error) {
+        console.error("Failed to fetch daily prediction:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const fetchSocialLife = async () => {
+      try {
+        setSocialLifeLoading(true);
+        const response = await fetch("/api/social-life");
+        if (response.ok) {
+          const data = await response.json();
+          setSocialLife(data.socialLife);
+        }
+      } catch (error) {
+        console.error("Failed to fetch social life:", error);
+      } finally {
+        setSocialLifeLoading(false);
+      }
+    };
+
+    const fetchSelf = async () => {
+      try {
+        setSelfLoading(true);
+        const response = await fetch("/api/self");
+        if (response.ok) {
+          const data = await response.json();
+          setSelf(data.self);
+        }
+      } catch (error) {
+        console.error("Failed to fetch self:", error);
+      } finally {
+        setSelfLoading(false);
+      }
+    };
+
+    const fetchSpirituality = async () => {
+      try {
+        setSpiritualityLoading(true);
+        const response = await fetch("/api/spirituality");
+        if (response.ok) {
+          const data = await response.json();
+          setSpirituality(data.spirituality);
+        }
+      } catch (error) {
+        console.error("Failed to fetch spirituality:", error);
+      } finally {
+        setSpiritualityLoading(false);
+      }
+    };
+
+    const fetchSexLove = async () => {
+      try {
+        setSexLoveLoading(true);
+        const response = await fetch("/api/sex-love");
+        if (response.ok) {
+          const data = await response.json();
+          setSexLove(data.sexLove);
+        }
+      } catch (error) {
+        console.error("Failed to fetch sex & love:", error);
+      } finally {
+        setSexLoveLoading(false);
+      }
+    };
+
+    const fetchRoutine = async () => {
+      try {
+        setRoutineLoading(true);
+        const response = await fetch("/api/routine");
+        if (response.ok) {
+          const data = await response.json();
+          setRoutine(data.routine);
+        }
+      } catch (error) {
+        console.error("Failed to fetch routine:", error);
+      } finally {
+        setRoutineLoading(false);
+      }
+    };
+
+    const fetchThinkingCreativity = async () => {
+      try {
+        setThinkingCreativityLoading(true);
+        const response = await fetch("/api/thinking-creativity");
+        if (response.ok) {
+          const data = await response.json();
+          setThinkingCreativity(data.thinkingCreativity);
+        }
+      } catch (error) {
+        console.error("Failed to fetch thinking & creativity:", error);
+      } finally {
+        setThinkingCreativityLoading(false);
+      }
+    };
+
+    fetchDailyPrediction();
+    fetchSocialLife();
+    fetchSelf();
+    fetchSpirituality();
+    fetchSexLove();
+    fetchRoutine();
+    fetchThinkingCreativity();
   }, []);
 
   const getGreeting = () => {
@@ -64,6 +394,19 @@ const DashboardPage = () => {
     if (hour < 17) return "Good Afternoon";
     return "Good Evening";
   };
+
+  const isLoading =
+    loading ||
+    socialLifeLoading ||
+    selfLoading ||
+    spiritualityLoading ||
+    sexLoveLoading ||
+    routineLoading ||
+    thinkingCreativityLoading;
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="min-h-screen pb-20">
@@ -81,8 +424,10 @@ const DashboardPage = () => {
 
             <div className="pt-4">
               <h1 className="cormorant text-5xl md:text-6xl lg:text-7xl font-light text-black leading-[1.1] tracking-tight">
-                Anyone who falls in love with you will remember it for the rest
-                of the life
+                {loading
+                  ? "Loading your daily reflection..."
+                  : prediction?.headline ||
+                    "Today brings opportunities for reflection"}
               </h1>
             </div>
 
@@ -92,11 +437,27 @@ const DashboardPage = () => {
                   Do
                 </h2>
                 <ul className="space-y-3 text-lg text-black/80 leading-relaxed">
-                  <li className="pl-0 cormorant font-bold">
-                    Swallow Your Pride
-                  </li>
-                  <li className="pl-0 cormorant font-bold">Flings</li>
-                  <li className="pl-0 cormorant font-bold">Low Stakes</li>
+                  {loading ? (
+                    <>
+                      <li className="pl-0 cormorant font-bold">Loading...</li>
+                    </>
+                  ) : prediction?.doList && prediction.doList.length > 0 ? (
+                    prediction.doList.map((item, index) => (
+                      <li key={index} className="pl-0 cormorant font-bold">
+                        {item}
+                      </li>
+                    ))
+                  ) : (
+                    <>
+                      <li className="pl-0 cormorant font-bold">
+                        Trust your instincts
+                      </li>
+                      <li className="pl-0 cormorant font-bold">
+                        Take your time
+                      </li>
+                      <li className="pl-0 cormorant font-bold">Stay present</li>
+                    </>
+                  )}
                 </ul>
               </div>
               <div className="space-y-4">
@@ -104,11 +465,27 @@ const DashboardPage = () => {
                   Don&apos;t
                 </h2>
                 <ul className="space-y-3 text-lg text-black/80 leading-relaxed">
-                  <li className="pl-0 cormorant font-bold">Hurt Feeling</li>
-                  <li className="pl-0 cormorant font-bold">
-                    Dramatic Gestures
-                  </li>
-                  <li className="pl-0 cormorant font-bold">Regrets</li>
+                  {loading ? (
+                    <>
+                      <li className="pl-0 cormorant font-bold">Loading...</li>
+                    </>
+                  ) : prediction?.dontList && prediction.dontList.length > 0 ? (
+                    prediction.dontList.map((item, index) => (
+                      <li key={index} className="pl-0 cormorant font-bold">
+                        {item}
+                      </li>
+                    ))
+                  ) : (
+                    <>
+                      <li className="pl-0 cormorant font-bold">
+                        Rush decisions
+                      </li>
+                      <li className="pl-0 cormorant font-bold">Overthink</li>
+                      <li className="pl-0 cormorant font-bold">
+                        Ignore your needs
+                      </li>
+                    </>
+                  )}
                 </ul>
               </div>
             </div>
@@ -117,43 +494,43 @@ const DashboardPage = () => {
               <h2 className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 mb-8">
                 Today
               </h2>
-              <ul className="space-y-5 text-sm text-black/80 leading-relaxed">
-                <li className="flex items-start gap-4">
-                  <span className="text-base mt-0.5 opacity-70">💡</span>
-                  <span>
-                    Anyone who falls in love with you will remember it for the
-                    rest of life
-                  </span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-base mt-0.5 opacity-70">🌱</span>
-                  <span>Power in social life</span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-base mt-0.5 opacity-70">🔥</span>
-                  <span>Pressure in self</span>
-                </li>
-                <li className="flex items-start gap-4">
-                  <span className="text-base mt-0.5 opacity-70">🚫</span>
-                  <span>
-                    Trouble with{" "}
-                    <span className="underline decoration-black/30">
-                      routine
-                    </span>
-                    ,{" "}
-                    <span className="underline decoration-black/30">
-                      thinking & creativity
-                    </span>
-                    ,{" "}
-                    <span className="underline decoration-black/30">
-                      spirituality
-                    </span>
-                    , and{" "}
-                    <span className="underline decoration-black/30">
-                      sex & love
-                    </span>
-                  </span>
-                </li>
+              <ul className="space-y-5 text-md text-black/80 leading-relaxed">
+                {loading ? (
+                  <li className="flex items-start gap-4">
+                    <span className="text-base mt-0.5 opacity-70">💡</span>
+                    <span>Loading your daily insights...</span>
+                  </li>
+                ) : prediction?.bullets && prediction.bullets.length > 0 ? (
+                  prediction.bullets.map((bullet, index) => {
+                    const icons = ["💡", "🌱", "🔥", "🚫"];
+                    return (
+                      <li key={index} className="flex items-start gap-4">
+                        <span className="text-base mt-0.5 opacity-70">
+                          {icons[index % icons.length]}
+                        </span>
+                        <span>{bullet}</span>
+                      </li>
+                    );
+                  })
+                ) : (
+                  <>
+                    <li className="flex items-start gap-4">
+                      <span className="text-base mt-0.5 opacity-70">💡</span>
+                      <span>Power in social life</span>
+                    </li>
+                    <li className="flex items-start gap-4">
+                      <span className="text-base mt-0.5 opacity-70">🌱</span>
+                      <span>Pressure in self</span>
+                    </li>
+                    <li className="flex items-start gap-4">
+                      <span className="text-base mt-0.5 opacity-70">🔥</span>
+                      <span>
+                        Trouble with routine, thinking & creativity,
+                        spirituality, and sex & love
+                      </span>
+                    </li>
+                  </>
+                )}
               </ul>
             </div>
           </div>
@@ -174,17 +551,19 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        <div className="space-y-5 pt-8 border-t border-black/5 text-sm text-black/70 leading-[1.8] w-full">
-          <p>
-            Today you feel torn between the pressure to let your guard down and
-            your love of safety and security. It&apos;s good to draw boundaries
-            if that&apos;s what you need.
-          </p>
-          <p>
-            Just make sure you&apos;re not doing that thing where you shut down,
-            and then convince yourself that it is self-centered to make requests
-            of others. Expand the definition of who you are
-          </p>
+        <div className="space-y-5 pt-8 border-t border-black/5 text-md text-black/70 leading-[1.8] w-full">
+          {loading ? (
+            <p>Loading your daily reflection...</p>
+          ) : prediction?.closing && prediction.closing.length > 0 ? (
+            prediction.closing.map((paragraph, index) => (
+              <p key={index}>{paragraph}</p>
+            ))
+          ) : (
+            <>
+              <p>Today brings opportunities for reflection and growth.</p>
+              <p>Trust yourself and take things one step at a time.</p>
+            </>
+          )}
         </div>
 
         <div className="space-y-20 pt-16">
@@ -197,13 +576,11 @@ const DashboardPage = () => {
                 <h3 className="cormorant text-2xl font-light text-black mb-4">
                   Social Life
                 </h3>
-                <p className="text-sm text-black/70 leading-relaxed mb-4">
-                  Strangers will notice you today. Luck currently spotlights
-                  your public self, bringing chances to shine through your
-                  skills and talents in ways others will remember. The version
-                  of you that impresses people isn&apos;t fake—it&apos;s just
-                  one facet of your complex personality that happens to work
-                  well right now.
+                <p className="text-md text-black/70 leading-relaxed mb-4">
+                  {socialLifeLoading
+                    ? "Loading your social life reflection..."
+                    : socialLife?.summary ||
+                      "Today's social energy invites connection and awareness."}
                 </p>
                 <button
                   onClick={() => setOpenDialog("social-life")}
@@ -245,12 +622,11 @@ const DashboardPage = () => {
                 <h3 className="cormorant text-2xl font-light text-black mb-4">
                   Self
                 </h3>
-                <p className="text-sm text-black/70 leading-relaxed mb-4">
-                  Your skin feels thinner than usual today. Your normal
-                  toughness has temporarily given way to a raw sensitivity that
-                  makes criticism sting more than it should. This heightened
-                  vulnerability isn&apos;t weakness —it&apos;s a chance to learn
-                  what your reactions teach about your deepest needs.
+                <p className="text-md text-black/70 leading-relaxed mb-4">
+                  {selfLoading
+                    ? "Loading your self reflection..."
+                    : self?.summary ||
+                      "Your emotional skin feels more sensitive today. The Moon's movement activates themes that bring your inner world closer to the surface."}
                 </p>
                 <button
                   onClick={() => setOpenDialog("self")}
@@ -272,10 +648,11 @@ const DashboardPage = () => {
                 <h3 className="cormorant text-2xl font-light text-black mb-4">
                   Spirituality
                 </h3>
-                <p className="text-sm text-black/70 leading-relaxed mb-4">
-                  Your spiritual path may feel unclear or blocked today. Trust
-                  that these moments of uncertainty are part of the journey,
-                  offering opportunities for deeper reflection and growth.
+                <p className="text-md text-black/70 leading-relaxed mb-4">
+                  {spiritualityLoading
+                    ? "Loading your spirituality reflection..."
+                    : spirituality?.summary ||
+                      "Your spiritual path invites deeper listening today. The Moon's movement activates themes that thin mental noise, making space for intuition."}
                 </p>
                 <button
                   onClick={() => setOpenDialog("spirituality")}
@@ -317,10 +694,11 @@ const DashboardPage = () => {
                 <h3 className="cormorant text-2xl font-light text-black mb-4">
                   Sex & Love
                 </h3>
-                <p className="text-sm text-black/70 leading-relaxed mb-4">
-                  Intimacy and romantic connections may feel complicated today.
-                  Take time to understand your own needs and communicate them
-                  clearly with those who matter most.
+                <p className="text-md text-black/70 leading-relaxed mb-4">
+                  {sexLoveLoading
+                    ? "Loading your sex & love reflection..."
+                    : sexLove?.summary ||
+                      "Your desire for connection feels more present today. The Moon's movement activates themes that bring attention to your longing for intimacy."}
                 </p>
                 <button
                   onClick={() => setOpenDialog("sex-love")}
@@ -342,10 +720,11 @@ const DashboardPage = () => {
                 <h3 className="cormorant text-2xl font-light text-black mb-4">
                   Routine
                 </h3>
-                <p className="text-sm text-black/70 leading-relaxed mb-4">
-                  Your usual patterns and habits may feel disrupted or difficult
-                  to maintain. This disruption can be an invitation to examine
-                  what truly serves you and what might need to change.
+                <p className="text-md text-black/70 leading-relaxed mb-4">
+                  {routineLoading
+                    ? "Loading your routine reflection..."
+                    : routine?.summary ||
+                      "Your routine energy invites attention today. The Moon's movement activates themes that bring awareness to your daily rhythm."}
                 </p>
                 <button
                   onClick={() => setOpenDialog("routine")}
@@ -387,11 +766,11 @@ const DashboardPage = () => {
                 <h3 className="cormorant text-2xl font-light text-black mb-4">
                   Thinking & Creativity
                 </h3>
-                <p className="text-sm text-black/70 leading-relaxed mb-4">
-                  Mental clarity and creative expression may feel blocked or
-                  challenging. Sometimes the best ideas come after periods of
-                  struggle—trust the process and allow space for new
-                  perspectives to emerge.
+                <p className="text-md text-black/70 leading-relaxed mb-4">
+                  {thinkingCreativityLoading
+                    ? "Loading your thinking & creativity reflection..."
+                    : thinkingCreativity?.summary ||
+                      "Your thinking and creativity feel more active today. The Moon's movement activates themes that bring attention to the flow between logic and imagination."}
                 </p>
                 <button
                   onClick={() => setOpenDialog("thinking-creativity")}
@@ -412,44 +791,38 @@ const DashboardPage = () => {
           category="Power"
         >
           <div className="space-y-6">
-            <TransitChart
-              planet1={{
-                name: "Moon",
-                longitude: 30,
-                icon: "/planets/moon.svg",
-              }}
-              planet2={{
-                name: "Venus",
-                longitude: 150,
-                icon: "/planets/venus.svg",
-              }}
-              aspect={{ type: "Trine", angle: 120 }}
-            />
-            <div className="space-y-4">
-              <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 mb-2">
-                Moon Facilitating Romance
-              </p>
-              <p>
-                The Moon is currently four signs (120°) away from where Venus
-                was when you were born. That angle (trine) brings positivity and
-                acceleration. The Moon stands for your emotional world. Venus
-                represents pleasure.
-              </p>
-              <p>
-                Strangers will notice you today. Luck currently spotlights your
-                public self, bringing chances to shine through your skills and
-                talents in ways others will remember. The version of you that
-                impresses people isn&apos;t fake—it&apos;s just one facet of
-                your complex personality that happens to work well right now.
-              </p>
-              <p>
-                This is a time to embrace your natural charisma and ability to
-                connect. The planets are aligning to support your social
-                endeavors, making it easier to form new bonds and strengthen
-                existing ones. Trust in your ability to navigate social
-                situations with grace and authenticity.
-              </p>
-            </div>
+            {socialLifeLoading || !socialLife ? (
+              <div className="text-center py-8">Loading chart...</div>
+            ) : (
+              <>
+                <TransitChart
+                  planet1={{
+                    name: "Moon",
+                    longitude: socialLife.moonToday.longitude,
+                    icon: "/planets/moon.svg",
+                  }}
+                  planet2={{
+                    name: "Venus",
+                    longitude: socialLife.natalVenus.longitude,
+                    icon: "/planets/venus.svg",
+                  }}
+                  aspect={{
+                    type: socialLife.aspectType || "None",
+                    angle: socialLife.aspectAngle || 0,
+                  }}
+                  size={450}
+                />
+                <div className="space-y-6">
+                  <p className="text-md font-normal uppercase tracking-[0.15em] text-black/60 mb-3">
+                    {socialLife.theme}
+                  </p>
+                  <div className="space-y-5 text-base text-black/80 leading-relaxed">
+                    <p>{socialLife.explanation}</p>
+                    <p>{socialLife.encouragement}</p>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </Dialog>
 
@@ -460,43 +833,64 @@ const DashboardPage = () => {
           category="Pressure"
         >
           <div className="space-y-6">
-            <TransitChart
-              planet1={{
-                name: "Mars",
-                longitude: 180,
-                icon: "/planets/mars.svg",
-              }}
-              planet2={{
-                name: "Saturn",
-                longitude: 270,
-                icon: "/planets/saturn.svg",
-              }}
-              aspect={{ type: "Square", angle: 90 }}
-            />
-            <div className="space-y-4">
-              <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 mb-2">
-                Mars Pressuring Self
-              </p>
-              <p>
-                Mars is currently three signs (90°) away from where Saturn was
-                when you were born. That angle (square) brings tension and
-                challenge. Mars represents action and drive. Saturn represents
-                structure and boundaries.
-              </p>
-              <p>
-                Your skin feels thinner than usual today. Your normal toughness
-                has temporarily given way to a raw sensitivity that makes
-                criticism sting more than it should. This heightened
-                vulnerability isn&apos;t weakness —it&apos;s a chance to learn
-                what your reactions teach about your deepest needs.
-              </p>
-              <p>
-                The pressure you&apos;re feeling is an invitation to look inward
-                and understand what truly matters to you. When you feel
-                defensive or hurt, pause and ask yourself: what need is not
-                being met? What boundary needs to be set or respected?
-              </p>
-            </div>
+            {selfLoading || !self ? (
+              <div className="text-center py-8">Loading chart...</div>
+            ) : (
+              <>
+                {self.moonAspect.planet ? (
+                  <TransitChart
+                    planet1={{
+                      name: "Moon",
+                      longitude: self.moonToday.longitude,
+                      icon: "/planets/moon.svg",
+                    }}
+                    planet2={{
+                      name: self.moonAspect.planet,
+                      longitude:
+                        self.moonAspect.planet === "Saturn"
+                          ? self.natalSaturn.longitude
+                          : self.natalMars.longitude,
+                      icon:
+                        self.moonAspect.planet === "Saturn"
+                          ? "/planets/saturn.svg"
+                          : "/planets/mars.svg",
+                    }}
+                    aspect={{
+                      type: self.moonAspect.aspectType || "None",
+                      angle: self.moonAspect.angle || 0,
+                    }}
+                    size={450}
+                  />
+                ) : (
+                  <TransitChart
+                    planet1={{
+                      name: "Moon",
+                      longitude: self.moonToday.longitude,
+                      icon: "/planets/moon.svg",
+                    }}
+                    planet2={{
+                      name: "Moon",
+                      longitude: self.moonToday.longitude,
+                      icon: "/planets/moon.svg",
+                    }}
+                    aspect={{
+                      type: "None",
+                      angle: 0,
+                    }}
+                    size={450}
+                  />
+                )}
+                <div className="space-y-6">
+                  <p className="text-md font-normal uppercase tracking-[0.15em] text-black/60 mb-3">
+                    {self.theme}
+                  </p>
+                  <div className="space-y-5 text-base text-black/80 leading-relaxed">
+                    <p>{self.explanation}</p>
+                    <p>{self.encouragement}</p>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </Dialog>
 
@@ -507,42 +901,58 @@ const DashboardPage = () => {
           category="Trouble"
         >
           <div className="space-y-6">
-            <TransitChart
-              planet1={{
-                name: "Neptune",
-                longitude: 60,
-                icon: "/planets/neptune.svg",
-              }}
-              planet2={{
-                name: "Jupiter",
-                longitude: 240,
-                icon: "/planets/jupiter.svg",
-              }}
-              aspect={{ type: "Opposition", angle: 180 }}
-            />
-            <div className="space-y-4">
-              <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 mb-2">
-                Neptune Clouding Spirituality
-              </p>
-              <p>
-                Neptune is currently six signs (180°) away from where Jupiter
-                was when you were born. That angle (opposition) brings
-                polarization and tension. Neptune represents dreams and
-                illusions. Jupiter represents expansion and faith.
-              </p>
-              <p>
-                Your spiritual path may feel unclear or blocked today. Trust
-                that these moments of uncertainty are part of the journey,
-                offering opportunities for deeper reflection and growth.
-              </p>
-              <p>
-                When the path ahead seems foggy, it often means you&apos;re
-                being called to slow down and listen more carefully. The answers
-                you seek may not come from external sources, but from within.
-                Take time for quiet contemplation, meditation, or simply being
-                present with your thoughts.
-              </p>
-            </div>
+            {spiritualityLoading || !spirituality ? (
+              <div className="text-center py-8">Loading chart...</div>
+            ) : (
+              <>
+                {spirituality.moonAspect.aspectType ? (
+                  <TransitChart
+                    planet1={{
+                      name: "Moon",
+                      longitude: spirituality.moonToday.longitude,
+                      icon: "/planets/moon.svg",
+                    }}
+                    planet2={{
+                      name: "Neptune",
+                      longitude: spirituality.natalNeptune.longitude,
+                      icon: "/planets/neptune.svg",
+                    }}
+                    aspect={{
+                      type: spirituality.moonAspect.aspectType || "None",
+                      angle: spirituality.moonAspect.angle || 0,
+                    }}
+                    size={450}
+                  />
+                ) : (
+                  <TransitChart
+                    planet1={{
+                      name: "Moon",
+                      longitude: spirituality.moonToday.longitude,
+                      icon: "/planets/moon.svg",
+                    }}
+                    planet2={{
+                      name: "Moon",
+                      longitude: spirituality.moonToday.longitude,
+                      icon: "/planets/moon.svg",
+                    }}
+                    aspect={{
+                      type: "None",
+                      angle: 0,
+                    }}
+                    size={450}
+                  />
+                )}
+                <div className="space-y-6">
+                  <p className="text-md font-normal uppercase tracking-[0.15em] text-black/60 mb-3">
+                    {spirituality.theme}
+                  </p>
+                  <div className="space-y-5 text-base text-black/80 leading-relaxed">
+                    <p>{spirituality.explanation}</p>
+                    <p>{spirituality.encouragement}</p>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </Dialog>
 
@@ -553,42 +963,64 @@ const DashboardPage = () => {
           category="Trouble"
         >
           <div className="space-y-6">
-            <TransitChart
-              planet1={{
-                name: "Venus",
-                longitude: 240,
-                icon: "/planets/venus.svg",
-              }}
-              planet2={{
-                name: "Pluto",
-                longitude: 90,
-                icon: "/planets/pluto.svg",
-              }}
-              aspect={{ type: "Square", angle: 90 }}
-            />
-            <div className="space-y-4">
-              <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 mb-2">
-                Venus Challenging Love
-              </p>
-              <p>
-                Venus is currently three signs (90°) away from where Pluto was
-                when you were born. That angle (square) brings tension and
-                transformation. Venus represents love and beauty. Pluto
-                represents depth and transformation.
-              </p>
-              <p>
-                Intimacy and romantic connections may feel complicated today.
-                Take time to understand your own needs and communicate them
-                clearly with those who matter most.
-              </p>
-              <p>
-                When relationships feel challenging, it&apos;s often a sign that
-                something needs to be addressed—either within yourself or in the
-                dynamic between you and your partner. Don&apos;t shy away from
-                difficult conversations, but approach them with compassion and
-                honesty.
-              </p>
-            </div>
+            {sexLoveLoading || !sexLove ? (
+              <div className="text-center py-8">Loading chart...</div>
+            ) : (
+              <>
+                {sexLove.moonAspect.planet ? (
+                  <TransitChart
+                    planet1={{
+                      name: "Moon",
+                      longitude: sexLove.moonToday.longitude,
+                      icon: "/planets/moon.svg",
+                    }}
+                    planet2={{
+                      name: sexLove.moonAspect.planet,
+                      longitude:
+                        sexLove.moonAspect.planet === "Venus"
+                          ? sexLove.natalVenus.longitude
+                          : sexLove.natalMars.longitude,
+                      icon:
+                        sexLove.moonAspect.planet === "Venus"
+                          ? "/planets/venus.svg"
+                          : "/planets/mars.svg",
+                    }}
+                    aspect={{
+                      type: sexLove.moonAspect.aspectType || "None",
+                      angle: sexLove.moonAspect.angle || 0,
+                    }}
+                    size={450}
+                  />
+                ) : (
+                  <TransitChart
+                    planet1={{
+                      name: "Moon",
+                      longitude: sexLove.moonToday.longitude,
+                      icon: "/planets/moon.svg",
+                    }}
+                    planet2={{
+                      name: "Moon",
+                      longitude: sexLove.moonToday.longitude,
+                      icon: "/planets/moon.svg",
+                    }}
+                    aspect={{
+                      type: "None",
+                      angle: 0,
+                    }}
+                    size={450}
+                  />
+                )}
+                <div className="space-y-6">
+                  <p className="text-md font-normal uppercase tracking-[0.15em] text-black/60 mb-3">
+                    {sexLove.theme}
+                  </p>
+                  <div className="space-y-5 text-base text-black/80 leading-relaxed">
+                    <p>{sexLove.explanation}</p>
+                    <p>{sexLove.encouragement}</p>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </Dialog>
 
@@ -599,41 +1031,64 @@ const DashboardPage = () => {
           category="Trouble"
         >
           <div className="space-y-6">
-            <TransitChart
-              planet1={{
-                name: "Mercury",
-                longitude: 120,
-                icon: "/planets/mercury.svg",
-              }}
-              planet2={{
-                name: "Uranus",
-                longitude: 300,
-                icon: "/planets/uranus.svg",
-              }}
-              aspect={{ type: "Opposition", angle: 180 }}
-            />
-            <div className="space-y-4">
-              <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 mb-2">
-                Mercury Disrupting Routine
-              </p>
-              <p>
-                Mercury is currently six signs (180°) away from where Uranus was
-                when you were born. That angle (opposition) brings disruption
-                and change. Mercury represents communication and routine. Uranus
-                represents innovation and sudden change.
-              </p>
-              <p>
-                Your usual patterns and habits may feel disrupted or difficult
-                to maintain. This disruption can be an invitation to examine
-                what truly serves you and what might need to change.
-              </p>
-              <p>
-                When routines break down, it&apos;s easy to feel frustrated or
-                lost. But these moments of disruption are often opportunities in
-                disguise. They force you to question whether your current habits
-                are still aligned with who you&apos;re becoming.
-              </p>
-            </div>
+            {routineLoading || !routine ? (
+              <div className="text-center py-8">Loading chart...</div>
+            ) : (
+              <>
+                {routine.moonAspect.planet ? (
+                  <TransitChart
+                    planet1={{
+                      name: "Moon",
+                      longitude: routine.moonToday.longitude,
+                      icon: "/planets/moon.svg",
+                    }}
+                    planet2={{
+                      name: routine.moonAspect.planet,
+                      longitude:
+                        routine.moonAspect.planet === "Mercury"
+                          ? routine.natalMercury.longitude
+                          : routine.natalSaturn.longitude,
+                      icon:
+                        routine.moonAspect.planet === "Mercury"
+                          ? "/planets/mercury.svg"
+                          : "/planets/saturn.svg",
+                    }}
+                    aspect={{
+                      type: routine.moonAspect.aspectType || "None",
+                      angle: routine.moonAspect.angle || 0,
+                    }}
+                    size={450}
+                  />
+                ) : (
+                  <TransitChart
+                    planet1={{
+                      name: "Moon",
+                      longitude: routine.moonToday.longitude,
+                      icon: "/planets/moon.svg",
+                    }}
+                    planet2={{
+                      name: "Moon",
+                      longitude: routine.moonToday.longitude,
+                      icon: "/planets/moon.svg",
+                    }}
+                    aspect={{
+                      type: "None",
+                      angle: 0,
+                    }}
+                    size={450}
+                  />
+                )}
+                <div className="space-y-6">
+                  <p className="text-md font-normal uppercase tracking-[0.15em] text-black/60 mb-3">
+                    {routine.theme}
+                  </p>
+                  <div className="space-y-5 text-base text-black/80 leading-relaxed">
+                    <p>{routine.explanation}</p>
+                    <p>{routine.encouragement}</p>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </Dialog>
 
@@ -644,43 +1099,64 @@ const DashboardPage = () => {
           category="Trouble"
         >
           <div className="space-y-6">
-            <TransitChart
-              planet1={{
-                name: "Sun",
-                longitude: 210,
-                icon: "/planets/sun.svg",
-              }}
-              planet2={{
-                name: "Neptune",
-                longitude: 60,
-                icon: "/planets/neptune.svg",
-              }}
-              aspect={{ type: "Square", angle: 90 }}
-            />
-            <div className="space-y-4">
-              <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/60 mb-2">
-                Sun Clouding Creativity
-              </p>
-              <p>
-                The Sun is currently three signs (90°) away from where Neptune
-                was when you were born. That angle (square) brings confusion and
-                challenge. The Sun represents identity and expression. Neptune
-                represents dreams and illusions.
-              </p>
-              <p>
-                Mental clarity and creative expression may feel blocked or
-                challenging. Sometimes the best ideas come after periods of
-                struggle—trust the process and allow space for new perspectives
-                to emerge.
-              </p>
-              <p>
-                When your mind feels foggy or your creativity seems stuck,
-                it&apos;s often because you&apos;re trying too hard. Creativity
-                needs space to breathe. Step away from the problem, take a walk,
-                or engage in something completely different. The solution often
-                arrives when you&apos;re not actively searching for it.
-              </p>
-            </div>
+            {thinkingCreativityLoading || !thinkingCreativity ? (
+              <div className="text-center py-8">Loading chart...</div>
+            ) : (
+              <>
+                {thinkingCreativity.moonAspect.planet ? (
+                  <TransitChart
+                    planet1={{
+                      name: "Moon",
+                      longitude: thinkingCreativity.moonToday.longitude,
+                      icon: "/planets/moon.svg",
+                    }}
+                    planet2={{
+                      name: thinkingCreativity.moonAspect.planet,
+                      longitude:
+                        thinkingCreativity.moonAspect.planet === "Mercury"
+                          ? thinkingCreativity.natalMercury.longitude
+                          : thinkingCreativity.natalUranus.longitude,
+                      icon:
+                        thinkingCreativity.moonAspect.planet === "Mercury"
+                          ? "/planets/mercury.svg"
+                          : "/planets/uranus.svg",
+                    }}
+                    aspect={{
+                      type: thinkingCreativity.moonAspect.aspectType || "None",
+                      angle: thinkingCreativity.moonAspect.angle || 0,
+                    }}
+                    size={450}
+                  />
+                ) : (
+                  <TransitChart
+                    planet1={{
+                      name: "Moon",
+                      longitude: thinkingCreativity.moonToday.longitude,
+                      icon: "/planets/moon.svg",
+                    }}
+                    planet2={{
+                      name: "Moon",
+                      longitude: thinkingCreativity.moonToday.longitude,
+                      icon: "/planets/moon.svg",
+                    }}
+                    aspect={{
+                      type: "None",
+                      angle: 0,
+                    }}
+                    size={450}
+                  />
+                )}
+                <div className="space-y-6">
+                  <p className="text-md font-normal uppercase tracking-[0.15em] text-black/60 mb-3">
+                    {thinkingCreativity.theme}
+                  </p>
+                  <div className="space-y-5 text-base text-black/80 leading-relaxed">
+                    <p>{thinkingCreativity.explanation}</p>
+                    <p>{thinkingCreativity.encouragement}</p>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </Dialog>
       </div>

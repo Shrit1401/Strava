@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@geoapify/geocoder-autocomplete": "^3.0.1",
+    "@google/generative-ai": "^0.24.1",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "@supabase/ssr": "^0.8.0",

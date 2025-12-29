@@ -49,7 +49,10 @@ const TransitChart = ({
   const p2 = pointOnCircle(planetRadius, planet2.longitude);
 
   const controlRadius = planetRadius * 0.6;
-  const midAngle = (angleForLongitude(planet1.longitude) + angleForLongitude(planet2.longitude)) / 2;
+  const midAngle =
+    (angleForLongitude(planet1.longitude) +
+      angleForLongitude(planet2.longitude)) /
+    2;
   const controlX = center + controlRadius * Math.cos(midAngle);
   const controlY = center + controlRadius * Math.sin(midAngle);
 
@@ -59,15 +62,31 @@ const TransitChart = ({
 
   const getAspectColor = (type: string): string => {
     const lower = type.toLowerCase();
-    if (lower.includes("trine")) return "#4b5563";
-    if (lower.includes("conjunction")) return "#111111";
+    if (lower.includes("trine")) return "#6b7280";
+    if (lower.includes("sextile")) return "#9ca3af";
+    if (lower.includes("conjunction")) return "#374151";
     if (lower.includes("opposition")) return "#111111";
     if (lower.includes("square")) return "#111111";
-    if (lower.includes("sextile")) return "#9ca3af";
+    if (lower.includes("none")) return "#d1d5db";
     return "#d1d5db";
   };
 
+  const getAspectStyle = (
+    type: string
+  ): { strokeWidth: number; opacity: number } => {
+    const lower = type.toLowerCase();
+    if (lower.includes("trine") || lower.includes("sextile")) {
+      return { strokeWidth: 1, opacity: 0.5 };
+    }
+    if (lower.includes("square") || lower.includes("opposition")) {
+      return { strokeWidth: 1.5, opacity: 0.8 };
+    }
+    return { strokeWidth: 1.2, opacity: 0.6 };
+  };
+
+  const hasAspect = aspect.type && aspect.type.toLowerCase() !== "none";
   const aspectColor = getAspectColor(aspect.type);
+  const aspectStyle = getAspectStyle(aspect.type);
 
   return (
     <div className="w-full flex justify-center py-8">
@@ -126,27 +145,31 @@ const TransitChart = ({
           );
         })}
 
-        <path
-          d={`M ${p1.x} ${p1.y} Q ${controlX} ${controlY} ${p2.x} ${p2.y}`}
-          fill="none"
-          stroke={aspectColor}
-          strokeWidth={1.2}
-          opacity={0.6}
-        />
+        {hasAspect && (
+          <>
+            <path
+              d={`M ${p1.x} ${p1.y} Q ${controlX} ${controlY} ${p2.x} ${p2.y}`}
+              fill="none"
+              stroke={aspectColor}
+              strokeWidth={aspectStyle.strokeWidth}
+              opacity={aspectStyle.opacity}
+            />
 
-        <text
-          x={labelX}
-          y={labelY}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fill={aspectColor}
-          fontSize="10"
-          fontFamily="sans-serif"
-          fontWeight="500"
-          letterSpacing="0.05em"
-        >
-          {aspect.type.toUpperCase()}
-        </text>
+            <text
+              x={labelX}
+              y={labelY}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fill={aspectColor}
+              fontSize="10"
+              fontFamily="sans-serif"
+              fontWeight="500"
+              letterSpacing="0.05em"
+            >
+              {aspect.type.toUpperCase()}
+            </text>
+          </>
+        )}
 
         <g>
           <circle
@@ -198,4 +221,3 @@ const TransitChart = ({
 };
 
 export default TransitChart;
-

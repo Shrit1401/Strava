@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/db/client";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GEMINI_MODEL } from "@/constants/ai";
+import { getCachedGeneration, setCachedGeneration } from "@/lib/ai/cache";
 import {
   angularDistance,
   getAspect,
@@ -300,6 +301,14 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    const today = DateTime.now().setZone(dbUser.birthTimezone).startOf("day");
+
+    const cached = await getCachedGeneration(dbUser.id, "social-life", today);
+
+    if (cached) {
+      return NextResponse.json({ socialLife: cached });
+    }
+
     const moonToday = calculateTodayMoonPosition(dbUser.birthTimezone);
 
     const natalUtc = DateTime.fromJSDate(dbUser.birthTime).setZone("UTC");
@@ -352,6 +361,8 @@ export async function GET(req: Request) {
       encouragement,
       logicalBullets,
     };
+
+    await setCachedGeneration(dbUser.id, "social-life", today, socialLifeData);
 
     return NextResponse.json({ socialLife: socialLifeData });
   } catch (err: any) {

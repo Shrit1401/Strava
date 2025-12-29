@@ -14,8 +14,8 @@ datasource db {
 }
 
 model User {
-  id             String   @id @default(uuid())
-  email          String   @unique
+  id             String         @id @default(uuid())
+  email          String         @unique
   name           String?
   birthDate      DateTime
   birthTime      DateTime
@@ -23,6 +23,22 @@ model User {
   birthLatitude  Float
   birthLongitude Float
   birthTimezone  String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  aiGenerations  AIGeneration[]
+}
+
+model AIGeneration {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  date      DateTime @db.Date
+  cacheKey  String
+  content   Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, type, date, cacheKey])
+  @@index([userId, type, date])
 }

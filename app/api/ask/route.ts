@@ -5,6 +5,8 @@ import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/db/client";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GEMINI_MODEL } from "@/constants/ai";
+import { getCachedGeneration, setCachedGeneration } from "@/lib/ai/cache";
+import { createHash } from "crypto";
 import {
   angularDistance,
   getAspect,
@@ -87,23 +89,50 @@ const findMostRelevantTransit = (
   aspect: { type: string; angle: number };
 } | null => {
   const questionLower = question.toLowerCase();
-  
+
   const categoryKeywords: Record<string, string[]> = {
-    self: ["who am i", "what do i want", "happy", "afraid", "love myself", "purpose", "authentic", "let go"],
-    love: ["love", "partner", "relationship", "deserve", "blocking", "patterns", "receiving"],
-    work: ["career", "fulfilled", "calling", "potential", "jobs", "avoiding", "paid", "skills", "values"],
+    self: [
+      "who am i",
+      "what do i want",
+      "happy",
+      "afraid",
+      "love myself",
+      "purpose",
+      "authentic",
+      "let go",
+    ],
+    love: [
+      "love",
+      "partner",
+      "relationship",
+      "deserve",
+      "blocking",
+      "patterns",
+      "receiving",
+    ],
+    work: [
+      "career",
+      "fulfilled",
+      "calling",
+      "potential",
+      "jobs",
+      "avoiding",
+      "paid",
+      "skills",
+      "values",
+    ],
     social: ["friends", "friendships", "cool", "talking", "believe", "group"],
   };
 
   let relevantPlanets: string[] = [];
-  
-  if (categoryKeywords.self.some(k => questionLower.includes(k))) {
+
+  if (categoryKeywords.self.some((k) => questionLower.includes(k))) {
     relevantPlanets = ["moon", "sun", "saturn", "mars"];
-  } else if (categoryKeywords.love.some(k => questionLower.includes(k))) {
+  } else if (categoryKeywords.love.some((k) => questionLower.includes(k))) {
     relevantPlanets = ["venus", "moon", "mars", "jupiter"];
-  } else if (categoryKeywords.work.some(k => questionLower.includes(k))) {
+  } else if (categoryKeywords.work.some((k) => questionLower.includes(k))) {
     relevantPlanets = ["saturn", "sun", "mercury", "jupiter"];
-  } else if (categoryKeywords.social.some(k => questionLower.includes(k))) {
+  } else if (categoryKeywords.social.some((k) => questionLower.includes(k))) {
     relevantPlanets = ["moon", "venus", "jupiter", "mercury"];
   } else {
     relevantPlanets = ["moon", "sun", "venus", "mars"];
@@ -131,13 +160,19 @@ const findMostRelevantTransit = (
 
       const angle1 = angularDistance(todayPos.longitude, natalPos2.longitude);
       const angle2 = angularDistance(todayPos.longitude, todayPos2.longitude);
-      
+
       const aspect1 = getAspect(angle1);
       const aspect2 = getAspect(angle2);
 
       if (aspect1) {
-        const p1Relevance = relevantPlanets.indexOf(planet1Key) >= 0 ? (relevantPlanets.length - relevantPlanets.indexOf(planet1Key)) : 0;
-        const p2Relevance = relevantPlanets.indexOf(planet2Key) >= 0 ? (relevantPlanets.length - relevantPlanets.indexOf(planet2Key)) : 0;
+        const p1Relevance =
+          relevantPlanets.indexOf(planet1Key) >= 0
+            ? relevantPlanets.length - relevantPlanets.indexOf(planet1Key)
+            : 0;
+        const p2Relevance =
+          relevantPlanets.indexOf(planet2Key) >= 0
+            ? relevantPlanets.length - relevantPlanets.indexOf(planet2Key)
+            : 0;
         const orbBonus = aspect1.orb < 3 ? 10 : 0;
         const transitBonus = 20;
         const relevance = p1Relevance + p2Relevance + orbBonus + transitBonus;
@@ -163,8 +198,14 @@ const findMostRelevantTransit = (
       }
 
       if (aspect2) {
-        const p1Relevance = relevantPlanets.indexOf(planet1Key) >= 0 ? (relevantPlanets.length - relevantPlanets.indexOf(planet1Key)) : 0;
-        const p2Relevance = relevantPlanets.indexOf(planet2Key) >= 0 ? (relevantPlanets.length - relevantPlanets.indexOf(planet2Key)) : 0;
+        const p1Relevance =
+          relevantPlanets.indexOf(planet1Key) >= 0
+            ? relevantPlanets.length - relevantPlanets.indexOf(planet1Key)
+            : 0;
+        const p2Relevance =
+          relevantPlanets.indexOf(planet2Key) >= 0
+            ? relevantPlanets.length - relevantPlanets.indexOf(planet2Key)
+            : 0;
         const orbBonus = aspect2.orb < 3 ? 10 : 0;
         const relevance = p1Relevance + p2Relevance + orbBonus;
         if (!bestTransit || relevance > bestTransit.relevance) {
@@ -239,9 +280,12 @@ const callGemini = async (
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: GEMINI_MODEL });
 
-    const aspectDescription = transit.aspect.type !== "None"
-      ? `${transit.planet1.name} ${transit.aspect.type.toLowerCase()} ${transit.planet2.name}`
-      : `${transit.planet1.name} and ${transit.planet2.name} are in relationship`;
+    const aspectDescription =
+      transit.aspect.type !== "None"
+        ? `${transit.planet1.name} ${transit.aspect.type.toLowerCase()} ${
+            transit.planet2.name
+          }`
+        : `${transit.planet1.name} and ${transit.planet2.name} are in relationship`;
 
     const planet1Sign = zodiacFromLongitude(transit.planet1.longitude);
     const planet2Sign = zodiacFromLongitude(transit.planet2.longitude);
@@ -251,8 +295,12 @@ const callGemini = async (
 Question: ${question}
 
 Current Transit: ${aspectDescription}
-Planet 1: ${transit.planet1.name} at ${transit.planet1.longitude.toFixed(2)}° (${planet1Sign.sign} ${planet1Sign.degreeInsideSign.toFixed(1)}°)
-Planet 2: ${transit.planet2.name} at ${transit.planet2.longitude.toFixed(2)}° (${planet2Sign.sign} ${planet2Sign.degreeInsideSign.toFixed(1)}°)
+Planet 1: ${transit.planet1.name} at ${transit.planet1.longitude.toFixed(
+      2
+    )}° (${planet1Sign.sign} ${planet1Sign.degreeInsideSign.toFixed(1)}°)
+Planet 2: ${transit.planet2.name} at ${transit.planet2.longitude.toFixed(
+      2
+    )}° (${planet2Sign.sign} ${planet2Sign.degreeInsideSign.toFixed(1)}°)
 Aspect Type: ${transit.aspect.type}
 Aspect Angle: ${transit.aspect.angle.toFixed(2)}°
 
@@ -282,7 +330,9 @@ Format your response exactly like this:
     const response = result.response;
     const text = response.text();
 
-    return text || "The stars are aligning to reveal insights. Trust the process.";
+    return (
+      text || "The stars are aligning to reveal insights. Trust the process."
+    );
   } catch (error) {
     console.error("Gemini API error:", error);
     return "The stars are aligning to reveal insights. Trust the process.";
@@ -315,6 +365,22 @@ export async function POST(req: Request) {
 
     if (!dbUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    const today = DateTime.now().setZone(dbUser.birthTimezone).startOf("day");
+    const questionHash = createHash("sha256")
+      .update(question.toLowerCase().trim())
+      .digest("hex");
+
+    const cached = await getCachedGeneration(
+      dbUser.id,
+      "ask",
+      today,
+      questionHash
+    );
+
+    if (cached) {
+      return NextResponse.json(cached);
     }
 
     const natalUtc = DateTime.fromJSDate(dbUser.birthTime).setZone("UTC");
@@ -359,7 +425,7 @@ export async function POST(req: Request) {
     const planet1Sign = zodiacFromLongitude(transit.planet1.longitude);
     const planet2Sign = zodiacFromLongitude(transit.planet2.longitude);
 
-    return NextResponse.json({
+    const response = {
       answer,
       transit: {
         planet1: {
@@ -374,7 +440,11 @@ export async function POST(req: Request) {
         },
         aspect: transit.aspect,
       },
-    });
+    };
+
+    await setCachedGeneration(dbUser.id, "ask", today, response, questionHash);
+
+    return NextResponse.json(response);
   } catch (err: any) {
     console.error("Ask API error:", err);
     return NextResponse.json(
@@ -383,4 +453,3 @@ export async function POST(req: Request) {
     );
   }
 }
-

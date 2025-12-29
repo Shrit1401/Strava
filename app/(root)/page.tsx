@@ -6,19 +6,19 @@ const LandingPage = () => {
     <main className="">
       <section className="container mx-auto px-6 pt-16 text-center">
         <h1 className="cormorant text-3xl md:text-4xl lg:text-5xl mb-4">
-          <span className="block">Strava</span>
+          <span className="block coromont">Strava</span>
         </h1>
         <p className="text-sm text-[#575657]">
-          The astrology app that deciphers the mystery of human relations
-          through NASA data and biting truth.
+          The astrology website that deciphers the mystery of human relations
+          through real data and biting truth.
         </p>
 
         <Button text="Start" className="my-8" href="/astrology" />
 
         <div className="flex justify-center">
           <img
-            src="https://www.costarastrology.com/85d1b4b7448fe25656ef0cfb4a7c90b2.webp"
-            alt="Co–Star app preview"
+            src="./mockup.png"
+            alt="Strava app preview"
             className="max-w-5xl w-full"
           />
         </div>

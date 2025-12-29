@@ -6,6 +6,10 @@ import { prisma } from "@/lib/db/client";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GEMINI_MODEL } from "@/constants/ai";
 import {
+  getCachedGeneration,
+  setCachedGeneration,
+} from "@/lib/ai/cache";
+import {
   angularDistance,
   getAspect,
   getAscendant,
@@ -327,6 +331,20 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
+    const today = DateTime.now()
+      .setZone(dbUser.birthTimezone)
+      .startOf("day");
+
+    const cached = await getCachedGeneration(
+      dbUser.id,
+      "thinking-creativity",
+      today
+    );
+
+    if (cached) {
+      return NextResponse.json({ thinkingCreativity: cached });
+    }
+
     const moonToday = calculateTodayMoonPosition(dbUser.birthTimezone);
 
     const natalUtc = DateTime.fromJSDate(dbUser.birthTime).setZone("UTC");
@@ -387,6 +405,13 @@ export async function GET(req: Request) {
       encouragement,
       logicalBullets,
     };
+
+    await setCachedGeneration(
+      dbUser.id,
+      "thinking-creativity",
+      today,
+      thinkingCreativityData
+    );
 
     return NextResponse.json({ thinkingCreativity: thinkingCreativityData });
   } catch (err: any) {

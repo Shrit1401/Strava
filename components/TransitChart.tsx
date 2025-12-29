@@ -22,6 +22,7 @@ interface TransitChartProps {
     angle: number;
   };
   size?: number;
+  variant?: "dark" | "light";
 }
 
 const TransitChart = ({
@@ -29,12 +30,24 @@ const TransitChart = ({
   planet2,
   aspect,
   size = 400,
+  variant = "dark",
 }: TransitChartProps) => {
   const center = size / 2;
   const outerRadius = size * 0.4;
   const innerRadius = size * 0.35;
   const planetRadius = size * 0.3;
   const numberRadius = size * 0.42;
+  
+  const isLight = variant === "light";
+  const textColor = isLight ? "text-black" : "text-white";
+  const textColorMuted = isLight ? "text-black/70" : "text-white/70";
+  const textColorSubtle = isLight ? "text-black/50" : "text-white/50";
+  const borderColor = isLight ? "border-black/10" : "border-white/10";
+  const circleStroke = isLight ? "rgba(0, 0, 0, 0.1)" : "rgba(255, 255, 255, 0.3)";
+  const planetCircleStroke = isLight ? "rgba(0, 0, 0, 0.15)" : "rgba(255, 255, 255, 0.25)";
+  const planetFill = isLight ? "white" : "white";
+  const centerFill = isLight ? "rgba(0, 0, 0, 0.05)" : "rgba(255, 255, 255, 0.1)";
+  const centerStroke = isLight ? "rgba(0, 0, 0, 0.1)" : "rgba(255, 255, 255, 0.2)";
 
   const angleForLongitude = (lon: number): number => {
     const deg = lon - 90;
@@ -100,7 +113,7 @@ const TransitChart = ({
           cy={center}
           r={outerRadius}
           fill="none"
-          stroke="rgba(255, 255, 255, 0.3)"
+          stroke={circleStroke}
           strokeWidth={1}
         />
         <circle
@@ -108,7 +121,7 @@ const TransitChart = ({
           cy={center}
           r={planetRadius}
           fill="none"
-          stroke="rgba(255, 255, 255, 0.25)"
+          stroke={planetCircleStroke}
           strokeWidth={0.8}
         />
 
@@ -129,8 +142,8 @@ const TransitChart = ({
             cx={p1.x}
             cy={p1.y}
             r={12}
-            fill="white"
-            stroke="rgba(255, 255, 255, 0.5)"
+            fill={planetFill}
+            stroke={isLight ? "rgba(0, 0, 0, 0.2)" : "rgba(255, 255, 255, 0.5)"}
             strokeWidth={1}
           />
           <image
@@ -147,8 +160,8 @@ const TransitChart = ({
             cx={p2.x}
             cy={p2.y}
             r={12}
-            fill="white"
-            stroke="rgba(255, 255, 255, 0.5)"
+            fill={planetFill}
+            stroke={isLight ? "rgba(0, 0, 0, 0.2)" : "rgba(255, 255, 255, 0.5)"}
             strokeWidth={1}
           />
           <image
@@ -164,30 +177,30 @@ const TransitChart = ({
           cx={center}
           cy={center}
           r={size * 0.06}
-          fill="rgba(255, 255, 255, 0.1)"
-          stroke="rgba(255, 255, 255, 0.2)"
+          fill={centerFill}
+          stroke={centerStroke}
           strokeWidth={0.8}
         />
       </svg>
       
-      <div className="text-center space-y-3 mt-2 max-w-md">
-        <div className="text-white text-base font-light tracking-wide">
+      <div className={`text-center space-y-3 mt-2 max-w-md ${textColor}`}>
+        <div className={`${textColor} text-base font-light tracking-wide`}>
           {planet1.name} {hasAspect ? aspect.type.toLowerCase() : "&"} {planet2.name}
         </div>
         <div className="space-y-1">
           {planet1.sign && (
-            <div className="text-white/70 text-xs font-light">
+            <div className={`${textColorMuted} text-xs font-light`}>
               {planet1.name} in {planet1.sign} {planet1.degree !== undefined ? `${planet1.degree.toFixed(1)}°` : ''}
             </div>
           )}
           {planet2.sign && (
-            <div className="text-white/70 text-xs font-light">
+            <div className={`${textColorMuted} text-xs font-light`}>
               {planet2.name} in {planet2.sign} {planet2.degree !== undefined ? `${planet2.degree.toFixed(1)}°` : ''}
             </div>
           )}
         </div>
         {hasAspect && (
-          <div className="text-white/50 text-xs font-light uppercase tracking-wider pt-1 border-t border-white/10">
+          <div className={`${textColorSubtle} text-xs font-light uppercase tracking-wider pt-1 ${borderColor} border-t`}>
             {aspect.angle.toFixed(1)}° aspect
           </div>
         )}

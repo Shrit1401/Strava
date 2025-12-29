@@ -6,6 +6,7 @@ import { prisma } from "@/lib/db/client";
 import { HOUSE_RULERS } from "@/constants/astrology";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GEMINI_MODEL } from "@/constants/ai";
+import { getCachedGeneration, setCachedGeneration } from "@/lib/ai/cache";
 import {
   angularDistance,
   getAspect,
@@ -394,6 +395,12 @@ export async function GET(req: Request) {
     const { start, end } = getDailyWindow(dbUser.birthTimezone);
     const today = DateTime.now().setZone(dbUser.birthTimezone).startOf("day");
 
+    const cached = await getCachedGeneration(dbUser.id, "daily", today);
+
+    if (cached) {
+      return NextResponse.json({ prediction: cached });
+    }
+
     const now = DateTime.now().setZone(dbUser.birthTimezone);
     const utcNow = now.toUTC();
 
@@ -494,6 +501,8 @@ export async function GET(req: Request) {
       bullets,
       closing,
     };
+
+    await setCachedGeneration(dbUser.id, "daily", today, prediction);
 
     return NextResponse.json({ prediction });
   } catch (err: any) {

@@ -9,12 +9,8 @@ import type { User } from "@supabase/supabase-js";
 
 const navItems = [
   {
-    label: "About",
-    href: "/about",
-  },
-  {
-    label: "Contact",
-    href: "/contact",
+    label: "Masterhead",
+    href: "/head",
   },
   {
     label: "Natal Chart",

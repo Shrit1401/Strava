@@ -504,12 +504,7 @@ const DashboardPage = () => {
                   ))
                 ) : (
                   <>
-                    <li>Power in social life</li>
-                    <li>Pressure in self</li>
-                    <li>
-                      Trouble with routine, thinking & creativity, spirituality,
-                      and sex & love
-                    </li>
+                    <li>Loading your daily insights...</li>
                   </>
                 )}
               </ul>
@@ -526,8 +521,7 @@ const DashboardPage = () => {
                 ))
               ) : (
                 <>
-                  <p>Today brings opportunities for reflection and growth.</p>
-                  <p>Trust yourself and take things one step at a time.</p>
+                  <p>Loading your daily insights...</p>
                 </>
               )}
             </div>
@@ -591,8 +585,7 @@ const DashboardPage = () => {
                   <p className="text-base text-black/70 leading-relaxed mb-6">
                     {selfLoading
                       ? "Loading your self reflection..."
-                      : self?.summary ||
-                        "Your emotional skin feels more sensitive today. The Moon's movement activates themes that bring your inner world closer to the surface."}
+                      : self?.summary || "Loading your daily insights..."}
                   </p>
                   <button
                     onClick={() => setOpenDialog("self")}
@@ -617,7 +610,7 @@ const DashboardPage = () => {
                     {spiritualityLoading
                       ? "Loading your spirituality reflection..."
                       : spirituality?.summary ||
-                        "Your spiritual path invites deeper listening today. The Moon's movement activates themes that thin mental noise, making space for intuition."}
+                        "Loading your daily insights..."}
                   </p>
                   <button
                     onClick={() => setOpenDialog("spirituality")}
@@ -661,8 +654,7 @@ const DashboardPage = () => {
                   <p className="text-base text-black/70 leading-relaxed mb-6">
                     {sexLoveLoading
                       ? "Loading your sex & love reflection..."
-                      : sexLove?.summary ||
-                        "Your desire for connection feels more present today. The Moon's movement activates themes that bring attention to your longing for intimacy."}
+                      : sexLove?.summary || "Loading your daily insights..."}
                   </p>
                   <button
                     onClick={() => setOpenDialog("sex-love")}
@@ -686,8 +678,7 @@ const DashboardPage = () => {
                   <p className="text-base text-black/70 leading-relaxed mb-6">
                     {routineLoading
                       ? "Loading your routine reflection..."
-                      : routine?.summary ||
-                        "Your routine energy invites attention today. The Moon's movement activates themes that bring awareness to your daily rhythm."}
+                      : routine?.summary || "Loading your daily insights..."}
                   </p>
                   <button
                     onClick={() => setOpenDialog("routine")}
@@ -732,7 +723,7 @@ const DashboardPage = () => {
                     {thinkingCreativityLoading
                       ? "Loading your thinking & creativity reflection..."
                       : thinkingCreativity?.summary ||
-                        "Your thinking and creativity feel more active today. The Moon's movement activates themes that bring attention to the flow between logic and imagination."}
+                        "Loading your daily insights..."}
                   </p>
                   <button
                     onClick={() => setOpenDialog("thinking-creativity")}
@@ -773,6 +764,7 @@ const DashboardPage = () => {
                     angle: socialLife.aspectAngle || 0,
                   }}
                   size={450}
+                  variant="light"
                 />
                 <div className="space-y-6">
                   <p className="text-md font-normal uppercase tracking-[0.15em] text-black/60 mb-3">
@@ -822,6 +814,7 @@ const DashboardPage = () => {
                       angle: self.moonAspect.angle || 0,
                     }}
                     size={450}
+                    variant="light"
                   />
                 ) : (
                   <TransitChart
@@ -840,6 +833,7 @@ const DashboardPage = () => {
                       angle: 0,
                     }}
                     size={450}
+                    variant="light"
                   />
                 )}
                 <div className="space-y-6">
@@ -884,6 +878,7 @@ const DashboardPage = () => {
                       angle: spirituality.moonAspect.angle || 0,
                     }}
                     size={450}
+                    variant="light"
                   />
                 ) : (
                   <TransitChart
@@ -902,6 +897,7 @@ const DashboardPage = () => {
                       angle: 0,
                     }}
                     size={450}
+                    variant="light"
                   />
                 )}
                 <div className="space-y-6">
@@ -952,6 +948,7 @@ const DashboardPage = () => {
                       angle: sexLove.moonAspect.angle || 0,
                     }}
                     size={450}
+                    variant="light"
                   />
                 ) : (
                   <TransitChart
@@ -970,6 +967,7 @@ const DashboardPage = () => {
                       angle: 0,
                     }}
                     size={450}
+                    variant="light"
                   />
                 )}
                 <div className="space-y-6">
@@ -1020,6 +1018,7 @@ const DashboardPage = () => {
                       angle: routine.moonAspect.angle || 0,
                     }}
                     size={450}
+                    variant="light"
                   />
                 ) : (
                   <TransitChart
@@ -1038,6 +1037,7 @@ const DashboardPage = () => {
                       angle: 0,
                     }}
                     size={450}
+                    variant="light"
                   />
                 )}
                 <div className="space-y-6">
@@ -1088,6 +1088,7 @@ const DashboardPage = () => {
                       angle: thinkingCreativity.moonAspect.angle || 0,
                     }}
                     size={450}
+                    variant="light"
                   />
                 ) : (
                   <TransitChart
@@ -1106,6 +1107,7 @@ const DashboardPage = () => {
                       angle: 0,
                     }}
                     size={450}
+                    variant="light"
                   />
                 )}
                 <div className="space-y-6">

@@ -3,8 +3,7 @@
 import React, { useState } from "react";
 import StarryBackground from "@/components/StarryBackground";
 import Image from "next/image";
-import NatalChart from "@/components/NatalChart";
-import { ChartData } from "@/types/chart";
+import TransitChart from "@/components/TransitChart";
 
 const ZODIAC_SIGNS = [
   "Aries",
@@ -20,92 +19,6 @@ const ZODIAC_SIGNS = [
   "Aquarius",
   "Pisces",
 ] as const;
-
-const getSignIndex = (sign: string): number => {
-  return ZODIAC_SIGNS.indexOf(sign as any);
-};
-
-const getLongitude = (sign: string, degree: number): number => {
-  const signIndex = getSignIndex(sign);
-  return signIndex * 30 + degree;
-};
-
-const createSampleChart = (): ChartData => {
-  return {
-    utc: "2025-01-01T00:00:00Z",
-    planets: {
-      sun: {
-        longitude: getLongitude("Aries", 15),
-        sign: "Aries",
-        signIndex: getSignIndex("Aries"),
-        degreeInsideSign: 15,
-      },
-      moon: {
-        longitude: getLongitude("Cancer", 22),
-        sign: "Cancer",
-        signIndex: getSignIndex("Cancer"),
-        degreeInsideSign: 22,
-      },
-      mercury: {
-        longitude: getLongitude("Taurus", 8),
-        sign: "Taurus",
-        signIndex: getSignIndex("Taurus"),
-        degreeInsideSign: 8,
-      },
-      venus: {
-        longitude: getLongitude("Pisces", 3),
-        sign: "Pisces",
-        signIndex: getSignIndex("Pisces"),
-        degreeInsideSign: 3,
-      },
-      mars: {
-        longitude: getLongitude("Leo", 18),
-        sign: "Leo",
-        signIndex: getSignIndex("Leo"),
-        degreeInsideSign: 18,
-      },
-      jupiter: {
-        longitude: getLongitude("Sagittarius", 12),
-        sign: "Sagittarius",
-        signIndex: getSignIndex("Sagittarius"),
-        degreeInsideSign: 12,
-      },
-      saturn: {
-        longitude: getLongitude("Capricorn", 25),
-        sign: "Capricorn",
-        signIndex: getSignIndex("Capricorn"),
-        degreeInsideSign: 25,
-      },
-      uranus: {
-        longitude: getLongitude("Aquarius", 7),
-        sign: "Aquarius",
-        signIndex: getSignIndex("Aquarius"),
-        degreeInsideSign: 7,
-      },
-      neptune: {
-        longitude: getLongitude("Pisces", 14),
-        sign: "Pisces",
-        signIndex: getSignIndex("Pisces"),
-        degreeInsideSign: 14,
-      },
-      pluto: {
-        longitude: getLongitude("Scorpio", 9),
-        sign: "Scorpio",
-        signIndex: getSignIndex("Scorpio"),
-        degreeInsideSign: 9,
-      },
-    },
-    ascendant: {
-      longitude: getLongitude("Libra", 5),
-      sign: "Libra",
-      signIndex: getSignIndex("Libra"),
-      degreeInsideSign: 5,
-    },
-    houses: [],
-    planetHouses: {},
-    aspects: [],
-  };
-};
 
 type Category = "SELF" | "LOVE" | "WORK" | "SOCIAL";
 
@@ -177,184 +90,301 @@ const categories: {
   },
 ];
 
-const getInterpretation = (
-  category: Category,
-  questionIndex: number
-): string => {
-  const interpretations: Record<Category, string[]> = {
-    SELF: [
-      "Your Sun sign reveals your core essence, but your rising sign shows who you're becoming. The planets in your first house suggest you're in a period of self-discovery. Trust the process of becoming.",
-      "Venus in your second house indicates you value security and comfort, but your North Node suggests your true desires lie in experiences that challenge your comfort zone. What scares you might be exactly what you need.",
-      "Your Moon's current transit through your emotional houses suggests a period of introspection. Happiness isn't a destination—it's found in the alignment between your actions and your values.",
-      "Saturn's influence reveals that your fears are often projections of past limitations. The planets suggest you're ready to confront what once held you back. Your chart shows strength you haven't yet claimed.",
-      "Venus trine your natal Moon suggests a period of self-acceptance. The stars indicate you're learning to love yourself not despite your flaws, but because of your authentic complexity.",
-      "Your Midheaven and North Node alignment points to a purpose that combines your natural talents with your soul's evolution. The planets suggest your purpose isn't found—it's created through daily choices.",
-      "Mercury retrograde in your sign suggests a time to examine whether your words match your actions. Your chart shows a tension between who you present and who you are—this transit invites alignment.",
-      "Pluto's transformative energy in your house of endings suggests it's time to release patterns that no longer serve. The stars indicate you're holding onto identities that limit your growth.",
-    ],
-    LOVE: [
-      "Venus in your seventh house suggests you're entering a period of partnership readiness. Your chart shows you've done the inner work—the stars align for connection when you're open to receiving.",
-      "Your Venus sign reveals what you're drawn to, but your Mars shows what you actually need. The planets suggest you're looking for someone who mirrors your growth, not your past patterns.",
-      "Jupiter's influence suggests you're learning that love isn't earned—it's your birthright. Your chart shows you've been carrying stories of unworthiness that aren't yours to carry.",
-      "Saturn's transit through your relationship house suggests a time of evaluation. The planets indicate you're asking the right questions—trust what your chart reveals about compatibility.",
-      "Mars square your Venus suggests internal conflict between desire and action. Your chart shows fear of vulnerability blocking connection. The stars suggest courage is required for what you want.",
-      "Your Moon's placement reveals your emotional needs in love. The planets suggest you can't receive from others what you won't give yourself. Self-love isn't selfish—it's the foundation of healthy love.",
-      "Pluto's influence reveals you're repeating patterns from childhood relationships. Your chart shows you're ready to break cycles—the planets suggest awareness is the first step to change.",
-      "Venus trine your ascendant suggests you're radiating magnetic energy. The stars indicate you're more open than you realize—your chart shows readiness to receive love in unexpected forms.",
-    ],
-    WORK: [
-      "Your Midheaven and current transits suggest a period of career evaluation. The planets indicate fulfillment comes when your work aligns with your values, not just your skills.",
-      "Your North Node in your career house reveals your soul's calling. The stars suggest your purpose isn't in what you're good at, but in what challenges you to grow into who you're meant to become.",
-      "Saturn's influence suggests you're being tested on your commitment to growth. Your chart shows potential that requires discipline to actualize. The planets indicate you're closer than you think.",
-      "Uranus in your work sector suggests sudden changes are possible. Your chart shows you're ready for a shift, but fear of the unknown is holding you back. The stars suggest change is inevitable—will you choose it?",
-      "Mars retrograde reveals what you've been avoiding. Your chart shows patterns of procrastination that mask deeper fears. The planets suggest confronting avoidance is the path to progress.",
-      "Jupiter's transit suggests expansion in your earning potential, but your chart shows you must first value your own worth. The stars indicate you're undercharging for what you bring.",
-      "Mercury in your learning house suggests a time of skill development. Your chart shows natural talents that need cultivation. The planets indicate investing in yourself is the highest return.",
-      "Your second house planets reveal your values around work and money. The stars suggest alignment comes when your career serves not just your bank account, but your soul's purpose.",
-    ],
-    SOCIAL: [
-      "Saturn's transit through your friendship sector suggests a year of evaluation. The planets indicate some connections have served their purpose—your chart shows you're ready to release what no longer aligns.",
-      "Jupiter's influence suggests you attract many connections, but your chart reveals quality over quantity. The stars indicate you're spreading yourself thin—depth requires saying no to breadth.",
-      "Your eleventh house reveals your social needs. The planets suggest you're questioning whether your friendships reflect who you're becoming. Your chart shows you're outgrowing certain dynamics.",
-      "Venus in your social house suggests you're radiating magnetic energy. The stars indicate 'cool' is subjective—your chart shows authenticity is more magnetic than fitting in.",
-      "Mercury's influence suggests you're hyper-aware of others' perceptions. Your chart shows this is projection—the planets indicate people are more focused on themselves than judging you.",
-      "Your North Node suggests you're learning to trust others' belief in you. The stars indicate you're surrounded by support you haven't fully received. Your chart shows it's time to let people in.",
-      "Your Moon's placement reveals your role in groups. The planets suggest you're not the baby—you're the one who brings vulnerability that allows others to open up. Your chart shows this is a gift.",
-      "Uranus in your friendship house suggests your social circle is evolving. The stars indicate you're attracting people who match your growth. Your chart shows alignment comes when you stop forcing fit.",
-    ],
-  };
-
-  return (
-    interpretations[category]?.[questionIndex] ||
-    "The stars are aligning to reveal insights. Trust the process."
-  );
-};
-
 const AskPage = () => {
   const [selectedCategory, setSelectedCategory] = useState<Category>("SOCIAL");
   const [selectedQuestionIndex, setSelectedQuestionIndex] = useState<number>(0);
-  const [chartData] = useState<ChartData>(() => createSampleChart());
   const [inputValue, setInputValue] = useState("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [transit, setTransit] = useState<{
+    planet1: { name: string; longitude: number; icon: string };
+    planet2: { name: string; longitude: number; icon: string };
+    aspect: { type: string; angle: number };
+  } | null>(null);
 
   const currentCategory = categories.find((cat) => cat.id === selectedCategory);
-  const interpretation = getInterpretation(
-    selectedCategory,
-    selectedQuestionIndex
-  );
+
+  const handleSubmit = async () => {
+    if (inputValue.trim()) {
+      setCurrentQuestion(inputValue.trim());
+      setIsDialogOpen(true);
+      setIsLoading(true);
+      setAnswer("");
+      setTransit(null);
+
+      try {
+        const response = await fetch("/api/ask", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ question: inputValue.trim() }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setAnswer(data.answer);
+          setTransit(data.transit);
+        } else {
+          setAnswer(
+            "The stars are aligning to reveal insights. Trust the process."
+          );
+        }
+      } catch (error) {
+        console.error("Error fetching answer:", error);
+        setAnswer(
+          "The stars are aligning to reveal insights. Trust the process."
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
 
   return (
     <div className="relative bg-black text-white flex-1 flex flex-col overflow-hidden pt-14">
       <StarryBackground />
 
-      <div className="relative z-10 flex items-center justify-center border-b border-white/5 px-8 py-5 shrink-0 backdrop-blur-sm bg-black/30">
-        <div className="flex items-center gap-8">
+      <div className="relative z-10 flex flex-col flex-1 min-h-0">
+        <div className="flex items-center justify-center gap-4 px-6 py-6 shrink-0">
           {categories.map((category) => (
             <button
               key={category.id}
               onClick={() => {
                 setSelectedCategory(category.id);
                 setSelectedQuestionIndex(0);
+                setInputValue("");
               }}
-              className={`flex items-center gap-2.5 transition-all duration-300 px-4 py-2 ${
+              className={`flex flex-col items-center gap-2 cursor-pointer transition-all duration-300 px-4 py-2 rounded ${
                 selectedCategory === category.id
-                  ? "opacity-100 bg-white/10"
-                  : "opacity-50 hover:opacity-70 hover:bg-white/5"
+                  ? "opacity-100 border border-white/30"
+                  : "opacity-50 hover:opacity-70"
               }`}
             >
               <Image
                 src={category.icon}
                 alt={category.label}
-                width={18}
-                height={18}
-                className={`object-contain filter brightness-0 invert transition-transform duration-300 ${
-                  selectedCategory === category.id ? "scale-110" : "scale-100"
-                }`}
+                width={24}
+                height={24}
+                className="object-contain filter brightness-0 invert"
               />
-              <span className="text-xs uppercase tracking-widest font-medium">
+              <span className="text-xs uppercase tracking-wider font-light">
                 {category.label}
               </span>
             </button>
           ))}
         </div>
-      </div>
 
-      <div className="relative z-10 flex-1 flex overflow-hidden">
-        <div className="flex-1 flex flex-col overflow-hidden border-r border-white/5">
-          <div className="flex-1 overflow-y-auto scroll-smooth">
-            <div className="flex items-start justify-center py-16 px-12 min-h-full">
-              <div className="w-full max-w-xl space-y-6">
-                {currentCategory?.questions.map((question, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setSelectedQuestionIndex(index)}
-                    className={`w-full text-left text-white text-lg uppercase tracking-wide cursor-pointer transition-all duration-300 py-4 px-6 group ${
-                      selectedQuestionIndex === index
-                        ? "opacity-100 bg-white/10 border border-white/20"
-                        : "opacity-60 hover:opacity-90 hover:bg-white/5 border border-transparent"
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                          selectedQuestionIndex === index
-                            ? "bg-white scale-150"
-                            : "bg-white/40 group-hover:bg-white/60"
-                        }`}
-                      />
-                      <span className="font-light">{question}</span>
-                    </div>
-                  </button>
-                ))}
-              </div>
+        <div className="flex-1 min-h-0 overflow-y-auto scroll-smooth pb-32">
+          <div className="flex flex-col items-center justify-center py-8 px-6">
+            <div className="w-full max-w-2xl space-y-6">
+              {currentCategory?.questions.map((question, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    setSelectedQuestionIndex(index);
+                    setInputValue(question);
+                  }}
+                  className={`w-full text-center text-white text-lg uppercase tracking-wide cursor-pointer transition-all duration-300 py-4 group ${"opacity-60 hover:opacity-90"}`}
+                >
+                  <span className="font-light underline decoration-white/30 group-hover:decoration-white/50">
+                    {question}
+                  </span>
+                </button>
+              ))}
             </div>
           </div>
-          <div className="relative z-10 border-t border-white/5 px-12 py-6 pb-20 flex items-center gap-4 shrink-0 backdrop-blur-sm bg-black/20">
+        </div>
+
+        <div className="fixed bottom-0 left-0 right-0 border-t border-white/10 px-6 py-4 pb-20 flex items-center justify-center bg-black/90 backdrop-blur-sm z-30">
+          <div className="w-full max-w-2xl flex items-center gap-4">
             <input
               type="text"
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
-              placeholder="Ask anything..."
-              className="flex-1 bg-white/5 border border-white/10 px-4 py-3 text-white text-sm tracking-wide placeholder:text-white/40 focus:outline-none focus:ring-0 focus:border-white/30 transition-all duration-300"
+              placeholder="ASK ANYTHING..."
+              className="flex-1 bg-transparent border-b border-white/20 px-0 py-2 text-white text-sm uppercase tracking-wider placeholder:text-white/40 focus:outline-none focus:ring-0 focus:border-white/40 transition-all duration-300 text-center"
               onKeyDown={(e) => {
                 if (e.key === "Enter" && inputValue.trim()) {
-                  console.log("Question asked:", inputValue);
-                  setInputValue("");
+                  handleSubmit();
                 }
               }}
             />
-            <button className="text-white/70 hover:text-white text-sm uppercase tracking-wider transition-all duration-300 px-6 py-3 hover:bg-white/10 shrink-0">
-              Submit
+            <button
+              onClick={handleSubmit}
+              className="px-6 py-2 text-black text-sm uppercase bg-white tracking-wider border border-white/20 hover:border-white/40 hover:bg-white/50 transition-all duration-300 font-light cursor-pointer"
+            >
+              LET'S GO
             </button>
           </div>
         </div>
+      </div>
 
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="flex-1 overflow-y-auto scroll-smooth">
-            <div className="flex flex-col items-center justify-center py-16 px-12 min-h-full">
-              <div className="w-full max-w-2xl space-y-16 animate-in fade-in duration-500">
-                <div className="transition-opacity duration-500">
-                  <NatalChart chart={chartData} />
-                </div>
-                <div className="space-y-8 text-white">
-                  <h2 className="text-3xl uppercase tracking-wider font-light leading-tight">
-                    {currentCategory?.questions[selectedQuestionIndex]}
-                  </h2>
-                  <div className="space-y-5 text-base leading-relaxed text-white/75 font-light">
-                    {interpretation.split(". ").map((sentence, idx) => (
-                      <p
-                        key={idx}
-                        className="transition-opacity duration-500 animate-in"
-                      >
-                        {sentence}.
-                      </p>
-                    ))}
+      {isDialogOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          onClick={() => {
+            setIsDialogOpen(false);
+            setIsLoading(false);
+          }}
+        >
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" />
+          <div
+            className="relative bg-black border border-white/10 w-full max-w-3xl mx-6 max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              boxShadow:
+                "0 0 60px rgba(255, 255, 255, 0.03), inset 0 0 100px rgba(255, 255, 255, 0.01)",
+            }}
+          >
+            <style>{`
+              @keyframes noise-move {
+                0% { backgroundPosition: 0 0; }
+                100% { backgroundPosition: 200px 200px; }
+              }
+              .noise-animated {
+                animation: noise-move 20s linear infinite;
+              }
+            `}</style>
+            <div
+              className="absolute inset-0 pointer-events-none opacity-[0.15] noise-animated"
+              style={{
+                backgroundImage: "url(/noise.png)",
+                backgroundSize: "200px 200px",
+                backgroundRepeat: "repeat",
+                imageRendering: "pixelated",
+                mixBlendMode: "screen",
+              }}
+            />
+            <div
+              className="absolute inset-0 pointer-events-none opacity-[0.06]"
+              style={{
+                backgroundImage: "url(/noise.png)",
+                backgroundSize: "150px 150px",
+                backgroundRepeat: "repeat",
+                imageRendering: "pixelated",
+                mixBlendMode: "overlay",
+              }}
+            />
+            {isLoading ? (
+              <div className="flex flex-col items-center justify-center min-h-[60vh] py-16 px-8 relative z-10">
+                <style>{`
+                  @keyframes rotate {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                  }
+                  @keyframes pulse-glow {
+                    0%, 100% { filter: brightness(1) drop-shadow(0 0 10px rgba(255, 255, 255, 0.1)); }
+                    50% { filter: brightness(1.2) drop-shadow(0 0 20px rgba(255, 255, 255, 0.2)); }
+                  }
+                  .moon-rotating {
+                    animation: rotate 3s linear infinite;
+                  }
+                  .moon-glow {
+                    animation: pulse-glow 3s ease-in-out infinite;
+                  }
+                `}</style>
+                <div className="relative mb-8">
+                  <div className="w-24 h-24 moon-glow">
+                    <Image
+                      src="/icons/moon.png"
+                      alt="Moon"
+                      width={96}
+                      height={96}
+                      className="moon-rotating w-full h-full object-contain filter brightness-0 invert"
+                    />
                   </div>
                 </div>
+                <p className="text-white text-lg font-light tracking-wide uppercase animate-pulse">
+                  Reading the stars...
+                </p>
               </div>
-            </div>
+            ) : (
+              <div className="py-12 px-8 relative z-10 animate-in fade-in duration-700">
+                <div className="flex items-start justify-between mb-8">
+                  <div className="flex-1">
+                    <p className="text-xs uppercase tracking-wider text-white/60 mb-2 font-light">
+                      {selectedCategory}
+                    </p>
+                    <h2 className="text-2xl uppercase tracking-wide text-white font-light leading-tight">
+                      {currentQuestion}
+                    </h2>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setIsDialogOpen(false);
+                      setIsLoading(false);
+                    }}
+                    className="text-white/60 hover:text-white transition-all duration-300 text-3xl leading-none cursor-pointer hover:scale-110"
+                    aria-label="Close"
+                  >
+                    ×
+                  </button>
+                </div>
+
+                {transit && (
+                  <div className="mb-12 flex justify-center">
+                    <div className="w-full max-w-md relative">
+                      <div
+                        className="absolute inset-0 pointer-events-none opacity-20"
+                        style={{
+                          backgroundImage:
+                            "radial-gradient(circle at center, rgba(255, 255, 255, 0.1) 0%, transparent 70%)",
+                        }}
+                      />
+                      <TransitChart
+                        planet1={transit.planet1}
+                        planet2={transit.planet2}
+                        aspect={transit.aspect}
+                        size={400}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {answer && (
+                  <div className="space-y-4 text-white/80 text-base leading-relaxed font-light max-w-2xl mx-auto">
+                    {answer.split(". ").map((sentence, idx) => {
+                      const trimmedSentence = sentence.trim();
+                      if (!trimmedSentence) return null;
+
+                      return (
+                        <p
+                          key={idx}
+                          className={`transition-opacity duration-500 ${
+                            idx === 0 ? "text-white text-lg font-medium" : ""
+                          }`}
+                          style={{
+                            animationDelay: `${idx * 100}ms`,
+                            animation: "fadeInUp 0.6s ease-out forwards",
+                          }}
+                        >
+                          {trimmedSentence}
+                          {idx < answer.split(". ").length - 1 ? "." : ""}
+                        </p>
+                      );
+                    })}
+                  </div>
+                )}
+                <style>{`
+                  @keyframes fadeInUp {
+                    from {
+                      opacity: 0;
+                      transform: translateY(10px);
+                    }
+                    to {
+                      opacity: 1;
+                      transform: translateY(0);
+                    }
+                  }
+                `}</style>
+              </div>
+            )}
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

@@ -7,11 +7,15 @@ interface TransitChartProps {
     name: string;
     longitude: number;
     icon: string;
+    sign?: string;
+    degree?: number;
   };
   planet2: {
     name: string;
     longitude: number;
     icon: string;
+    sign?: string;
+    degree?: number;
   };
   aspect: {
     type: string;
@@ -89,61 +93,24 @@ const TransitChart = ({
   const aspectStyle = getAspectStyle(aspect.type);
 
   return (
-    <div className="w-full flex justify-center py-8">
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+    <div className="w-full flex flex-col items-center py-6">
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="mb-4">
         <circle
           cx={center}
           cy={center}
           r={outerRadius}
           fill="none"
-          stroke="#d1d5db"
+          stroke="rgba(255, 255, 255, 0.3)"
           strokeWidth={1}
-        />
-        <circle
-          cx={center}
-          cy={center}
-          r={innerRadius}
-          fill="none"
-          stroke="#d1d5db"
-          strokeWidth={0.7}
-        />
-        <circle
-          cx={center}
-          cy={center}
-          r={innerRadius - 20}
-          fill="none"
-          stroke="#d1d5db"
-          strokeWidth={0.5}
         />
         <circle
           cx={center}
           cy={center}
           r={planetRadius}
           fill="none"
-          stroke="#9ca3af"
-          strokeWidth={0.5}
-          opacity={0.8}
+          stroke="rgba(255, 255, 255, 0.25)"
+          strokeWidth={0.8}
         />
-
-        {Array.from({ length: 12 }, (_, i) => {
-          const angle = (i * 30 - 90) * (Math.PI / 180);
-          const x = center + numberRadius * Math.cos(angle);
-          const y = center + numberRadius * Math.sin(angle);
-          return (
-            <text
-              key={i}
-              x={x}
-              y={y}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fill="#6b7280"
-              fontSize="12"
-              fontFamily="sans-serif"
-            >
-              {i + 1}
-            </text>
-          );
-        })}
 
         {hasAspect && (
           <>
@@ -151,23 +118,9 @@ const TransitChart = ({
               d={`M ${p1.x} ${p1.y} Q ${controlX} ${controlY} ${p2.x} ${p2.y}`}
               fill="none"
               stroke={aspectColor}
-              strokeWidth={aspectStyle.strokeWidth}
-              opacity={aspectStyle.opacity}
+              strokeWidth={aspectStyle.strokeWidth + 0.5}
+              opacity={Math.min(aspectStyle.opacity + 0.2, 1)}
             />
-
-            <text
-              x={labelX}
-              y={labelY}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fill={aspectColor}
-              fontSize="10"
-              fontFamily="sans-serif"
-              fontWeight="500"
-              letterSpacing="0.05em"
-            >
-              {aspect.type.toUpperCase()}
-            </text>
           </>
         )}
 
@@ -177,7 +130,7 @@ const TransitChart = ({
             cy={p1.y}
             r={12}
             fill="white"
-            stroke="#9ca3af"
+            stroke="rgba(255, 255, 255, 0.5)"
             strokeWidth={1}
           />
           <image
@@ -195,7 +148,7 @@ const TransitChart = ({
             cy={p2.y}
             r={12}
             fill="white"
-            stroke="#9ca3af"
+            stroke="rgba(255, 255, 255, 0.5)"
             strokeWidth={1}
           />
           <image
@@ -210,12 +163,35 @@ const TransitChart = ({
         <circle
           cx={center}
           cy={center}
-          r={size * 0.08}
-          fill="#f9fafb"
-          stroke="#d1d5db"
-          strokeWidth={0.5}
+          r={size * 0.06}
+          fill="rgba(255, 255, 255, 0.1)"
+          stroke="rgba(255, 255, 255, 0.2)"
+          strokeWidth={0.8}
         />
       </svg>
+      
+      <div className="text-center space-y-3 mt-2 max-w-md">
+        <div className="text-white text-base font-light tracking-wide">
+          {planet1.name} {hasAspect ? aspect.type.toLowerCase() : "&"} {planet2.name}
+        </div>
+        <div className="space-y-1">
+          {planet1.sign && (
+            <div className="text-white/70 text-xs font-light">
+              {planet1.name} in {planet1.sign} {planet1.degree !== undefined ? `${planet1.degree.toFixed(1)}°` : ''}
+            </div>
+          )}
+          {planet2.sign && (
+            <div className="text-white/70 text-xs font-light">
+              {planet2.name} in {planet2.sign} {planet2.degree !== undefined ? `${planet2.degree.toFixed(1)}°` : ''}
+            </div>
+          )}
+        </div>
+        {hasAspect && (
+          <div className="text-white/50 text-xs font-light uppercase tracking-wider pt-1 border-t border-white/10">
+            {aspect.angle.toFixed(1)}° aspect
+          </div>
+        )}
+      </div>
     </div>
   );
 };

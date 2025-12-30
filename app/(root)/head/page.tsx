@@ -33,9 +33,9 @@ const MasterHeadPage = () => {
                     on.
                   </p>
                   <p>
-                    There&apos;s something beautiful about taking NASA
-                    data—real, precise orbital calculations—and mapping them to
-                    human experience. The mathematics of planetary motion, the
+                    There&apos;s something beautiful about taking NASA data
+                    real, precise orbital calculations and mapping them to human
+                    experience. The mathematics of planetary motion, the
                     algorithms that calculate positions across time, the
                     relationships between celestial bodies expressed in numbers.
                     That&apos;s what drew me in.
@@ -101,12 +101,7 @@ const MasterHeadPage = () => {
           <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
         <div className="absolute top-32 right-16 w-28 h-28 hidden lg:block">
-          <Image
-            src={getRandomIcon()}
-            alt=""
-            fill
-            className="object-contain"
-          />
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
         <div className="absolute top-1/2 left-8 w-24 h-24 hidden lg:block">
           <Image src={getRandomIcon()} alt="" fill className="object-contain" />
@@ -115,31 +110,16 @@ const MasterHeadPage = () => {
           <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
         <div className="absolute bottom-32 right-20 w-16 h-16  hidden lg:block">
-          <Image
-            src={getRandomIcon()}
-            alt=""
-            fill
-            className="object-contain"
-          />
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
         <div className="absolute top-24 right-1/3 w-20 h-20  hidden lg:block">
-          <Image
-            src={getRandomIcon()}
-            alt=""
-            fill
-            className="object-contain"
-          />
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
         <div className="absolute bottom-1/4 left-1/5 w-16 h-16 hidden lg:block">
           <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
         <div className="absolute bottom-1/3 left-16 w-20 h-20  hidden lg:block">
-          <Image
-            src={getRandomIcon()}
-            alt=""
-            fill
-            className="object-contain"
-          />
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
         <div className="absolute top-2/3 left-1/4 w-16 h-16  hidden lg:block">
           <Image src={getRandomIcon()} alt="" fill className="object-contain" />
@@ -148,20 +128,10 @@ const MasterHeadPage = () => {
           <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
         <div className="absolute top-1/4 left-1/3 w-14 h-14  hidden lg:block">
-          <Image
-            src={getRandomIcon()}
-            alt=""
-            fill
-            className="object-contain"
-          />
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
         <div className="absolute bottom-24 right-12 w-26 h-26 hidden lg:block">
-          <Image
-            src={getRandomIcon()}
-            alt=""
-            fill
-            className="object-contain"
-          />
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
         </div>
       </div>
     </main>

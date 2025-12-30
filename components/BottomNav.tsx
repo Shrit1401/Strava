@@ -39,32 +39,40 @@ const BottomNav = () => {
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-black flex justify-center items-center gap-0 py-0">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-black flex items-center gap-0  py-2">
+      <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-0">
+        <Link
+          href="/dashboard"
+          className={`px-8 py-4 text-white uppercase font-mono text-sm tracking-wide transition-opacity ${
+            pathname === "/dashboard"
+              ? "opacity-100"
+              : "opacity-70 hover:opacity-100"
+          }`}
+        >
+          HOME
+        </Link>
+        <Link
+          href="/ask"
+          className={`px-8 py-4 text-white uppercase font-mono text-sm tracking-wide transition-opacity ${
+            pathname === "/ask" ? "opacity-100" : "opacity-70 hover:opacity-100"
+          }`}
+        >
+          ASK
+        </Link>
+        <Link
+          href="/you"
+          className={`px-8 py-4 text-white uppercase font-mono text-sm tracking-wide transition-opacity ${
+            pathname === "/you" ? "opacity-100" : "opacity-70 hover:opacity-100"
+          }`}
+        >
+          YOU
+        </Link>
+      </div>
       <Link
-        href="/dashboard"
-        className={`px-8 py-4 text-white uppercase font-mono text-sm tracking-wide transition-opacity ${
-          pathname === "/dashboard"
-            ? "opacity-100"
-            : "opacity-70 hover:opacity-100"
-        }`}
+        href="/new-year"
+        className="ml-auto px-6 py-3 text-white uppercase font-mono text-xs tracking-wide border border-white transition-opacity hover:opacity-80 mr-4"
       >
-        HOME
-      </Link>
-      <Link
-        href="/ask"
-        className={`px-8 py-4 text-white uppercase font-mono text-sm tracking-wide transition-opacity ${
-          pathname === "/ask" ? "opacity-100" : "opacity-70 hover:opacity-100"
-        }`}
-      >
-        ASK
-      </Link>
-      <Link
-        href="/you"
-        className={`px-8 py-4 text-white uppercase font-mono text-sm tracking-wide transition-opacity ${
-          pathname === "/you" ? "opacity-100" : "opacity-70 hover:opacity-100"
-        }`}
-      >
-        YOU
+        CLICK HERE TO KNOW ABOUT 2026! →
       </Link>
     </nav>
   );

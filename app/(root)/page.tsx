@@ -1,5 +1,7 @@
 "use client";
+import Image from "next/image";
 import Button from "@/components/ui/Button";
+import { getRandomIcon } from "@/utils/astrology";
 
 const LandingPage = () => {
   return (
@@ -140,6 +142,91 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
+      <section className="container mx-auto px-6 md:px-8 pb-20 z-[10]">
+        <div className="max-w-5xl mx-auto">
+          <div className="bg-white p-8 md:p-12 lg:p-16 border border-black/5">
+            <div className="grid md:grid-cols-[180px_1fr] gap-8 md:gap-12 items-start">
+              <div className="flex justify-center md:justify-start">
+                <div className="relative w-40 h-40 md:w-44 md:h-44 rounded-full overflow-hidden">
+                  <Image
+                    src="/shrit.png"
+                    alt="Portrait"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+              </div>
+              <div>
+                <p className="text-xs tracking-[0.15em] uppercase text-[#575657]">
+                  About Me
+                </p>
+                <div className="space-y-6">
+                  <p className="cormorant text-lg md:text-xl lg:text-2xl text-black leading-relaxed">
+                    I’m currently a freshman in college, but I’ve been building
+                    websites for over 6 years. Over the years, I’ve developed
+                    games, websites, apps, and CLI tools, taken on freelance
+                    projects, and gained experience working at companies. I’m
+                    always eager to learn and explore new directions in
+                    technology. To learn more about my work, please visit
+                    <a
+                      href="https://www.shrit.in/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="opacity-50 ml-2 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors"
+                    >
+                      my website.
+                    </a>
+                    .
+                  </p>
+                </div>
+                <p className="text-xs tracking-[0.15em] mt-2 uppercase text-[#575657]">
+                  Shrit Shrivastava | 2025
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-[0] opacity-10">
+        <div className="absolute top-20 left-12 w-32 h-32  hidden lg:block">
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+        </div>
+        <div className="absolute top-32 right-16 w-28 h-28 hidden lg:block">
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+        </div>
+        <div className="absolute top-1/2 left-8 w-24 h-24 hidden lg:block">
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+        </div>
+        <div className="absolute top-1/3 right-1/4 w-20 h-20 opacity-[0.025] hidden lg:block">
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+        </div>
+        <div className="absolute bottom-32 right-20 w-16 h-16  hidden lg:block">
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+        </div>
+        <div className="absolute top-24 right-1/3 w-20 h-20  hidden lg:block">
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+        </div>
+        <div className="absolute bottom-1/4 left-1/5 w-16 h-16 hidden lg:block">
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+        </div>
+        <div className="absolute bottom-1/3 left-16 w-20 h-20  hidden lg:block">
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+        </div>
+        <div className="absolute top-2/3 left-1/4 w-16 h-16  hidden lg:block">
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+        </div>
+        <div className="absolute bottom-40 left-1/3 w-24 h-24 hidden lg:block">
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+        </div>
+        <div className="absolute top-1/4 left-1/3 w-14 h-14  hidden lg:block">
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+        </div>
+        <div className="absolute bottom-24 right-12 w-26 h-26 hidden lg:block">
+          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+        </div>
+      </div>
     </main>
   );
 };

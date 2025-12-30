@@ -110,7 +110,7 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
     <nav
       className={`w-full z-20 px-4 md:px-8 py-4 flex justify-between items-center ${
         isAuth || isAsk ? "fixed top-0 left-0 border-b border-black/10" : ""
-      } ${isAuth || isAsk ? "bg-black text-white" : ""}`}
+      } ${isAuth || isAsk ? "bg-black text-white" : "bg-transparent"}`}
       style={{
         minHeight: 56,
       }}
@@ -218,7 +218,7 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
                   variant="outline"
                   href="/login"
                   className={`font-normal ${
-                    isAuth || !isAsk
+                    isAuth || isAsk
                       ? "text-white! border-white! hover:bg-white/10!"
                       : ""
                   }`}
@@ -229,7 +229,7 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
                   variant="primary"
                   href="/signup"
                   className={`font-normal ${
-                    isAuth || !isAsk
+                    isAuth || isAsk
                       ? "bg-white! text-black! border-white! hover:bg-white/90!"
                       : ""
                   }`}
@@ -391,7 +391,9 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
                 href="/login"
                 onClick={() => setMobileMenuOpen(false)}
                 className={`font-normal w-full ${
-                  isAuth ? "text-white! border-white! hover:bg-white/10!" : ""
+                  isAuth || isAsk
+                    ? "text-white! border-white! hover:bg-white/10!"
+                    : ""
                 }`}
               />
               <Button
@@ -401,8 +403,8 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
                 href="/signup"
                 onClick={() => setMobileMenuOpen(false)}
                 className={`font-normal w-full ${
-                  isAuth
-                    ? "bg-white! text-black! border-white! hover:bg-white/90!"
+                  isAuth || isAsk
+                    ? "bg-white text-black! border-white! hover:bg-white/90!"
                     : ""
                 }`}
               />

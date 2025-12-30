@@ -9,7 +9,8 @@ export type AIGenerationType =
   | "thinking-creativity"
   | "routine"
   | "sex-love"
-  | "spirituality";
+  | "spirituality"
+  | "new-year";
 
 export async function getCachedGeneration(
   userId: string,

@@ -170,10 +170,10 @@ const LandingPage = () => {
                 </p>
                 <div className="space-y-6">
                   <p className="cormorant text-lg md:text-xl lg:text-2xl text-black leading-relaxed">
-                    I’m currently a freshman in college, but I’ve been building
-                    websites for over 6 years. Over the years, I’ve developed
+                    I'm currently a freshman in college, but I've been building
+                    websites for over 6 years. Over the years, I've developed
                     games, websites, apps, and CLI tools, taken on freelance
-                    projects, and gained experience working at companies. I’m
+                    projects, and gained experience working at companies. I'm
                     always eager to learn and explore new directions in
                     technology. To learn more about my work, please visit
                     <a
@@ -192,6 +192,38 @@ const LandingPage = () => {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="container mx-auto px-6 py-12 max-w-4xl">
+        <div className="border-t border-black/10 pt-8">
+          <h2 className="cormorant text-2xl md:text-3xl mb-6 text-center">
+            Data Collection & Privacy
+          </h2>
+          <p className="text-sm text-[#575657] leading-relaxed mb-6 text-center max-w-2xl mx-auto">
+            To provide accurate astrological insights, we collect your birth date, 
+            birth time, and birth location (including geographic coordinates). This 
+            information is essential for calculating your precise birth chart using 
+            NASA astronomical data. We also collect your email address for account 
+            authentication and your name (optional) for personalization. All data 
+            is securely stored and used solely to generate your personalized 
+            astrological readings and predictions.
+          </p>
+          <div className="flex flex-wrap justify-center gap-6 text-xs text-[#575657]">
+            <a
+              href="/privacy"
+              className="underline underline-offset-4 hover:text-black transition-colors"
+            >
+              Privacy Policy
+            </a>
+            <span className="text-black/20">|</span>
+            <a
+              href="/tos"
+              className="underline underline-offset-4 hover:text-black transition-colors"
+            >
+              Terms of Service
+            </a>
           </div>
         </div>
       </section>

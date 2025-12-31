@@ -45,6 +45,12 @@ export default function TermsOfServicePage() {
             only. Astrological predictions and insights are not intended to be
             used as the sole basis for making important life decisions.
           </p>
+          <p>
+            Strava is part of Hack Club&apos;s project ecosystem. We are committed
+            to data privacy and security. All services are self-hosted, and we do
+            not share your personal information with third parties. Your data
+            remains safe and secure with us.
+          </p>
         </section>
 
         <section className="space-y-4">

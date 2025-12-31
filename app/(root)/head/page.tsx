@@ -53,6 +53,42 @@ const MasterHeadPage = () => {
             </div>
           </div>
         </section>
+
+        <section className="container mx-auto px-6 md:px-8 pb-32">
+          <div className="max-w-3xl mx-auto">
+            <div className="border-t border-black/10 pt-16">
+              <div className="max-w-2xl mx-auto">
+                <p className="text-xs tracking-[0.2em] uppercase text-[#575657] mb-8">
+                  Privacy & AI
+                </p>
+                <div className="cormorant text-base md:text-lg text-black leading-relaxed space-y-4">
+                  <p>
+                    All AI features on this platform run without sending your
+                    data to any third-party services. Your conversations, birth
+                    data, and personal information stay private and secure.
+                  </p>
+                  <p>
+                    This is made possible thanks to{" "}
+                    <a
+                      href="https://ai.hackclub.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="opacity-50 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-colors"
+                    >
+                      Hack Club AI
+                    </a>
+                    , where Hack Club provides free self-hosted AI
+                    infrastructure. This means the AI models run on
+                    infrastructure controlled by the community, not by
+                    commercial entities that might use your data for training or
+                    advertising.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="container mx-auto px-6 md:px-8 pb-20">
           <div className="max-w-5xl mx-auto">
             <div className="bg-[#fafafa] p-8 md:p-12 lg:p-16 border border-black/5">

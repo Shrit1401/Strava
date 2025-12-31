@@ -83,19 +83,18 @@ const LandingPage = () => {
                 others.
               </p>
             </div>
-
             <div className="text-center">
               <div className="flex justify-center mb-10">
                 <img
                   src="https://www.costarastrology.com/a8e5bd2b6df39d407ace7e35ef6bc081.png"
-                  alt="Skull in profile"
+                  alt="Security"
                   className="w-40 h-40 object-cover"
                 />
               </div>
               <p className="text-[#f5f5f5] max-w-xs mx-auto">
-                Astrology puts our temporary bodies in context with our
-                universe&apos;s vastness, allowing irrationality to invade our
-                techno-rationalist ways of living.
+                Your data is completely safe with us. We self-host everything
+                and never share your information with third parties. All your
+                birth data and astrological insights stay private and secure.
               </p>
             </div>
           </div>
@@ -137,18 +136,19 @@ const LandingPage = () => {
           <div className="grid gap-16 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)] items-start">
             <div className="max-w-xl md:ml-8 md:mt-12">
               <h2 className="cormorant text-2xl md:text-3xl lg:text-4xl mb-6">
-                Real-time insights, as the planets move
+                Data in Safe Hands
               </h2>
               <p className="text-sm text-[#575657] leading-relaxed mb-8">
-                We use NASA data to know exactly where the stars are, and
-                proprietary technology to generate super-accurate horoscopes.
-                Know what to look for as the stars move—starting now.
+                Your data stays completely safe with me, everything is
+                self-hosted, and I never share information with any third
+                parties. Enjoy real-time, super-accurate horoscopes based on
+                live NASA data, knowing your privacy is fully protected.
               </p>
               <a
-                href="/natal-chart"
+                href="/head"
                 className="text-xs tracking-[0.18em] uppercase underline underline-offset-4"
               >
-                Get your chart online &gt;
+                Learn More About Privacy &gt;
               </a>
             </div>
 

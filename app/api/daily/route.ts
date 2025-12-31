@@ -4,8 +4,7 @@ import * as Astronomy from "astronomy-engine";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/db/client";
 import { HOUSE_RULERS } from "@/constants/astrology";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import { GEMINI_MODEL } from "@/constants/ai";
+import { callAI } from "@/lib/ai/client";
 import { getCachedGeneration, setCachedGeneration } from "@/lib/ai/cache";
 import {
   angularDistance,
@@ -256,13 +255,8 @@ const callGemini = async (
   dontList: string[],
   signals: DailySignals
 ): Promise<{ headline: string; bullets: string[]; closing: string[] }> => {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (apiKey) {
-    try {
-      const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: GEMINI_MODEL });
-
-      const prompt = `You are writing a deeply personal daily reflection about THIS PERSON'S experience today. Write as if speaking directly to them about their inner world, feelings, and patterns. The astrology has already been calculated. Focus on HOW IT AFFECTS THEM PERSONALLY.
+  try {
+    const prompt = `You are writing a deeply personal daily reflection about THIS PERSON'S experience today. Write as if speaking directly to them about their inner world, feelings, and patterns. The astrology has already been calculated. Focus on HOW IT AFFECTS THEM PERSONALLY.
 
 Theme: ${theme}
 Tone: ${tone}
@@ -284,7 +278,7 @@ Do not make absolute claims
 Avoid fatalism: feels like advice not prophecy
 
 Generate:
-1. One short headline (one sentence, reflects HOW THEY'RE EXPERIENCING TODAY PERSONALLY, feels deeply personal and emotional, no absolute claims)
+1. One short headline (exactly 6-8 words, reflects HOW THEY'RE EXPERIENCING TODAY PERSONALLY, feels deeply personal and emotional, no absolute claims)
 
 2. Three to four bullet points in this specific format:
    Use descriptive phrases like "Power in social life", "Pressure in self", "Trouble with routine, thinking & creativity, spirituality, and sex & love"
@@ -315,37 +309,34 @@ Format your response as JSON:
   "closing": ["First paragraph (2-3 sentences)...", "Second paragraph (2-3 sentences)...", "Third paragraph (2-3 sentences)...", "Fourth paragraph (2-3 sentences, optional)..."]
 }`;
 
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      const text = response.text();
+    const text = await callAI(prompt);
 
-      try {
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-          const parsed = JSON.parse(jsonMatch[0]);
-          return {
-            headline:
-              parsed.headline || "Today brings opportunities for reflection",
-            bullets: parsed.bullets || [],
-            closing:
-              Array.isArray(parsed.closing) && parsed.closing.length >= 4
-                ? parsed.closing
-                : parsed.closing
-                ? [parsed.closing]
-                : [
-                    "Today brings opportunities for reflection and growth, but it might not feel that way at first. You may notice yourself pulled in different directions, feeling the weight of expectations—both your own and others'. This is normal, especially when the moon's energy highlights areas where you're still learning to balance competing needs. The key is to recognize that this tension isn't a problem to solve, but information about what matters most to you right now.",
-                    "Beneath the surface of whatever challenges or opportunities are showing up today, there's a deeper pattern at play. The energy is asking you to look at how you've been moving through your life—are you honoring all parts of yourself, or have you been prioritizing one aspect while neglecting another? This isn't about finding fault, but about recognizing where you might need to bring more balance. The discomfort you feel is often a sign that something important wants your attention.",
-                    "The practical work today is to notice without judgment. When you feel pulled in different directions, pause and ask yourself what each part of you is trying to say. Maybe your need for rest is just as valid as your drive to accomplish things. Perhaps your desire for connection deserves as much space as your need for independence. The guidance isn't to choose one over the other, but to find ways to honor both. This might mean setting clearer boundaries in some areas while opening up more in others.",
-                    "Remember that you're not broken or doing something wrong if you feel conflicted or uncertain. These feelings are part of being human, and they're especially common when you're growing and changing. Trust that you have the capacity to hold complexity, to honor multiple needs at once, and to make choices that feel right for you in each moment. You don't have to have everything figured out today—sometimes the most important thing is just to show up and pay attention to what's here.",
-                  ],
-          };
-        }
-      } catch (e) {
-        console.error("Failed to parse Gemini response:", e);
+    try {
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]);
+        return {
+          headline:
+            parsed.headline || "Today brings opportunities for reflection",
+          bullets: parsed.bullets || [],
+          closing:
+            Array.isArray(parsed.closing) && parsed.closing.length >= 4
+              ? parsed.closing
+              : parsed.closing
+              ? [parsed.closing]
+              : [
+                  "Today brings opportunities for reflection and growth, but it might not feel that way at first. You may notice yourself pulled in different directions, feeling the weight of expectations—both your own and others'. This is normal, especially when the moon's energy highlights areas where you're still learning to balance competing needs. The key is to recognize that this tension isn't a problem to solve, but information about what matters most to you right now.",
+                  "Beneath the surface of whatever challenges or opportunities are showing up today, there's a deeper pattern at play. The energy is asking you to look at how you've been moving through your life—are you honoring all parts of yourself, or have you been prioritizing one aspect while neglecting another? This isn't about finding fault, but about recognizing where you might need to bring more balance. The discomfort you feel is often a sign that something important wants your attention.",
+                  "The practical work today is to notice without judgment. When you feel pulled in different directions, pause and ask yourself what each part of you is trying to say. Maybe your need for rest is just as valid as your drive to accomplish things. Perhaps your desire for connection deserves as much space as your need for independence. The guidance isn't to choose one over the other, but to find ways to honor both. This might mean setting clearer boundaries in some areas while opening up more in others.",
+                  "Remember that you're not broken or doing something wrong if you feel conflicted or uncertain. These feelings are part of being human, and they're especially common when you're growing and changing. Trust that you have the capacity to hold complexity, to honor multiple needs at once, and to make choices that feel right for you in each moment. You don't have to have everything figured out today—sometimes the most important thing is just to show up and pay attention to what's here.",
+                ],
+        };
       }
     } catch (e) {
-      console.error("Failed to call Gemini API:", e);
+      console.error("Failed to parse AI response:", e);
     }
+  } catch (e) {
+    console.error("Failed to call AI API:", e);
   }
 
   return {

@@ -3,8 +3,7 @@ import { DateTime } from "luxon";
 import * as Astronomy from "astronomy-engine";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/db/client";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import { GEMINI_MODEL } from "@/constants/ai";
+import { callAI } from "@/lib/ai/client";
 import { getCachedGeneration, setCachedGeneration } from "@/lib/ai/cache";
 import { createHash } from "crypto";
 import {
@@ -271,15 +270,7 @@ const callGemini = async (
   },
   natalChart: Record<string, ZodiacPosition>
 ): Promise<string> => {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    return "The stars are aligning to reveal insights. Trust the process.";
-  }
-
   try {
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: GEMINI_MODEL });
-
     const aspectDescription =
       transit.aspect.type !== "None"
         ? `${transit.planet1.name} ${transit.aspect.type.toLowerCase()} ${
@@ -326,15 +317,12 @@ CRITICAL INSTRUCTIONS:
 Format your response exactly like this:
 [Yes/No/Maybe, clear one-sentence answer to their question]. [Then continue with detailed explanation in the following sentences, expanding on what this means for them emotionally and practically].`;
 
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    const text = response.text();
-
+    const text = await callAI(prompt);
     return (
       text || "The stars are aligning to reveal insights. Trust the process."
     );
   } catch (error) {
-    console.error("Gemini API error:", error);
+    console.error("AI API error:", error);
     return "The stars are aligning to reveal insights. Trust the process.";
   }
 };

@@ -24,16 +24,23 @@ export default function PrivacyPage() {
             1. Introduction
           </h2>
           <p>
-            Welcome to Strava ("we," "our," or "us"). We are committed to
-            protecting your privacy and ensuring you have a positive experience
-            on our website and in using our services. This Privacy Policy
-            explains how we collect, use, disclose, and safeguard your
-            information when you visit our astrology website.
+            Welcome to Strava ("we," "our," or "us"). Strava is part of Hack
+            Club&apos;s project ecosystem. We are committed to protecting your
+            privacy and ensuring you have a positive experience on our website
+            and in using our services. This Privacy Policy explains how we
+            collect, use, disclose, and safeguard your information when you
+            visit our astrology website.
           </p>
           <p>
             By using our service, you agree to the collection and use of
             information in accordance with this policy. If you do not agree with
             our policies and practices, please do not use our service.
+          </p>
+          <p>
+            <strong>Data Privacy Commitment:</strong> We self-host all services
+            and infrastructure. We do not share, sell, or rent your personal
+            information to third parties. All your data remains secure and
+            private with us.
           </p>
         </section>
 
@@ -120,13 +127,20 @@ export default function PrivacyPage() {
             4. Data Storage and Security
           </h2>
           <p>
+            <strong>Self-Hosted Infrastructure:</strong> All your data is stored
+            on our self-hosted infrastructure. We do not rely on third-party
+            cloud services for data storage, ensuring maximum privacy and
+            security for your personal information.
+          </p>
+          <p>
             We use industry-standard security measures to protect your personal
             information. Your data is stored securely using:
           </p>
           <ul className="list-disc pl-6 space-y-2">
-            <li>Encrypted database connections (PostgreSQL)</li>
-            <li>Secure authentication through Supabase</li>
+            <li>Self-hosted database with encrypted connections (PostgreSQL)</li>
+            <li>Secure authentication through Supabase (only for login)</li>
             <li>Regular security updates and monitoring</li>
+            <li>No third-party access to your personal data</li>
           </ul>
           <p>
             However, no method of transmission over the Internet or electronic
@@ -138,29 +152,37 @@ export default function PrivacyPage() {
 
         <section className="space-y-4">
           <h2 className="cormorant text-2xl md:text-3xl mt-8 mb-4">
-            5. Third-Party Services
+            5. Third-Party Services and Data Sharing
           </h2>
           <p>
-            We use the following third-party services that may collect or
-            process your information:
+            <strong>No Third-Party Data Sharing:</strong> We do not share your
+            personal information, birth data, or astrological insights with any
+            third parties. All services are self-hosted, and your data remains
+            completely private and secure with us.
+          </p>
+          <p>
+            We use the following services for technical operations, but your
+            personal data is not shared with them:
           </p>
           <ul className="list-disc pl-6 space-y-2">
             <li>
               <strong>Supabase:</strong> For user authentication and account
-              management
+              management (only email and authentication data)
             </li>
             <li>
-              <strong>Google Gemini AI:</strong> For generating astrological
-              insights and predictions
+              <strong>Hack Club AI Proxy:</strong> For generating astrological
+              insights and predictions (no personal data is sent, only
+              astrological calculations)
             </li>
             <li>
-              <strong>NASA Data:</strong> For accurate astronomical calculations
+              <strong>NASA Data:</strong> Public astronomical data for accurate
+              calculations (no personal information involved)
             </li>
           </ul>
           <p>
-            These third-party services have their own privacy policies governing
-            the collection and use of your information. We encourage you to
-            review their privacy policies.
+            Your birth date, birth time, birth location, and all astrological
+            insights generated are stored securely on our self-hosted
+            infrastructure and are never shared with third parties.
           </p>
         </section>
 
@@ -169,25 +191,28 @@ export default function PrivacyPage() {
             6. Data Sharing and Disclosure
           </h2>
           <p>
-            We do not sell, trade, or rent your personal information to third
-            parties. We may share your information only in the following
+            <strong>We do not sell, trade, or rent your personal information to
+            third parties.</strong> As a self-hosted service, your data remains
+            completely private and secure with us.
+          </p>
+          <p>
+            We may share your information only in the following extremely limited
             circumstances:
           </p>
           <ul className="list-disc pl-6 space-y-2">
-            <li>With your explicit consent</li>
+            <li>With your explicit written consent</li>
             <li>
               To comply with legal obligations, court orders, or government
-              requests
+              requests (only when legally required)
             </li>
             <li>To protect our rights, privacy, safety, or property</li>
-            <li>
-              In connection with a business transfer, merger, or acquisition
-            </li>
-            <li>
-              With service providers who assist us in operating our website and
-              conducting our business, subject to confidentiality agreements
-            </li>
           </ul>
+          <p>
+            <strong>Important:</strong> We do not share your birth data,
+            astrological insights, or personal information with service providers
+            or third parties. All data processing happens on our self-hosted
+            infrastructure.
+          </p>
         </section>
 
         <section className="space-y-4">

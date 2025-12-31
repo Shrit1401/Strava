@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StarryBackground from "@/components/StarryBackground";
 import Image from "next/image";
 import TransitChart from "@/components/TransitChart";
@@ -26,13 +26,11 @@ type Category = "SELF" | "LOVE" | "WORK" | "SOCIAL";
 const categories: {
   id: Category;
   label: string;
-  icon: string;
   questions: string[];
 }[] = [
   {
     id: "SELF",
     label: "SELF",
-    icon: getRandomIcon(),
     questions: [
       "WHO AM I?",
       "WHAT DO I REALLY WANT?",
@@ -47,7 +45,6 @@ const categories: {
   {
     id: "LOVE",
     label: "LOVE",
-    icon: getRandomIcon(),
     questions: [
       "AM I READY FOR LOVE?",
       "WHAT AM I LOOKING FOR IN A PARTNER?",
@@ -62,7 +59,6 @@ const categories: {
   {
     id: "WORK",
     label: "WORK",
-    icon: getRandomIcon(),
     questions: [
       "AM I FULFILLED IN MY CAREER?",
       "WHAT IS MY CALLING?",
@@ -77,7 +73,6 @@ const categories: {
   {
     id: "SOCIAL",
     label: "SOCIAL",
-    icon: getRandomIcon(),
     questions: [
       "IS THIS THE YEAR TO LET SOME FRIENDSHIPS GO?",
       "DO I HAVE TOO MANY FRIENDS?",
@@ -104,6 +99,21 @@ const AskPage = () => {
     planet2: { name: string; longitude: number; icon: string };
     aspect: { type: string; angle: number };
   } | null>(null);
+  const [categoryIcons, setCategoryIcons] = useState<Record<Category, string>>({
+    SELF: "",
+    LOVE: "",
+    WORK: "",
+    SOCIAL: "",
+  });
+
+  useEffect(() => {
+    setCategoryIcons({
+      SELF: getRandomIcon(),
+      LOVE: getRandomIcon(),
+      WORK: getRandomIcon(),
+      SOCIAL: getRandomIcon(),
+    });
+  }, []);
 
   const currentCategory = categories.find((cat) => cat.id === selectedCategory);
 
@@ -165,7 +175,7 @@ const AskPage = () => {
               }`}
             >
               <Image
-                src={category.icon}
+                src={categoryIcons[category.id] || "/icons/1.png"}
                 alt={category.label}
                 width={24}
                 height={24}
@@ -199,7 +209,7 @@ const AskPage = () => {
           </div>
         </div>
 
-        <div className="fixed bottom-0 left-0 right-0 border-t border-white/10 px-6 py-4 pb-20 flex items-center justify-center bg-black/90 backdrop-blur-sm z-30">
+        <div className="fixed bottom-0 left-0 right-0 border-t border-white/10 px-6 py-4 pb-20 flex items-center justify-center bg-black/90 backdrop-blur-sm z-[60]">
           <div className="w-full max-w-2xl flex items-center gap-4">
             <input
               type="text"

@@ -3,8 +3,7 @@ import { DateTime } from "luxon";
 import * as Astronomy from "astronomy-engine";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/db/client";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import { GEMINI_MODEL } from "@/constants/ai";
+import { callAI } from "@/lib/ai/client";
 import { getCachedGeneration, setCachedGeneration } from "@/lib/ai/cache";
 import {
   angularDistance,
@@ -158,11 +157,7 @@ const callGemini = async (
   logicalBullets: string[],
   aspectAngle: number | null
 ): Promise<{ summary: string; explanation: string; encouragement: string }> => {
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (apiKey) {
-    try {
-      const genAI = new GoogleGenerativeAI(apiKey);
-      const model = genAI.getGenerativeModel({ model: GEMINI_MODEL });
+  try {
 
       const aspectText = aspectType || "no major aspect";
       const tone =
@@ -208,9 +203,7 @@ Format your response as JSON:
   "encouragement": "..."
 }`;
 
-      const result = await model.generateContent(prompt);
-      const response = await result.response;
-      const text = response.text();
+      const text = await callAI(prompt);
 
       try {
         const jsonMatch = text.match(/\{[\s\S]*\}/);
@@ -229,12 +222,11 @@ Format your response as JSON:
           };
         }
       } catch (e) {
-        console.error("Failed to parse Gemini response:", e);
+        console.error("Failed to parse AI response:", e);
       }
     } catch (e) {
-      console.error("Failed to call Gemini API:", e);
+      console.error("Failed to call AI API:", e);
     }
-  }
 
   const aspectText = aspectType || "no major aspect";
   const isSupportive = signalStrength === "Supportive";

@@ -14,10 +14,10 @@ const LandingPage = () => {
   return (
     <main className="">
       <section className="container mx-auto px-6 pt-16 text-center">
-        <h1 className="cormorant text-3xl md:text-4xl lg:text-5xl mb-4">
+        <h1 className="cormorant text-5xl md:text-6xl lg:text-7xl mb-4">
           <span className="block coromont">Strava</span>
         </h1>
-        <p className="text-sm text-[#575657]">
+        <p className="text-lg text-[#575657]">
           The astrology website that deciphers the mystery of human relations
           through real data and biting truth.
         </p>
@@ -37,11 +37,11 @@ const LandingPage = () => {
           }}
         />
 
-        <div className="flex justify-center">
+        <div className="flex justify-center z-10">
           <img
             src="./mockup.png"
             alt="Strava app preview"
-            className="max-w-5xl w-full"
+            className="max-w-7xl w-full"
           />
         </div>
       </section>
@@ -162,7 +162,7 @@ const LandingPage = () => {
           </div>
         </div>
       </section>
-      <section className="container mx-auto px-6 md:px-8 pb-20 z-[10]">
+      <section className="container mx-auto px-6 md:px-8 pb-20 z-1]">
         <div className="max-w-5xl mx-auto">
           <div className="bg-white p-8 md:p-12 lg:p-16 border border-black/5">
             <div className="grid md:grid-cols-[180px_1fr] gap-8 md:gap-12 items-start">
@@ -242,7 +242,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-[0] opacity-10">
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 opacity-10">
         <div className="absolute top-20 left-12 w-32 h-32  hidden lg:block">
           {icons[0] && (
             <Image src={icons[0]} alt="" fill className="object-contain" />

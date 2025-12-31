@@ -237,3 +237,92 @@ body {
 .float-animate {
   animation: float 6s ease-in-out infinite;
 }
+
+.geoapify-light-theme input,
+.geoapify-light-theme .geoapify-autocomplete-input {
+  border: none !important;
+  border-bottom: 1px solid #111827 !important;
+  border-radius: 0 !important;
+  color: #111827 !important;
+  background: transparent !important;
+  padding: 0.125rem 0.25rem 0.125rem 0.25rem !important;
+  font-size: 0.875rem !important;
+}
+
+.geoapify-light-theme input::placeholder,
+.geoapify-light-theme .geoapify-autocomplete-input::placeholder {
+  color: rgba(17, 24, 39, 0.5) !important;
+}
+
+.geoapify-light-theme input:focus,
+.geoapify-light-theme .geoapify-autocomplete-input:focus {
+  border-color: #111827 !important;
+  outline: none !important;
+}
+
+.geoapify-light-theme .geoapify-autocomplete-items {
+  background: #ffffff !important;
+  border: 1px solid #e5e7eb !important;
+  color: #111827 !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+.geoapify-light-theme .geoapify-autocomplete-item {
+  color: #111827 !important;
+  background: transparent !important;
+  border-bottom: 1px solid #e5e7eb !important;
+}
+
+.geoapify-light-theme .geoapify-autocomplete-item *,
+.geoapify-light-theme .geoapify-autocomplete-item span,
+.geoapify-light-theme .geoapify-autocomplete-item div {
+  color: #111827 !important;
+  background: transparent !important;
+}
+
+.geoapify-light-theme .geoapify-autocomplete-item:hover,
+.geoapify-light-theme .geoapify-autocomplete-item.active,
+.geoapify-light-theme .geoapify-autocomplete-item[aria-selected="true"] {
+  background: #f3f4f6 !important;
+  color: #111827 !important;
+}
+
+.geoapify-light-theme .geoapify-autocomplete-item:hover *,
+.geoapify-light-theme .geoapify-autocomplete-item.active * {
+  color: #111827 !important;
+}
+
+.geoapify-light-theme .geoapify-autocomplete-item b,
+.geoapify-light-theme .geoapify-autocomplete-item strong {
+  color: #111827 !important;
+  font-weight: 600 !important;
+}
+
+.geoapify-light-theme .geoapify-autocomplete-item .icon,
+.geoapify-light-theme .geoapify-autocomplete-item svg,
+.geoapify-light-theme .geoapify-autocomplete-item img {
+  filter: none !important;
+  opacity: 0.7 !important;
+}
+
+.geoapify-light-theme button[aria-label="Clear"],
+.geoapify-light-theme .geoapify-autocomplete-clear-button,
+.geoapify-light-theme .geoapify-close-button,
+.geoapify-light-theme button[type="button"]:has(svg),
+.geoapify-light-theme .geoapify-autocomplete-input + button,
+.geoapify-light-theme button:last-child,
+.geoapify-light-theme .geoapify-autocomplete-wrapper > button,
+.geoapify-light-theme .geoapify-autocomplete-wrapper button:not(.geoapify-autocomplete-item),
+.geoapify-light-theme button[aria-label*="clear" i],
+.geoapify-light-theme button[aria-label*="Clear" i],
+.geoapify-light-theme .geoapify-autocomplete-wrapper > div > button,
+.geoapify-light-theme .geoapify-autocomplete-wrapper > div:last-child:not(.geoapify-autocomplete-items) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.geoapify-light-theme .geoapify-autocomplete-wrapper svg:not(.geoapify-autocomplete-item svg) {
+  display: none !important;
+}

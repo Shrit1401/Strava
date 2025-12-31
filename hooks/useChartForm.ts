@@ -6,13 +6,14 @@ type BirthData = {
   time: string;
   latitude: number;
   longitude: number;
+  location?: string;
 };
 
 const DEFAULT_BIRTH_DATA: BirthData = {
-  date: "2008-01-14",
-  time: "11:00",
-  latitude: 28.7041,
-  longitude: 77.1025,
+  date: "",
+  time: "",
+  latitude: 0,
+  longitude: 0,
 };
 
 export const useChartForm = () => {
@@ -27,6 +28,11 @@ export const useChartForm = () => {
   };
 
   const fetchChart = async () => {
+    if (!birthData.latitude || !birthData.longitude) {
+      setError("Please select a valid birth place");
+      return;
+    }
+
     setSubmitted(false);
     setLoading(true);
     setError(null);

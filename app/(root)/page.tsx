@@ -2,8 +2,15 @@
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import { getRandomIcon } from "@/utils/astrology";
+import { useState, useEffect } from "react";
 
 const LandingPage = () => {
+  const [icons, setIcons] = useState<string[]>([]);
+
+  useEffect(() => {
+    setIcons(Array.from({ length: 12 }, () => getRandomIcon()));
+  }, []);
+
   return (
     <main className="">
       <section className="container mx-auto px-6 pt-16 text-center">
@@ -103,7 +110,7 @@ const LandingPage = () => {
                 where you were born to generate your full birth chart.
               </p>
               <a
-                href="#"
+                href="/natal-chart"
                 className="text-xs tracking-[0.18em] uppercase underline underline-offset-4"
               >
                 Get your chart online &gt;
@@ -125,7 +132,7 @@ const LandingPage = () => {
                 Know what to look for as the stars move—starting now.
               </p>
               <a
-                href="#"
+                href="/natal-chart"
                 className="text-xs tracking-[0.18em] uppercase underline underline-offset-4"
               >
                 Get your chart online &gt;
@@ -191,40 +198,64 @@ const LandingPage = () => {
 
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-[0] opacity-10">
         <div className="absolute top-20 left-12 w-32 h-32  hidden lg:block">
-          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+          {icons[0] && (
+            <Image src={icons[0]} alt="" fill className="object-contain" />
+          )}
         </div>
         <div className="absolute top-32 right-16 w-28 h-28 hidden lg:block">
-          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+          {icons[1] && (
+            <Image src={icons[1]} alt="" fill className="object-contain" />
+          )}
         </div>
         <div className="absolute top-1/2 left-8 w-24 h-24 hidden lg:block">
-          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+          {icons[2] && (
+            <Image src={icons[2]} alt="" fill className="object-contain" />
+          )}
         </div>
         <div className="absolute top-1/3 right-1/4 w-20 h-20 opacity-[0.025] hidden lg:block">
-          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+          {icons[3] && (
+            <Image src={icons[3]} alt="" fill className="object-contain" />
+          )}
         </div>
         <div className="absolute bottom-32 right-20 w-16 h-16  hidden lg:block">
-          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+          {icons[4] && (
+            <Image src={icons[4]} alt="" fill className="object-contain" />
+          )}
         </div>
         <div className="absolute top-24 right-1/3 w-20 h-20  hidden lg:block">
-          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+          {icons[5] && (
+            <Image src={icons[5]} alt="" fill className="object-contain" />
+          )}
         </div>
         <div className="absolute bottom-1/4 left-1/5 w-16 h-16 hidden lg:block">
-          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+          {icons[6] && (
+            <Image src={icons[6]} alt="" fill className="object-contain" />
+          )}
         </div>
         <div className="absolute bottom-1/3 left-16 w-20 h-20  hidden lg:block">
-          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+          {icons[7] && (
+            <Image src={icons[7]} alt="" fill className="object-contain" />
+          )}
         </div>
         <div className="absolute top-2/3 left-1/4 w-16 h-16  hidden lg:block">
-          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+          {icons[8] && (
+            <Image src={icons[8]} alt="" fill className="object-contain" />
+          )}
         </div>
         <div className="absolute bottom-40 left-1/3 w-24 h-24 hidden lg:block">
-          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+          {icons[9] && (
+            <Image src={icons[9]} alt="" fill className="object-contain" />
+          )}
         </div>
         <div className="absolute top-1/4 left-1/3 w-14 h-14  hidden lg:block">
-          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+          {icons[10] && (
+            <Image src={icons[10]} alt="" fill className="object-contain" />
+          )}
         </div>
         <div className="absolute bottom-24 right-12 w-26 h-26 hidden lg:block">
-          <Image src={getRandomIcon()} alt="" fill className="object-contain" />
+          {icons[11] && (
+            <Image src={icons[11]} alt="" fill className="object-contain" />
+          )}
         </div>
       </div>
     </main>

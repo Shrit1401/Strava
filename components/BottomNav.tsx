@@ -39,42 +39,54 @@ const BottomNav = () => {
   }
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-black flex items-center gap-0  py-2">
-      <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-0">
-        <Link
-          href="/dashboard"
-          className={`px-8 py-4 text-white uppercase font-mono text-sm tracking-wide transition-opacity ${
-            pathname === "/dashboard"
-              ? "opacity-100"
-              : "opacity-70 hover:opacity-100"
-          }`}
-        >
-          HOME
-        </Link>
-        <Link
-          href="/ask"
-          className={`px-8 py-4 text-white uppercase font-mono text-sm tracking-wide transition-opacity ${
-            pathname === "/ask" ? "opacity-100" : "opacity-70 hover:opacity-100"
-          }`}
-        >
-          ASK
-        </Link>
-        <Link
-          href="/you"
-          className={`px-8 py-4 text-white uppercase font-mono text-sm tracking-wide transition-opacity ${
-            pathname === "/you" ? "opacity-100" : "opacity-70 hover:opacity-100"
-          }`}
-        >
-          YOU
-        </Link>
+    <div className="fixed bottom-0 left-0 right-0 z-50">
+      <div className="flex flex-col items-end pb-0">
+        <div className="mb-6 mr-2">
+          <Link
+            href="/new-year"
+            className="px-4 sm:px-6 py-2 sm:py-3 text-black bg-white uppercase font-mono text-[10px] sm:text-xs tracking-wide border border-[#333] transition-opacity hover:opacity-80 whitespace-nowrap"
+            title="CLICK HERE TO KNOW ABOUT 2026! →"
+          >
+            <span className="hidden sm:inline">
+              CLICK HERE TO KNOW ABOUT 2026! →
+            </span>
+            <span className="sm:hidden">2026 →</span>
+          </Link>
+        </div>
+        <nav className="flex items-center gap-0 justify-center bg-black w-full py-2">
+          <Link
+            href="/dashboard"
+            className={`px-4 sm:px-8 py-2 sm:py-4 text-white uppercase font-mono text-xs sm:text-sm tracking-wide transition-opacity ${
+              pathname === "/dashboard"
+                ? "opacity-100"
+                : "opacity-70 hover:opacity-100"
+            }`}
+          >
+            HOME
+          </Link>
+          <Link
+            href="/ask"
+            className={`px-4 sm:px-8 py-2 sm:py-4 text-white uppercase font-mono text-xs sm:text-sm tracking-wide transition-opacity ${
+              pathname === "/ask"
+                ? "opacity-100"
+                : "opacity-70 hover:opacity-100"
+            }`}
+          >
+            ASK
+          </Link>
+          <Link
+            href="/you"
+            className={`px-4 sm:px-8 py-2 sm:py-4 text-white uppercase font-mono text-xs sm:text-sm tracking-wide transition-opacity ${
+              pathname === "/you"
+                ? "opacity-100"
+                : "opacity-70 hover:opacity-100"
+            }`}
+          >
+            YOU
+          </Link>
+        </nav>
       </div>
-      <Link
-        href="/new-year"
-        className="ml-auto px-6 py-3 text-white uppercase font-mono text-xs tracking-wide border border-white transition-opacity hover:opacity-80 mr-4"
-      >
-        CLICK HERE TO KNOW ABOUT 2026! →
-      </Link>
-    </nav>
+    </div>
   );
 };
 

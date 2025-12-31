@@ -552,8 +552,8 @@ const DashboardPage = () => {
                   </button>
                 </div>
               </div>
-              <div className="hidden md:block shrink-0 text-md">
-                <div className="w-full aspect-square relative">
+              <div className="shrink-0 text-md order-2 md:order-1">
+                <div className="w-full aspect-square relative max-w-[120px] mx-auto md:mx-0">
                   <Image
                     src={getRandomIcon()}
                     alt=""
@@ -565,8 +565,8 @@ const DashboardPage = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-8 items-start">
-              <div className="hidden md:block shrink-0 text-md order-2 md:order-1">
-                <div className="w-full aspect-square relative">
+              <div className="shrink-0 text-md order-2 md:order-1">
+                <div className="w-full aspect-square relative max-w-[100px] mx-auto md:mx-0">
                   <Image
                     src={getRandomIcon()}
                     alt=""
@@ -621,8 +621,8 @@ const DashboardPage = () => {
                   </button>
                 </div>
               </div>
-              <div className="hidden md:block shrink-0 text-md">
-                <div className="w-full aspect-square relative">
+              <div className="shrink-0 text-md order-2 md:order-1">
+                <div className="w-full aspect-square relative max-w-[100px] mx-auto md:mx-0">
                   <Image
                     src={getRandomIcon()}
                     alt=""
@@ -634,8 +634,8 @@ const DashboardPage = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-[120px_1fr] gap-8 items-start">
-              <div className="hidden md:block shrink-0 text-md order-2 md:order-1">
-                <div className="w-full aspect-square relative">
+              <div className="shrink-0 text-md order-2 md:order-1">
+                <div className="w-full aspect-square relative max-w-[120px] mx-auto md:mx-0">
                   <Image
                     src={getRandomIcon()}
                     alt=""
@@ -689,8 +689,8 @@ const DashboardPage = () => {
                   </button>
                 </div>
               </div>
-              <div className="hidden md:block shrink-0 text-md">
-                <div className="w-full aspect-square relative">
+              <div className="shrink-0 text-md order-2 md:order-1">
+                <div className="w-full aspect-square relative max-w-[100px] mx-auto md:mx-0">
                   <Image
                     src={getRandomIcon()}
                     alt=""
@@ -702,8 +702,8 @@ const DashboardPage = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-8 items-start">
-              <div className="hidden md:block shrink-0 text-md order-2 md:order-1">
-                <div className="w-full aspect-square relative">
+              <div className="shrink-0 text-md order-2 md:order-1">
+                <div className="w-full aspect-square relative max-w-[100px] mx-auto md:mx-0">
                   <Image
                     src={getRandomIcon()}
                     alt=""

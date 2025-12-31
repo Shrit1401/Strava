@@ -361,8 +361,8 @@ const YouPage = () => {
                 className={`grid grid-cols-1 ${layout.cols} gap-12 items-start`}
               >
                 {isImageLeft && (
-                  <div className="hidden md:block shrink-0 order-2 md:order-1">
-                    <div className="w-full aspect-square relative">
+                  <div className="shrink-0 order-2 md:order-1">
+                    <div className="w-full aspect-square relative max-w-[220px] mx-auto md:mx-0">
                       <Image
                         src={getPlanetIcon(planet.key)}
                         alt={`${planet.name} in ${planet.sign}`}
@@ -374,7 +374,7 @@ const YouPage = () => {
                 )}
                 <div
                   className={`space-y-3 ${
-                    isImageLeft ? "order-1 md:order-2" : ""
+                    isImageLeft ? "order-1 md:order-2" : "order-1"
                   }`}
                 >
                   <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/60">
@@ -393,8 +393,8 @@ const YouPage = () => {
                   </div>
                 </div>
                 {!isImageLeft && (
-                  <div className="hidden md:block shrink-0">
-                    <div className="w-full aspect-square relative">
+                  <div className="shrink-0 order-2">
+                    <div className="w-full aspect-square relative max-w-[220px] mx-auto md:mx-0">
                       <Image
                         src={getPlanetIcon(planet.key)}
                         alt={`${planet.name} in ${planet.sign}`}

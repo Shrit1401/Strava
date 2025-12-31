@@ -108,7 +108,7 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
 
   return (
     <nav
-      className={`w-full z-20 px-4 md:px-8 py-4 flex justify-between items-center ${
+      className={`w-full z-[100] px-4 md:px-8 py-4 flex justify-between items-center ${
         isAuth || isAsk ? "fixed top-0 left-0 border-b border-black/10" : ""
       } ${isAuth || isAsk ? "bg-black text-white" : "bg-transparent"}`}
       style={{
@@ -246,7 +246,7 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className={`transition-colors cursor-pointer px-3 py-2 rounded-md font-normal text-sm flex items-center gap-1 ${
-                isAuth || !isAsk
+                isAuth || isAsk
                   ? "text-white hover:bg-white/10"
                   : "text-[#575657] hover:text-black"
               }`}
@@ -270,8 +270,8 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
             </button>
             {dropdownOpen && (
               <div
-                className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-50 ${
-                  isAuth || !isAsk
+                className={`absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 z-[100] ${
+                  isAuth || isAsk
                     ? "bg-[#1a1a1a] border border-white/10"
                     : "bg-white border border-gray-200"
                 }`}
@@ -283,7 +283,7 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
                     setDropdownOpen(false);
                   }}
                   className={`block px-4 py-2 text-sm transition-colors cursor-pointer ${
-                    isAuth || !isAsk
+                    isAuth || isAsk
                       ? "text-white hover:bg-white/10"
                       : "text-[#575657] hover:bg-gray-100"
                   }`}
@@ -296,7 +296,7 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
                     handleSignOut();
                   }}
                   className={`block w-full text-left px-4 py-2 text-sm transition-colors cursor-pointer ${
-                    isAuth || !isAsk
+                    isAuth || isAsk
                       ? "text-white hover:bg-white/10"
                       : "text-[#575657] hover:bg-gray-100"
                   }`}
@@ -314,7 +314,7 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
             setMobileMenuOpen(!mobileMenuOpen);
           }}
           className={`p-2 rounded-md transition-colors ${
-            isAuth || !isAsk
+            isAuth || isAsk
               ? "text-white hover:bg-white/10"
               : "text-[#575657] hover:bg-gray-100"
           }`}
@@ -355,8 +355,8 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
       {mobileMenuOpen && (
         <div
           ref={mobileMenuRef}
-          className={`md:hidden fixed top-[56px] left-0 right-0 z-50 ${
-            isAuth || !isAsk
+          className={`md:hidden fixed top-[56px] left-0 right-0 z-[100] ${
+            isAuth || isAsk
               ? "bg-[#111] border-b border-black/10"
               : "bg-white border-b border-gray-200"
           }`}
@@ -369,10 +369,10 @@ const Navbar = ({ isAuth, isAsk }: NavbarProps) => {
                   onClick={() => setMobileMenuOpen(false)}
                   className={`block px-8 py-3 text-sm transition-colors ${
                     pathname === item.href
-                      ? isAuth || !isAsk
+                      ? isAuth || isAsk
                         ? "text-white underline underline-offset-2 bg-white/5"
                         : "text-black underline underline-offset-2 bg-gray-100"
-                      : isAuth
+                      : isAuth || isAsk
                       ? "text-white hover:bg-white/10"
                       : "text-[#575657] hover:bg-gray-100"
                   }`}

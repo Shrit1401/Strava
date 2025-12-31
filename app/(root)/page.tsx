@@ -32,7 +32,7 @@ const LandingPage = () => {
             if (isLoggedIn) {
               window.location.href = "/dashboard";
             } else {
-              window.location.href = "/astrology";
+              window.location.href = "/signup";
             }
           }}
         />

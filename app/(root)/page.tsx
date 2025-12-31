@@ -22,7 +22,20 @@ const LandingPage = () => {
           through real data and biting truth.
         </p>
 
-        <Button text="Start" className="my-8" href="/astrology" />
+        <Button
+          text="Start"
+          className="my-8"
+          onClick={() => {
+            const isLoggedIn =
+              !!localStorage.getItem("sb-access-token") ||
+              !!localStorage.getItem("accessToken");
+            if (isLoggedIn) {
+              window.location.href = "/dashboard";
+            } else {
+              window.location.href = "/astrology";
+            }
+          }}
+        />
 
         <div className="flex justify-center">
           <img
@@ -202,13 +215,14 @@ const LandingPage = () => {
             Data Collection & Privacy
           </h2>
           <p className="text-sm text-[#575657] leading-relaxed mb-6 text-center max-w-2xl mx-auto">
-            To provide accurate astrological insights, we collect your birth date, 
-            birth time, and birth location (including geographic coordinates). This 
-            information is essential for calculating your precise birth chart using 
-            NASA astronomical data. We also collect your email address for account 
-            authentication and your name (optional) for personalization. All data 
-            is securely stored and used solely to generate your personalized 
-            astrological readings and predictions.
+            To provide accurate astrological insights, we collect your birth
+            date, birth time, and birth location (including geographic
+            coordinates). This information is essential for calculating your
+            precise birth chart using NASA astronomical data. We also collect
+            your email address for account authentication and your name
+            (optional) for personalization. All data is securely stored and used
+            solely to generate your personalized astrological readings and
+            predictions.
           </p>
           <div className="flex flex-wrap justify-center gap-6 text-xs text-[#575657]">
             <a

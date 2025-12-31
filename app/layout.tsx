@@ -88,6 +88,11 @@ export default function RootLayout({
           name="google-site-verification"
           content="6o6i7HXO41Sw4RMx8SuSbikwJbGnHGzRI1jP5bGDVQo"
         />
+        <script
+          async
+          src="https://cdn.seline.com/seline.js"
+          data-token="47c018f583834cb"
+        ></script>
       </head>
       <body className="antialiased">{children}</body>
     </html>

@@ -411,9 +411,9 @@ const DashboardPage = () => {
 
   return (
     <div className="min-h-screen pb-20">
-      <div className="max-w-5xl mx-auto px-6 md:px-12 lg:px-16 pt-32 pb-40">
-        <div className="space-y-20">
-          <div className="space-y-8">
+      <div className="max-w-5xl mx-auto px-4 md:px-6 lg:px-12 xl:px-16 pt-20 md:pt-28 lg:pt-32 pb-20 md:pb-32 lg:pb-40">
+        <div className="space-y-12 md:space-y-16 lg:space-y-20">
+          <div className="space-y-6 md:space-y-8">
             <div className="relative">
               <div className="absolute -right-8 -top-8 w-72 h-72 z-[-1] opacity-60 pointer-events-none hidden lg:block">
                 <Image
@@ -425,17 +425,17 @@ const DashboardPage = () => {
                   priority
                 />
               </div>
-              <div className="space-y-2">
-                <p className="text-xs text-[#575657] tracking-[0.15em] uppercase">
+              <div className="space-y-1 md:space-y-2">
+                <p className="text-[10px] md:text-xs text-[#575657] tracking-[0.15em] uppercase">
                   {getGreeting()} {userName}
                 </p>
-                <p className="text-xs text-[#575657] tracking-wide">
+                <p className="text-[10px] md:text-xs text-[#575657] tracking-wide">
                   {currentDate}
                 </p>
               </div>
 
-              <div className="pt-6">
-                <h1 className="cormorant text-5xl md:text-6xl lg:text-7xl font-light text-black leading-[1.1] tracking-tight">
+              <div className="pt-4 md:pt-6">
+                <h1 className="cormorant text-3xl md:text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl font-light text-black leading-[1.1] tracking-tight">
                   {loading
                     ? "Loading your daily reflection..."
                     : prediction?.headline ||
@@ -444,12 +444,12 @@ const DashboardPage = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-16 pt-12 border-t border-black/5">
-              <div className="space-y-6">
-                <h2 className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 pt-8 md:pt-12 border-t border-black/5">
+              <div className="space-y-4 md:space-y-6">
+                <h2 className="text-[10px] md:text-xs font-normal uppercase tracking-[0.15em] text-black/50">
                   Do
                 </h2>
-                <ul className="space-y-4 text-lg text-black/80 leading-relaxed">
+                <ul className="space-y-3 md:space-y-4 text-base md:text-lg text-black/80 leading-relaxed">
                   {loading ? (
                     <li className="cormorant font-light">Loading...</li>
                   ) : prediction?.doList && prediction.doList.length > 0 ? (
@@ -469,11 +469,11 @@ const DashboardPage = () => {
                   )}
                 </ul>
               </div>
-              <div className="space-y-6">
-                <h2 className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
+              <div className="space-y-4 md:space-y-6">
+                <h2 className="text-[10px] md:text-xs font-normal uppercase tracking-[0.15em] text-black/50">
                   Don&apos;t
                 </h2>
-                <ul className="space-y-4 text-lg text-black/80 leading-relaxed">
+                <ul className="space-y-3 md:space-y-4 text-base md:text-lg text-black/80 leading-relaxed">
                   {loading ? (
                     <li className="cormorant font-light">Loading...</li>
                   ) : prediction?.dontList && prediction.dontList.length > 0 ? (
@@ -495,8 +495,8 @@ const DashboardPage = () => {
               </div>
             </div>
 
-            <div className="pt-12 border-t border-black/5">
-              <ul className="space-y-6 text-base text-black/70 leading-relaxed">
+            <div className="pt-8 md:pt-12 border-t border-black/5">
+              <ul className="space-y-4 md:space-y-6 text-sm md:text-base text-black/70 leading-relaxed">
                 {loading ? (
                   <li>Loading your daily insights...</li>
                 ) : prediction?.bullets && prediction.bullets.length > 0 ? (
@@ -512,8 +512,8 @@ const DashboardPage = () => {
             </div>
           </div>
 
-          <div className="pt-8 border-t border-black/5">
-            <div className="space-y-6 text-base text-black/70 leading-relaxed">
+          <div className="pt-6 md:pt-8 border-t border-black/5">
+            <div className="space-y-4 md:space-y-6 text-sm md:text-base text-black/70 leading-relaxed">
               {loading ? (
                 <p>Loading your daily reflection...</p>
               ) : prediction?.closing && prediction.closing.length > 0 ? (
@@ -528,17 +528,17 @@ const DashboardPage = () => {
             </div>
           </div>
 
-          <div className="space-y-24 pt-20">
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_120px] gap-8 items-start">
-              <div className="space-y-2">
-                <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
+          <div className="space-y-12 md:space-y-16 lg:space-y-24 pt-12 md:pt-16 lg:pt-20">
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_120px] gap-6 md:gap-8 items-start">
+              <div className="space-y-1 md:space-y-2">
+                <p className="text-[10px] md:text-xs font-normal uppercase tracking-[0.15em] text-black/50">
                   Power
                 </p>
-                <div className="border-t border-black/5 pt-6">
-                  <h3 className="cormorant text-3xl font-light text-black mb-6">
+                <div className="border-t border-black/5 pt-4 md:pt-6">
+                  <h3 className="cormorant text-2xl md:text-3xl font-light text-black mb-4 md:mb-6">
                     Social Life
                   </h3>
-                  <p className="text-base text-black/70 leading-relaxed mb-6">
+                  <p className="text-sm md:text-base text-black/70 leading-relaxed mb-4 md:mb-6">
                     {socialLifeLoading
                       ? "Loading your social life reflection..."
                       : socialLife?.summary ||
@@ -546,14 +546,14 @@ const DashboardPage = () => {
                   </p>
                   <button
                     onClick={() => setOpenDialog("social-life")}
-                    className="text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
+                    className="text-[10px] md:text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
                   >
                     Details →
                   </button>
                 </div>
               </div>
               <div className="shrink-0 text-md order-2 md:order-1">
-                <div className="w-full aspect-square relative max-w-[120px] mx-auto md:mx-0">
+                <div className="w-full aspect-square relative max-w-[100px] md:max-w-[120px] mx-auto md:mx-0">
                   <Image
                     src={getRandomIcon()}
                     alt=""
@@ -564,9 +564,9 @@ const DashboardPage = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-8 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-6 md:gap-8 items-start">
               <div className="shrink-0 text-md order-2 md:order-1">
-                <div className="w-full aspect-square relative max-w-[100px] mx-auto md:mx-0">
+                <div className="w-full aspect-square relative max-w-[80px] md:max-w-[100px] mx-auto md:mx-0">
                   <Image
                     src={getRandomIcon()}
                     alt=""
@@ -575,22 +575,22 @@ const DashboardPage = () => {
                   />
                 </div>
               </div>
-              <div className="space-y-2 order-1 md:order-2">
-                <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
+              <div className="space-y-1 md:space-y-2 order-1 md:order-2">
+                <p className="text-[10px] md:text-xs font-normal uppercase tracking-[0.15em] text-black/50">
                   Pressure
                 </p>
-                <div className="border-t border-black/5 pt-6">
-                  <h3 className="cormorant text-3xl font-light text-black mb-6">
+                <div className="border-t border-black/5 pt-4 md:pt-6">
+                  <h3 className="cormorant text-2xl md:text-3xl font-light text-black mb-4 md:mb-6">
                     Self
                   </h3>
-                  <p className="text-base text-black/70 leading-relaxed mb-6">
+                  <p className="text-sm md:text-base text-black/70 leading-relaxed mb-4 md:mb-6">
                     {selfLoading
                       ? "Loading your self reflection..."
                       : self?.summary || "Loading your daily insights..."}
                   </p>
                   <button
                     onClick={() => setOpenDialog("self")}
-                    className="text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
+                    className="text-[10px] md:text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
                   >
                     Details →
                   </button>
@@ -598,16 +598,16 @@ const DashboardPage = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_100px] gap-8 items-start">
-              <div className="space-y-2">
-                <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_100px] gap-6 md:gap-8 items-start">
+              <div className="space-y-1 md:space-y-2">
+                <p className="text-[10px] md:text-xs font-normal uppercase tracking-[0.15em] text-black/50">
                   Trouble
                 </p>
-                <div className="border-t border-black/5 pt-6">
-                  <h3 className="cormorant text-3xl font-light text-black mb-6">
+                <div className="border-t border-black/5 pt-4 md:pt-6">
+                  <h3 className="cormorant text-2xl md:text-3xl font-light text-black mb-4 md:mb-6">
                     Spirituality
                   </h3>
-                  <p className="text-base text-black/70 leading-relaxed mb-6">
+                  <p className="text-sm md:text-base text-black/70 leading-relaxed mb-4 md:mb-6">
                     {spiritualityLoading
                       ? "Loading your spirituality reflection..."
                       : spirituality?.summary ||
@@ -615,14 +615,14 @@ const DashboardPage = () => {
                   </p>
                   <button
                     onClick={() => setOpenDialog("spirituality")}
-                    className="text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
+                    className="text-[10px] md:text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
                   >
                     Details →
                   </button>
                 </div>
               </div>
               <div className="shrink-0 text-md order-2 md:order-1">
-                <div className="w-full aspect-square relative max-w-[100px] mx-auto md:mx-0">
+                <div className="w-full aspect-square relative max-w-[80px] md:max-w-[100px] mx-auto md:mx-0">
                   <Image
                     src={getRandomIcon()}
                     alt=""
@@ -633,9 +633,9 @@ const DashboardPage = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-[120px_1fr] gap-8 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-[120px_1fr] gap-6 md:gap-8 items-start">
               <div className="shrink-0 text-md order-2 md:order-1">
-                <div className="w-full aspect-square relative max-w-[120px] mx-auto md:mx-0">
+                <div className="w-full aspect-square relative max-w-[100px] md:max-w-[120px] mx-auto md:mx-0">
                   <Image
                     src={getRandomIcon()}
                     alt=""
@@ -644,22 +644,22 @@ const DashboardPage = () => {
                   />
                 </div>
               </div>
-              <div className="space-y-2 order-1 md:order-2">
-                <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
+              <div className="space-y-1 md:space-y-2 order-1 md:order-2">
+                <p className="text-[10px] md:text-xs font-normal uppercase tracking-[0.15em] text-black/50">
                   Trouble
                 </p>
-                <div className="border-t border-black/5 pt-6">
-                  <h3 className="cormorant text-3xl font-light text-black mb-6">
+                <div className="border-t border-black/5 pt-4 md:pt-6">
+                  <h3 className="cormorant text-2xl md:text-3xl font-light text-black mb-4 md:mb-6">
                     Sex & Love
                   </h3>
-                  <p className="text-base text-black/70 leading-relaxed mb-6">
+                  <p className="text-sm md:text-base text-black/70 leading-relaxed mb-4 md:mb-6">
                     {sexLoveLoading
                       ? "Loading your sex & love reflection..."
                       : sexLove?.summary || "Loading your daily insights..."}
                   </p>
                   <button
                     onClick={() => setOpenDialog("sex-love")}
-                    className="text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
+                    className="text-[10px] md:text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
                   >
                     Details →
                   </button>
@@ -667,30 +667,30 @@ const DashboardPage = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-[1fr_100px] gap-8 items-start">
-              <div className="space-y-2">
-                <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
+            <div className="grid grid-cols-1 md:grid-cols-[1fr_100px] gap-6 md:gap-8 items-start">
+              <div className="space-y-1 md:space-y-2">
+                <p className="text-[10px] md:text-xs font-normal uppercase tracking-[0.15em] text-black/50">
                   Trouble
                 </p>
-                <div className="border-t border-black/5 pt-6">
-                  <h3 className="cormorant text-3xl font-light text-black mb-6">
+                <div className="border-t border-black/5 pt-4 md:pt-6">
+                  <h3 className="cormorant text-2xl md:text-3xl font-light text-black mb-4 md:mb-6">
                     Routine
                   </h3>
-                  <p className="text-base text-black/70 leading-relaxed mb-6">
+                  <p className="text-sm md:text-base text-black/70 leading-relaxed mb-4 md:mb-6">
                     {routineLoading
                       ? "Loading your routine reflection..."
                       : routine?.summary || "Loading your daily insights..."}
                   </p>
                   <button
                     onClick={() => setOpenDialog("routine")}
-                    className="text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
+                    className="text-[10px] md:text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
                   >
                     Details →
                   </button>
                 </div>
               </div>
               <div className="shrink-0 text-md order-2 md:order-1">
-                <div className="w-full aspect-square relative max-w-[100px] mx-auto md:mx-0">
+                <div className="w-full aspect-square relative max-w-[80px] md:max-w-[100px] mx-auto md:mx-0">
                   <Image
                     src={getRandomIcon()}
                     alt=""
@@ -701,9 +701,9 @@ const DashboardPage = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-8 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-6 md:gap-8 items-start">
               <div className="shrink-0 text-md order-2 md:order-1">
-                <div className="w-full aspect-square relative max-w-[100px] mx-auto md:mx-0">
+                <div className="w-full aspect-square relative max-w-[80px] md:max-w-[100px] mx-auto md:mx-0">
                   <Image
                     src={getRandomIcon()}
                     alt=""
@@ -712,15 +712,15 @@ const DashboardPage = () => {
                   />
                 </div>
               </div>
-              <div className="space-y-2 order-1 md:order-2">
-                <p className="text-xs font-normal uppercase tracking-[0.15em] text-black/50">
+              <div className="space-y-1 md:space-y-2 order-1 md:order-2">
+                <p className="text-[10px] md:text-xs font-normal uppercase tracking-[0.15em] text-black/50">
                   Trouble
                 </p>
-                <div className="border-t border-black/5 pt-6">
-                  <h3 className="cormorant text-3xl font-light text-black mb-6">
+                <div className="border-t border-black/5 pt-4 md:pt-6">
+                  <h3 className="cormorant text-2xl md:text-3xl font-light text-black mb-4 md:mb-6">
                     Thinking & Creativity
                   </h3>
-                  <p className="text-base text-black/70 leading-relaxed mb-6">
+                  <p className="text-sm md:text-base text-black/70 leading-relaxed mb-4 md:mb-6">
                     {thinkingCreativityLoading
                       ? "Loading your thinking & creativity reflection..."
                       : thinkingCreativity?.summary ||
@@ -728,7 +728,7 @@ const DashboardPage = () => {
                   </p>
                   <button
                     onClick={() => setOpenDialog("thinking-creativity")}
-                    className="text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
+                    className="text-[10px] md:text-xs font-normal uppercase tracking-[0.15em] text-black/50 hover:text-black/70 transition-colors cursor-pointer"
                   >
                     Details →
                   </button>

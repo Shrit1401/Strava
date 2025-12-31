@@ -42,7 +42,7 @@ const INITIAL_FORM_DATA: FormData = {
 };
 
 const INPUT_STYLES =
-  "px-4 py-3 bg-transparent border border-white/30 text-white placeholder-white/50 focus:outline-none focus:border-white transition-colors";
+  "px-3 md:px-4 py-2.5 md:py-3 bg-transparent border border-white/30 text-white placeholder-white/50 focus:outline-none focus:border-white transition-colors";
 
 const BUTTON_STYLES = "!bg-white !text-black !border-white hover:!bg-white/90";
 
@@ -52,12 +52,12 @@ type WelcomeStepProps = {
 
 const WelcomeStep = ({ onNext }: WelcomeStepProps) => {
   return (
-    <div className="flex flex-col items-center justify-between text-center h-[50vh] space-y-8 max-w-2xl mx-auto">
+    <div className="flex flex-col items-center justify-center text-center min-h-[60vh] md:min-h-[50vh] space-y-6 md:space-y-8 max-w-2xl mx-auto px-4">
       <div>
-        <h1 className="cormorant text-4xl md:text-5xl mb-4 text-white">
+        <h1 className="cormorant text-3xl md:text-4xl lg:text-5xl mb-3 md:mb-4 text-white">
           Fall in the Stars
         </h1>
-        <p className="text-white/80 max-w-lg">
+        <p className="text-white/80 max-w-lg text-sm md:text-base px-2">
           we're gonna ask some questions from you, answer it correctly we are
           gonna ask from stars who you are...
         </p>
@@ -67,7 +67,7 @@ const WelcomeStep = ({ onNext }: WelcomeStepProps) => {
         variant="primary"
         size="medium"
         onClick={onNext}
-        className={`${BUTTON_STYLES} mt-8`}
+        className={`${BUTTON_STYLES} mt-4 md:mt-8`}
       />
     </div>
   );
@@ -260,9 +260,9 @@ const BirthInfoStep = ({
   const isFormValid = validation.isValid;
 
   return (
-    <div className="flex flex-col space-y-12 max-w-2xl mx-auto w-full">
-      <div className="space-y-4 text-center">
-        <h2 className="cormorant text-3xl md:text-4xl text-white">
+    <div className="flex flex-col space-y-8 md:space-y-12 max-w-2xl mx-auto w-full px-4">
+      <div className="space-y-3 md:space-y-4 text-center">
+        <h2 className="cormorant text-2xl md:text-3xl lg:text-4xl text-white">
           Your Birth Place
         </h2>
         <div
@@ -273,18 +273,18 @@ const BirthInfoStep = ({
         {errors.some(
           (e) => e.includes("Birth place") || e.includes("valid birth place")
         ) && (
-          <p className="text-red-400 text-sm mt-2">
+          <p className="text-red-400 text-xs md:text-sm mt-2">
             Please select a valid birth place from the suggestions
           </p>
         )}
       </div>
 
-      <div className="space-y-4 text-center">
-        <h2 className="cormorant text-3xl md:text-4xl text-white">
+      <div className="space-y-3 md:space-y-4 text-center">
+        <h2 className="cormorant text-2xl md:text-3xl lg:text-4xl text-white">
           Your Birth Date & Time
         </h2>
-        <div className="flex gap-3">
-          <div className="flex flex-col">
+        <div className="flex gap-2 md:gap-3 flex-wrap md:flex-nowrap">
+          <div className="flex flex-col flex-1 min-w-[70px]">
             <input
               type="text"
               value={formData.birthDay}
@@ -298,7 +298,7 @@ const BirthInfoStep = ({
                   onInputChange("birthDay", "");
                 }
               }}
-              className={`w-24 ${INPUT_STYLES} ${
+              className={`w-full ${INPUT_STYLES} text-sm md:text-base ${
                 errors.some((e) => e.includes("day")) ? "border-red-400" : ""
               }`}
               placeholder="Day"
@@ -308,7 +308,7 @@ const BirthInfoStep = ({
           <select
             value={formData.birthMonth}
             onChange={handleMonthChange}
-            className={`flex-1 ${INPUT_STYLES}`}
+            className={`flex-1 min-w-[120px] ${INPUT_STYLES} text-sm md:text-base`}
           >
             {MONTHS.map((month) => (
               <option key={month} value={month} className="bg-[#111]">
@@ -316,7 +316,7 @@ const BirthInfoStep = ({
               </option>
             ))}
           </select>
-          <div className="flex flex-col">
+          <div className="flex flex-col flex-1 min-w-[80px]">
             <input
               type="text"
               value={formData.birthYear}
@@ -331,7 +331,7 @@ const BirthInfoStep = ({
                   onInputChange("birthYear", "");
                 }
               }}
-              className={`w-32 ${INPUT_STYLES} ${
+              className={`w-full ${INPUT_STYLES} text-sm md:text-base ${
                 errors.some((e) => e.includes("year")) ? "border-red-400" : ""
               }`}
               placeholder="Year"
@@ -343,7 +343,7 @@ const BirthInfoStep = ({
           type="time"
           value={formData.birthTime}
           onChange={handleTimeChange}
-          className={`w-full ${INPUT_STYLES} ${
+          className={`w-full ${INPUT_STYLES} text-sm md:text-base ${
             errors.some((e) => e.includes("time")) ? "border-red-400" : ""
           }`}
         />
@@ -355,7 +355,7 @@ const BirthInfoStep = ({
                   !e.includes("Birth place") && !e.includes("valid birth place")
               )
               .map((error, index) => (
-                <p key={index} className="text-red-400 text-sm">
+                <p key={index} className="text-red-400 text-xs md:text-sm">
                   {error}
                 </p>
               ))}
@@ -363,7 +363,7 @@ const BirthInfoStep = ({
         )}
       </div>
 
-      <div className="flex flex-col items-center pt-4 space-y-4">
+      <div className="flex flex-col items-center pt-2 md:pt-4 space-y-3 md:space-y-4">
         <Button
           text="NEXT"
           variant="primary"
@@ -373,7 +373,7 @@ const BirthInfoStep = ({
           disabled={!isFormValid}
         />
         {!isFormValid && (
-          <p className="text-white/50 text-sm">
+          <p className="text-white/50 text-xs md:text-sm text-center px-4">
             Please fill in all required fields correctly
           </p>
         )}
@@ -416,18 +416,18 @@ const ResultsStep = ({
   }
 
   return (
-    <div className="flex flex-col items-center justify-between h-[50vh] text-center space-y-12 max-w-2xl mx-auto">
-      <div className="w-full space-y-8">
+    <div className="flex flex-col items-center justify-center min-h-[60vh] md:min-h-[50vh] text-center space-y-8 md:space-y-12 max-w-2xl mx-auto px-4">
+      <div className="w-full space-y-6 md:space-y-8">
         <div
           className={`trait-section ${
             showSection ? "fade-in-slow" : "opacity-0"
           }`}
         >
-          <h2 className="text-2xl md:text-3xl font-semibold text-white/50 mb-8">
+          <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-white/50 mb-6 md:mb-8">
             Stars Tell me You're
           </h2>
 
-          <div className="flex flex-wrap items-center justify-center gap-x-2 min-h-[80px]">
+          <div className="flex flex-wrap items-center justify-center gap-x-2 gap-y-2 min-h-[60px] md:min-h-[80px]">
             {traits.map((trait, index) => (
               <div
                 key={index}
@@ -436,11 +436,11 @@ const ResultsStep = ({
                 }`}
                 style={{ transitionDelay: `${index * 0.1}s` }}
               >
-                <span className="cormorant text-3xl md:text-4xl text-white">
+                <span className="cormorant text-2xl md:text-3xl lg:text-4xl text-white">
                   {trait}
                 </span>
                 {index < traits.length - 1 && (
-                  <span className="text-white/30 mx-2 text-2xl">,</span>
+                  <span className="text-white/30 mx-1 md:mx-2 text-xl md:text-2xl">,</span>
                 )}
               </div>
             ))}
@@ -448,8 +448,8 @@ const ResultsStep = ({
         </div>
       </div>
 
-      <div className="space-y-6 pt-8">
-        <h2 className="cormorant text-3xl md:text-4xl text-white">
+      <div className="space-y-4 md:space-y-6 pt-4 md:pt-8">
+        <h2 className="cormorant text-2xl md:text-3xl lg:text-4xl text-white">
           Let's Dive Deeper
         </h2>
         <Button
@@ -780,8 +780,8 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen overflow-y-hidden">
-      <div className="w-full md:w-1/2 flex items-center justify-center p-8 md:p-16 relative">
+    <div className="flex min-h-screen overflow-y-auto">
+      <div className="w-full md:w-1/2 flex items-center justify-center p-4 md:p-8 lg:p-16 relative min-h-screen">
         <div
           className={`w-full step-transition ${
             isAnimating ? "fade-out" : "fade-in"

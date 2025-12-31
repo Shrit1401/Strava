@@ -434,6 +434,8 @@ export async function POST(req: Request) {
     const body = await req.json();
 
     if (!validateRequestBody(body)) {
+      const error = { error: "missing required fields", status: 400 };
+      console.error("Natal API error:", error);
       return NextResponse.json(
         { error: "missing required fields" },
         { status: 400 }
@@ -458,6 +460,8 @@ export async function POST(req: Request) {
     );
 
     if (!dt.isValid) {
+      const error = { error: "invalid date or timezone", status: 400 };
+      console.error("Natal API error:", error);
       return NextResponse.json(
         { error: "invalid date or timezone" },
         { status: 400 }
@@ -498,6 +502,11 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ chart });
   } catch (err: any) {
+    console.error("Natal API error:", {
+      message: err.message,
+      stack: err.stack,
+      error: err,
+    });
     return NextResponse.json(
       { error: String(err.message || err) },
       { status: 500 }

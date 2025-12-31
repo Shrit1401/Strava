@@ -149,6 +149,8 @@ export async function GET(req: Request) {
     } = await supabase.auth.getUser();
 
     if (!user?.email) {
+      const error = { error: "Unauthorized", status: 401, user: user };
+      console.error("New year prediction API error:", error);
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -157,6 +159,8 @@ export async function GET(req: Request) {
     });
 
     if (!dbUser) {
+      const error = { error: "User not found", status: 404, email: user.email };
+      console.error("New year prediction API error:", error);
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
@@ -206,7 +210,11 @@ export async function GET(req: Request) {
 
     return NextResponse.json(newYearData);
   } catch (err: any) {
-    console.error("New year prediction error:", err);
+    console.error("New year prediction error:", {
+      message: err.message,
+      stack: err.stack,
+      error: err,
+    });
     return NextResponse.json(
       { error: String(err.message || err) },
       { status: 500 }

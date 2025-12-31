@@ -347,12 +347,16 @@ export async function POST(req: Request) {
     } = await supabase.auth.getUser();
 
     if (!user?.email) {
+      const error = { error: "Unauthorized", status: 401, user: user };
+      console.error("Ask API error:", error);
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { question } = await req.json();
 
     if (!question || typeof question !== "string") {
+      const error = { error: "Question is required", status: 400 };
+      console.error("Ask API error:", error);
       return NextResponse.json(
         { error: "Question is required" },
         { status: 400 }
@@ -364,6 +368,8 @@ export async function POST(req: Request) {
     });
 
     if (!dbUser) {
+      const error = { error: "User not found", status: 404, email: user.email };
+      console.error("Ask API error:", error);
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
@@ -414,6 +420,8 @@ export async function POST(req: Request) {
     );
 
     if (!transit) {
+      const error = { error: "Could not calculate transit", status: 500 };
+      console.error("Ask API error:", error);
       return NextResponse.json(
         { error: "Could not calculate transit" },
         { status: 500 }
@@ -446,7 +454,11 @@ export async function POST(req: Request) {
 
     return NextResponse.json(response);
   } catch (err: any) {
-    console.error("Ask API error:", err);
+    console.error("Ask API error:", {
+      message: err.message,
+      stack: err.stack,
+      error: err,
+    });
     return NextResponse.json(
       { error: String(err.message || err) },
       { status: 500 }

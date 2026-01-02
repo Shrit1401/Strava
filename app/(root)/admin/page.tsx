@@ -1,7 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 import Loader from "@/components/Loader";
+import { getRandomIcon } from "@/utils/astrology";
 
 type NewYearData = {
   word: string;
@@ -30,6 +33,7 @@ type Stats = {
 };
 
 const AdminPage = () => {
+  const router = useRouter();
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -110,9 +114,27 @@ const AdminPage = () => {
     <div className="min-h-screen bg-[#f7f7f7] py-12 px-6">
       <div className="max-w-7xl mx-auto space-y-12">
         <div className="text-center mb-12">
-          <h1 className="cormorant text-4xl md:text-5xl lg:text-6xl text-black mb-4 tracking-tight">
-            Admin Dashboard
-          </h1>
+          <div className="flex items-center justify-center gap-4 mb-6">
+            <div className="w-20 h-20 relative">
+              <Image
+                src={getRandomIcon()}
+                alt=""
+                fill
+                className="object-contain"
+              />
+            </div>
+            <h1 className="cormorant text-4xl md:text-5xl lg:text-6xl text-black tracking-tight">
+              Admin Dashboard
+            </h1>
+            <div className="w-20 h-20 relative">
+              <Image
+                src={getRandomIcon()}
+                alt=""
+                fill
+                className="object-contain"
+              />
+            </div>
+          </div>
           <p className="text-sm text-[#575657]">
             {new Date().toLocaleDateString("en-US", {
               weekday: "long",
@@ -161,9 +183,17 @@ const AdminPage = () => {
         )}
 
         <div className="bg-white p-8 border border-black/5 mb-12">
-          <h2 className="cormorant text-3xl text-black mb-6">
-            Growth Strategy
-          </h2>
+          <div className="flex items-center gap-4 mb-6">
+            <div className="w-16 h-16 relative shrink-0">
+              <Image
+                src={getRandomIcon()}
+                alt=""
+                fill
+                className="object-contain"
+              />
+            </div>
+            <h2 className="cormorant text-3xl text-black">Growth Strategy</h2>
+          </div>
           <div className="space-y-6 text-sm text-[#575657] leading-relaxed">
             <div>
               <h3 className="cormorant text-xl text-black mb-3">
@@ -253,27 +283,46 @@ const AdminPage = () => {
             {users.map((user) => (
               <div
                 key={user.id}
-                className="bg-white p-6 border border-black/5 space-y-4"
+                className="bg-white p-6 border border-black/5 space-y-4 hover:border-black/20 transition-colors"
               >
                 <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-black/5">
-                  <div>
-                    <p className="cormorant text-xl text-black mb-1">
-                      {user.name || "Anonymous"}
-                    </p>
-                    <p className="text-xs text-[#575657]">{user.email}</p>
-                    <p className="text-xs text-black/50 mt-1">
-                      Joined:{" "}
-                      {new Date(user.createdAt).toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </p>
+                  <div className="flex gap-4 flex-1">
+                    <div className="w-16 h-16 relative shrink-0 hidden md:block">
+                      <Image
+                        src={getRandomIcon()}
+                        alt=""
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <p className="cormorant text-xl text-black mb-1">
+                        {user.name || "Anonymous"}
+                      </p>
+                      <p className="text-xs text-[#575657]">{user.email}</p>
+                      <p className="text-xs text-black/50 mt-1">
+                        Joined:{" "}
+                        {new Date(user.createdAt).toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-sm text-[#575657]">
-                    <p>
-                      ☉ {user.sunSign} ☽ {user.moonSign} ↑ {user.ascendantSign}
-                    </p>
+                  <div className="flex items-center gap-4">
+                    <div className="text-sm text-[#575657]">
+                      <p>
+                        ☉ {user.sunSign} ☽ {user.moonSign} ↑{" "}
+                        {user.ascendantSign}
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => router.push(`/admin/${user.id}`)}
+                      className="px-4 py-2 bg-black text-white text-xs font-mono uppercase tracking-wider hover:bg-black/90 transition-colors shrink-0"
+                    >
+                      View Details
+                    </button>
                   </div>
                 </div>
 
